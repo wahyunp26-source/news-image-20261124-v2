@@ -18,13 +18,17 @@ LIB = "/usr/share/fonts/truetype/liberation/"
 
 # (name, ttf file, pixel size)
 FONTS = [
+    ("serif_b72", "LiberationSerif-Bold.ttf", 72),
     ("serif_b58", "LiberationSerif-Bold.ttf", 58),
     ("serif_b26", "LiberationSerif-Bold.ttf", 26),
+    ("serif_b24", "LiberationSerif-Bold.ttf", 24),
     ("serif_b22", "LiberationSerif-Bold.ttf", 22),
+    ("serif_b19", "LiberationSerif-Bold.ttf", 19),
     ("serif_b16", "LiberationSerif-Bold.ttf", 16),
     ("serif_r13", "LiberationSerif-Regular.ttf", 13),
     ("serif_r11", "LiberationSerif-Regular.ttf", 11),
     ("serif_i15", "LiberationSerif-Italic.ttf", 15),
+    ("sans_b13", "LiberationSans-Bold.ttf", 13),
     ("sans_b11", "LiberationSans-Bold.ttf", 11),
     ("sans_b10", "LiberationSans-Bold.ttf", 10),
     ("sans_b9", "LiberationSans-Bold.ttf", 9),

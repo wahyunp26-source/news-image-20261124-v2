@@ -1,3 +1,94 @@
+## Overflow + font + frame round (Wahyu 25 Nov 11:55: "masih ada yang diluar bingkai ilustrasinya" + "font dan bingkai nya juga kurang")
+
+- entry.png: 1024×1024, **247,287 B, sha256
+  `2ba988dc239237a15845b717155c0d9b63e5e7ee274ee09bfac16b6d0d608a6c`**
+  (previous render 240,952 B, sha256 `028064bf…`)
+- **Overflow — measured, not eyeballed.** A probe harness (copy of main.py
+  in /tmp/probe, snapshots `cv.px` around each `SCENES` call) counted
+  pixels changed OUTSIDE each scene rect on the b1a63ee render: **560 px
+  across 11/13 scenes**. Every one fixed by clamping the element itself
+  (scale/move/shrink), NOT by hiding it behind a clip:
+  - nvidia: right 23 px — lamp glow disc r12 at x+w-10 (→ x+w-12, r8).
+  - libya: left 36 px — left drone wake lines ran to x=268 (drone dx
+    -104→-88, wakes shortened); bottom 1 px — right drone wake end
+    (dy 18→9); right 3 px — `_waves` dash overran the right edge.
+  - hormuz: top 120 px — sun glow r26 (→16); right 1 px — `_waves` dash.
+  - riyadh: top 8 px — `_smoke` puff radius over the scene top.
+  - poland: top 1 px — cloud r8 at y+7.
+  - grok: bottom 71 px — bench light-pool glow r18 (→ centre y+50, r12).
+  - gaza: bottom 1 px — fire glow r14 at base-14 (→ base-16, r12).
+  - factory: top 272 px — flame tips 40/32 tall + glows + chimney top
+    (flames →20 tall, glows → base-50/base-48 r12, chimney base-70→-62).
+  - sanofi: top 5 px — clouds + antenna dot (clouds down 5 px, antenna
+    vline 8→2, dot to by-10).
+  - mexico: right 6 px — lane dash overran the right edge.
+  - odesa: top 11 px — spark glow (→ centre py+10, r8); bottom 1 px —
+    snow dot y+66 (→62); pylon base-66→-62, church cross lowered.
+  - `_smoke` now clamps every puff's top edge to >=4 px inside the scene
+    top when `top=` is given; `_waves` clamps each dash at the right edge.
+  - Margin-only (0 px overflow but touching the edge): huawei sun glow
+    r→8, hazes r→8/6, pediment apex y+2→y+6; quake sun glow r→8; libya
+    moon glow r→14; odesa moon glow r→12.
+  - **Clip backstop:** `Canvas` gained `set_clip`/`clear_clip`, enforced
+    in `set()`, `blend()` and `rect()` — every scene call is now wrapped
+    in set_clip(rect)…clear_clip(), so nothing can ever paint outside its
+    frame again. Probe re-run after the element fixes, BEFORE the clip
+    was added, already read **0 px** — the clip is a guarantee, not a
+    cover-up. Final probe (with clip + frame + fonts): **0 px on all 13
+    scenes.**
+- **Frames (bingkai):** bagarte measured — NO visible border at all
+  (frameless; white top strip + black bold sans label; blue triangle
+  ornament row). Ours now beats that: every scene gets a **2 px border in
+  its accent colour** (hero bar colour / region colour) drawn just inside
+  the rect + a **2 px muted warm-grey offset shadow** (208,198,178) behind
+  it, drawn before the scene. Uniform across all 13 tiles; the border
+  eats no layout space and never touches a neighbour; tag pills and
+  number circles sit 1 px clear of it. Tiles now read as framed pictures.
+- **Font:** measured against bagarte full-res — his masthead caps ~63 px
+  (spans x13–1010), hero headlines ~17 px, mid headlines ~13 px; ours
+  was 35/15/11 px. New atlases added to gen_assets.py (Liberation):
+  serif_b72, serif_b24, serif_b19, sans_b13. Masthead 58→72 (measured
+  width 849 px, fits 968; drawn y=10 — cap top y+15, descenders y+80,
+  verified by pixel bbox; sub-headline moved 86→92, diamonds 92→99 so
+  nothing collides). Hero headlines b22→b24 (leading 24→26; all 3 fit
+  2 lines in 252 px, measured). Mid headlines b16→b19 (leading 16→19;
+  all 10 fit 2 lines in 185 px, decks stay 2 lines, deck bottom y+146 <
+  row pitch 156). Hero bar text sans_b11→b13 (widest 174 px, fits).
+  Deck ink (52,48,44)→(30,28,26) for contrast. No wording, date or fact
+  changed — type rendering only.
+- **Caveat:** assets_blob.py grew 136,720 → 222,007 B (4 new atlases).
+  Same generation pattern as v1 (gen_assets.py is committed authored
+  code producing the blob deterministically); v1 passed check with the
+  same structure. Flagged for the submit agent to re-run `makefun check`
+  before any submit.
+- Grader-style test PASSED: read-only repo copy, `python3 -P -s` from a
+  different CWD, MAKEFUN_OUTPUT_DIR set → exit 0, two runs byte-identical
+  (sha256 above, matches the probe render exactly).
+- Viewed full-res + 300 px + crops (masthead, heroes, mids): no element
+  pokes outside any frame; grid strict and neat; masthead is now big,
+  bold and elegant; hero/mid headlines bolder and still crisp at 300 px;
+  frames give every tile a defined picture edge.
+- entry.png regenerated from the new main.py and committed IN THE SAME
+  commit; committed sha256 verified to match the fresh render before
+  pushing.
+
+### Honest verdict vs bagarte (overflow + font + frame round)
+- Overflow: DONE by measurement — 0 px outside any frame on all 13
+  scenes, and the element fixes alone (pre-clip) already gave 0 px.
+  Wahyu's "masih ada yang diluar bingkai" is fixed, verifiably.
+- Font: now at or above bagarte's sizes (masthead 47 px caps vs his
+  ~63 px — still smaller, but ours spans 846 px of 1024 and reads
+  elegant/bold; hero 24 vs his 17, mid 19 vs his 13 — ours is now
+  BOLDER). Hierarchy headline/deck/tag/label is cleaner than before.
+- Frames: ours now HAS what bagarte lacks — a defined coloured frame +
+  shadow on every tile, tied to each tile's label-bar colour. This is a
+  genuine edge over his frameless tiles.
+- Remaining honest gaps: masthead caps still smaller than bagarte's
+  (47 vs ~63 px — going bigger would crowd the sub-headline/rules);
+  illustration style still vector-crisp vs his painterly softness.
+- No rank prediction. NOT submitted (Force_Last; v1 counts, quota 1/3
+  used, 2 left). R3 judged 25 Nov 19:00, final R4 26 Nov 07:00.
+
 ## Illustration redraw (Wahyu 25 Nov 11:34: "kurang rapii, liat itu ilustraso gambarnya") — 6th rejection, illustrations themselves
 
 - entry.png: 1024×1024, **240,952 B, sha256
