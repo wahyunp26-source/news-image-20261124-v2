@@ -2,11 +2,11 @@
 
 - Entry dir: `~/workspace/makefun/news-image-20261124-v2-entry/`
 - Repo (to create on submit): https://github.com/wahyunp26-source/news-image-20261124-v2
-- entry.png: 1024×1024, 212,089 B, sha256
-  `b71204b7b1444e8adcb7784fd8c85e771718ac9e16bcc2563af251dac018eec9`
-  (rebuilt from REAL top-1 refs 25 Nov ~10:05 WIB — see "Rebuild (Wahyu:
-  referensi top 1 beneran)" below; previous render was 207,380 B, sha256
-  `538af5b8…`)
+- entry.png: 1024×1024, 228,598 B, sha256
+  `66bb3f838302102702fe8023d3809dfb1c5e75ff4399db59308800f4588364af`
+  (scene-redrawn render 25 Nov ~11:00 WIB — see "Scene redraw (Wahyu:
+  'JELEKKK')" below; previous render was 219,151 B, sha256
+  `f854736b…`)
 - Quota: v1 used 1/3. v2 NOT submitted (parent handles bundle/submit after
   user approves preview). Force_Last: any v2 submit REPLACES v1.
 - All code written FRESH in this session. v1's main.py / atlas_blob.py were
@@ -267,3 +267,122 @@ one visibly better.
   pairwise judge swings harder than any design difference. No rank
   prediction is made. Submit decision is Wahyu's (quota 1/3 used, 2 left;
   R3 judged 25 Nov 19:00, final R4 26 Nov 07:00).
+
+## Scene redraw (Wahyu 25 Nov ~10:36: "JELEKKK" — structure fine, scenes flat)
+
+Wahyu rejected the fix round: the page is still uglier than top 1, and
+the ugly part is the SCENES — flat pictograms (green grid + giant arrow,
+two orange triangles on black, black city blocks, flat triangles) vs the
+winners' soft, detailed editorial illustrations (gradient skies, lit
+windows as varied warm dots, glow halos, sea with waves + reflections,
+foreground/midground/background layers, small human/vehicle details).
+All 13 scene functions rewritten, main.py only, targeted edits — layout,
+decks, badges, timeline, numbers panel, map, DATE CHECK untouched; no
+story fact, date, deck or headline changed.
+
+Per scene (8–15 elements each, 2–3 tones per surface, glow + depth):
+1. **Hero Nvidia** — ticker screens with tiny candlesticks, big glowing
+   GPU chip (highlight + pins + "NVDA"), 7-step falling red candlestick
+   chart with glow, red down arrow with glow halo + "-7%", trading
+   desks with lit monitors at the bottom.
+2. **Hero Libya** — moonlit sky (stars, cratered moon + halo), sea with
+   moon road + wave lines, corvette hull (lighter top edge, bridge with
+   lit windows, mast + radar bar + red light, bow foam), two fires with
+   glow + smoke + orange water reflections, "MERKURY" label, 2 drone
+   boats with wakes + red running lights.
+3. **Hero Hormuz** — dusk clouds, sun + gulls, sea with sun road, 3
+   tankers (bridge towers with lit windows, container stacks, hull
+   stripes, portholes, bow waves); middle tanker burning (flame + smoke
+   + glow + water reflection); patrol boat foreground; mines kept.
+4. **Mid Huawei** — morning sky + sun glow, 2 trees, courthouse with
+   2-tone pediment, shaded columns with capitals, dark door, steps with
+   shadow lines, scales of justice; in-scene GUILTY stamp REMOVED (red
+   tag above already says GUILTY).
+5. **Mid Riyadh** — dusk purple-orange sunset, sun glow, skyline with
+   varied lit windows + antenna red light, PIF tower with twisted top +
+   glass light strips, flame + smoke + glow, street with car (headlights)
+   + streetlight.
+6. **Mid Poland** — blue-grey sky with soft clouds + sun, farmland (two
+   field tones, road, tree line, two farmhouses), small dark drone
+   silhouette far behind, AWACS with shaded belly, window row, radar
+   dome + sweep arcs, "NATO AWACS" label kept.
+7. **Mid Grok** — warmer palette, hanging lamp with golden glow + light
+   pool on the bench, wood panels with grain, scales emblem, bench with
+   grain + highlight, document stack, X + GROK laptops with GLOWING
+   screens, gavel + block; a small flag added first was REMOVED (it
+   overlapped the gavel head).
+8. **Mid Gaza** — dusty haze sky + hazy sun, ruined skyline with jagged
+   tops + exposed floor lines, few lit windows, two smoke columns with
+   fire glow + flame at base, rubble + dust dots.
+9. **Mid Jakarta factory** — big layered smoke plume, sawtooth factory
+   with brick lines + orange-lit windows, two fires with glow washing the
+   walls, red fire truck with ladder + beacon light, water arc, debris +
+   puddle.
+10. **Mid Nepal quake** — pale blue sky + sun glow, three mountain ranges
+    (back hazy, mid with 2-tone shaded slopes + snow caps, foreground
+    hill), village of 4 small houses + one tilted house with crack lines,
+    dust clouds, cracked ground, seismograph zigzag kept but smaller
+    (top-left only).
+11. **Mid Sanofi** — pale blue sky + soft clouds, glass lab building with
+    2-tone facade + varied windows + roof + antenna + red light, lawn,
+    giant capsule with highlight stripe + shadow, pill bottle with
+    spilled pills; a molecule added first was REMOVED (it collided with
+    the capsule/arrow); green up arrow with glow kept.
+12. **Mid Mexico** — warm afternoon sky + sun glow, cactus, courthouse
+    with 2-tone pediment + shaded columns, steps, bars on door, street
+    with lane line, POLICIA car with shadow + light-bar glow (red +
+    blue) + "POLICIA" text.
+13. **Mid Odesa** — starry night + glowing moon, dark skyline where MOST
+    windows are dark (blackout) with only a few lit + one candle-glow
+    window, broken pylon with spark + sagging wire, car with headlights,
+    black sea with a ship silhouette at the bottom, snow dots.
+
+### Overflow bug found during verification (pre-existing, NOT from this redraw)
+
+Viewing the render at full res + 4x crops caught smoke/glow painting
+OVER the page above the scenes — a defect the earlier "no overflow"
+claims missed (it was already in the 219,151 B render):
+- Libya smoke blob sat on the red "WARSHIP SUNK OFF LIBYA" bar, covering
+  "SUNK"; Hormuz smoke crossed the "TANKERS HIT IN HORMUZ" bar;
+  Riyadh smoke rose through hero 1's deck text; Gaza smoke touched hero
+  3's deck baseline; Poland's radar sweep rings painted white arcs over
+  hero 2's deck text; several sun/lamp glows crossed scene tops by 2–16 px.
+Fix: `_smoke` now takes `top=` and spreads puffs between the fire and
+the scene top so no puff ever crosses it; Hormuz smoke now starts at
+the flame base (was floating 66 px above it); Riyadh flame lowered
+(base y+30, tip y+6 — its tip used to stick out of the scene); Poland
+rings REMOVED, dome shrunk to r=7 inside the scene; factory plume
+clamped the same way; sun/moon/lamp glows shrunk to stay in-box.
+Re-verified with 4x crops of all four spots: bars and decks are clean.
+
+### Verification (scene-redraw render)
+- Grader-style test PASSED: read-only repo copy, `python3 -P -s`,
+  different CWD, MAKEFUN_OUTPUT_DIR set, exit 0, byte-identical across
+  2 runs. entry.png 228,598 B, sha256
+  66bb3f838302102702fe8023d3809dfb1c5e75ff4399db59308800f4588364af.
+- Full-res render viewed + 300 px downscale viewed: every scene reads
+  as a detailed editorial illustration at a glance, none as a flat
+  pictogram; no overlap/clipping; grid still neat; all 35 stories
+  present, all dated Tuesday 24 Nov 2026.
+- entry.png regenerated from the new main.py and committed IN THE SAME
+  commit (the previous fix agent left entry.png stale — not repeated:
+  committed entry.png sha256 verified to match the fresh render before
+  pushing).
+
+### Honest verdict vs the winners (scene-redraw, no softening)
+- The page is now genuinely close to the winners' pages: heroes read as
+  real scenes (night sea battle, sunset tankers, trading floor), mids
+  are detail-dense, and the four smudge defects are gone. On structure
+  (timeline, numbers panel, map + leader lines, DATE CHECK) v2 is still
+  at or above the winners.
+- Weakest scenes now: mid 6 Poland (AWACS is small, fields are the
+  emptiest mid on the page — the dome shrink made it read slightly less
+  "AWACS" than before) and mid 5 Riyadh (flame is small after being
+  lowered; the tower reads but the fire drama dropped a notch). Mid 4's
+  scales still slightly crowd the door.
+- Bottom line: this is the best-looking v2 ever built, and the gap to
+  top 1 is now about polish, not structure or flatness. Whether the
+  pairwise judge rewards it is still UNKNOWABLE — v1's R1->R2 swing
+  proves design alone does not predict rank. No rank prediction is
+  made. NOT submitted (Force_Last; v1 counts, quota 1/3 used, 2 left).
+  R3 judged 25 Nov 19:00, final R4 26 Nov 07:00.

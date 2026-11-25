@@ -509,80 +509,151 @@ def _flame(cv, cx, base, w, h, col1=(250, 180, 60), col2=(230, 90, 30)):
              (cx + w // 4, base)], col1)
 
 
-def _smoke(cv, cx, cy, n=4):
+def _smoke(cv, cx, cy, n=4, top=None):
+    """Smoke rising from (cx, cy). If top is given, no puff ever crosses
+    it: puffs are spread between cy and top so a tall column cannot paint
+    over the bar or deck text above the scene (the old version did)."""
     for i in range(n):
-        r = 5 + i * 3
-        cv.circle(cx + i * 4 - 6, cy - i * 9, r, (90, 88, 92), alpha=110)
+        r = 4 + i * 2
+        if top is None:
+            ccy = cy - i * 8
+        else:
+            span = max(0, cy - (top + r))
+            ccy = cy - span * i // max(1, n - 1)
+        cv.circle(cx + i * 4 - 6, ccy, r, (90, 88, 92), alpha=110)
 
 
 def scene_nvidia(cv, x, y, w, h):
-    cv.vgrad(x, y, w, h, [(0.0, (18, 26, 46)), (0.6, (28, 44, 78)), (1.0, (16, 22, 40))])
-    # ticker screens along the top
+    # Trading floor at night: deep navy gradient sky, ticker screens with
+    # live candlesticks, a big glowing GPU chip, a falling candlestick chart
+    # with a red glow, and desks with lit monitors along the bottom.
+    cv.vgrad(x, y, w, h, [(0.0, (10, 16, 34)), (0.5, (26, 42, 76)), (1.0, (12, 18, 34))])
+    for sx, sy in ((14, 6), (70, 12), (140, 5), (200, 10), (230, 16)):
+        cv.set(x + sx, y + sy, (180, 190, 220))
+    # ticker screens along the top: tiny candlesticks inside each screen
     for i in range(4):
         sx = x + 8 + i * (w // 4)
-        cv.rect(sx, y + 8, w // 4 - 10, 16, (10, 14, 26))
-        cv.rect(sx + 3, y + 11, (w // 4 - 16) * (3 - i) // 3 + 4, 3, (120, 200, 120) if i % 2 == 0 else (220, 80, 60))
-    # big chip
-    cx, cy = x + w * 2 // 5, y + h * 3 // 5
-    cv.rect(cx - 52, cy - 40, 104, 80, (24, 90, 60))
-    cv.rect(cx - 44, cy - 32, 88, 64, (34, 130, 84))
+        cv.rect(sx, y + 6, w // 4 - 10, 18, (8, 12, 24))
+        cv.rect(sx, y + 6, w // 4 - 10, 2, (60, 80, 120))
+        for k in range(5):
+            cx2 = sx + 6 + k * 9
+            up = (i + k) % 3 != 0
+            col = (110, 200, 130) if up else (225, 85, 65)
+            cv.rect(cx2, y + 10 + (0 if up else 4), 4, 8, col)
+    # big GPU chip, left: glow, body, top highlight, pins, label
+    cx, cy = x + 62, y + 66
+    cv.disc_glow(cx, cy, 46, (40, 160, 110), steps=3)
+    cv.rect(cx - 50, cy - 38, 100, 76, (18, 70, 46))
+    cv.rect(cx - 44, cy - 32, 88, 64, (30, 120, 80))
+    cv.rect(cx - 44, cy - 32, 88, 6, (70, 190, 130))
     for i in range(5):
-        cv.hline(cx - 52, cy - 30 + i * 15, 104, (20, 70, 46))
-        cv.vline(cx - 36 + i * 18, cy - 40, 80, (20, 70, 46))
-    for dx, dy in ((-58, -30), (58, -30), (-58, 30), (58, 30)):
-        cv.rect(cx + dx - 3, cy + dy - 3, 6, 6, (180, 220, 190))
-    # huge red down arrow: shaft on top, triangular head below
-    ax, ay = x + w - 78, y + 18
-    cv.poly([(ax, ay), (ax + 54, ay), (ax + 54, ay + 34), (ax + 76, ay + 34),
-             (ax + 27, ay + 96), (ax - 22, ay + 34), (ax, ay + 34)], (214, 48, 38))
-    cv.poly([(ax + 10, ay + 8), (ax + 44, ay + 8), (ax + 44, ay + 34),
-             (ax + 60, ay + 34), (ax + 27, ay + 80), (ax - 6, ay + 34),
-             (ax + 10, ay + 34)], (238, 90, 70))
-    # in-scene label: the drop, written on the arrow head itself
-    F("sans_b11").draw(cv, ax + 14, ay + 42, "-7%", (255, 255, 255))
-    # floor (the -7% is already in the stat strip and the headline)
-    cv.rect(x, y + h - 14, w, 14, (12, 16, 30))
+        cv.hline(cx - 44, cy - 22 + i * 14, 88, (20, 70, 46))
+        cv.vline(cx - 30 + i * 16, cy - 32, 64, (20, 70, 46))
+    for dx, dy in ((-56, -28), (56, -28), (-56, 28), (56, 28)):
+        cv.rect(cx + dx - 3, cy + dy - 3, 6, 6, (190, 230, 200))
+    F("sans_b9").draw(cv, cx - 14, cy - 6, "NVDA", (210, 240, 220))
+    # falling candlestick chart, right: 7 red candles stepping down
+    gx, gy, gw, gh = x + 138, y + 32, 100, 52
+    cv.rect(gx - 6, gy - 6, gw + 12, gh + 12, (14, 22, 44))
+    for i in range(6):
+        cv.hline(gx - 4, gy + i * 10, gw + 8, (34, 48, 76))
+    cv.disc_glow(gx + gw - 14, gy + gh - 6, 22, (230, 70, 50), steps=3)
+    for i in range(7):
+        bx = gx + 4 + i * 13
+        top = gy + 4 + i * 6
+        cv.rect(bx, top, 8, 14, (225, 80, 60))
+        cv.vline(bx + 4, top - 4, 22, (225, 80, 60))
+    # red down arrow with glow, over the chart's right end
+    ax, ay = x + w - 62, y + 22
+    cv.disc_glow(ax + 24, ay + 44, 32, (230, 60, 45), steps=3)
+    cv.poly([(ax, ay), (ax + 44, ay), (ax + 44, ay + 28), (ax + 62, ay + 28),
+             (ax + 22, ay + 82), (ax - 18, ay + 28), (ax, ay + 28)], (214, 48, 38))
+    cv.poly([(ax + 8, ay + 6), (ax + 36, ay + 6), (ax + 36, ay + 28),
+             (ax + 48, ay + 28), (ax + 22, ay + 68), (ax - 4, ay + 28),
+             (ax + 8, ay + 28)], (238, 90, 70))
+    F("sans_b11").draw(cv, ax + 12, ay + 36, "-7%", (255, 255, 255))
+    # trading desks with lit monitors along the bottom
+    cv.rect(x, y + h - 14, w, 14, (10, 14, 28))
+    for i in range(6):
+        dx = x + 10 + i * 40
+        cv.rect(dx, y + h - 26, 22, 12, (16, 22, 40))
+        cv.rect(dx + 3, y + h - 24, 16, 6, (90, 170, 120) if i % 2 else (200, 90, 70))
 
 
 def scene_libya(cv, x, y, w, h):
-    cv.vgrad(x, y, w, h, [(0.0, (8, 12, 30)), (0.55, (16, 26, 52)), (1.0, (10, 16, 34))])
-    for sx, sy in ((12, 12), (60, 22), (150, 10), (230, 26), (280, 14), (40, 34), (190, 30)):
+    # A corvette burning at night off Benghazi: moonlit sky, sea with a
+    # moon road, a real hull with bridge, mast and lit portholes, two fires
+    # with glow and smoke, drone boats closing in with wakes.
+    cv.vgrad(x, y, w, h, [(0.0, (8, 12, 30)), (0.45, (18, 30, 58)), (0.62, (26, 44, 72)), (1.0, (10, 16, 34))])
+    for sx, sy in ((12, 12), (60, 22), (150, 10), (230, 26), (40, 34), (190, 30), (110, 6)):
         cv.set(x + sx % w, y + sy, (230, 230, 200))
-    cv.disc_glow(x + 120, y + 20, 18, (240, 220, 170))
-    cv.circle(x + 120, y + 20, 8, (244, 232, 190))
-    # sea
+    # moon with halo, upper left
+    cv.disc_glow(x + 44, y + 18, 16, (240, 220, 170))
+    cv.circle(x + 44, y + 18, 9, (244, 232, 190))
+    cv.circle(x + 41, y + 16, 2, (210, 200, 160))
+    cv.circle(x + 47, y + 21, 2, (210, 200, 160))
+    # sea with a moon road and wave lines
     cv.rect(x, y + h * 2 // 3, w, h // 3, (12, 26, 48))
+    for i in range(4):
+        cv.hline(x + 30 + i * 6, y + h * 2 // 3 + 5 + i * 8, 46 - i * 8, (200, 200, 170))
     for i in range(5):
         cv.hline(x + 10 + i * 52, y + h * 2 // 3 + 8 + i * 7, 34, (60, 100, 140))
-    # corvette silhouette, burning
-    hx, hy = x + w // 2 - 30, y + h * 2 // 3 - 6
-    cv.poly([(hx - 78, hy), (hx - 66, hy - 22), (hx + 66, hy - 22),
-             (hx + 84, hy), (hx + 60, hy + 6), (hx - 60, hy + 6)], (30, 32, 38))
-    cv.rect(hx - 18, hy - 44, 10, 24, (30, 32, 38))
-    cv.rect(hx + 8, hy - 34, 8, 14, (30, 32, 38))
-    cv.line(hx - 18, hy - 44, hx + 26, hy - 44, (30, 32, 38), 2)
-    _flame(cv, hx - 40, hy - 20, 26, 34)
-    _flame(cv, hx + 30, hy - 20, 22, 28)
-    _smoke(cv, hx - 30, hy - 52)
-    cv.disc_glow(hx - 40, hy - 30, 26, (250, 140, 40))
-    # in-scene label: the corvette's name, on the sea below the hull
-    F("sans_b9").draw(cv, hx - 30, hy + 8, "MERKURY", (200, 210, 230))
-    # drone boats with wakes
-    for dx, dy in ((-96, 12), (96, 20)):
-        bx, by = hx + dx, hy + 26 + dy // 3
+    # corvette: hull with a lighter top edge, bow, bridge with lit windows,
+    # mast with radar bar, funnel, and a wake of foam at the bow
+    hx, hy = x + w // 2 - 10, y + h * 2 // 3 - 4
+    cv.poly([(hx - 84, hy), (hx - 70, hy - 20), (hx + 70, hy - 20),
+             (hx + 88, hy), (hx + 64, hy + 6), (hx - 64, hy + 6)], (26, 28, 36))
+    cv.hline(hx - 70, hy - 20, 140, (90, 100, 120))
+    cv.rect(hx - 30, hy - 46, 44, 26, (36, 40, 52))
+    cv.rect(hx - 30, hy - 46, 44, 3, (110, 120, 140))
+    for wx in range(hx - 26, hx + 10, 10):
+        cv.rect(wx, hy - 40, 6, 6, (240, 200, 110))
+    cv.rect(hx + 22, hy - 38, 8, 18, (36, 40, 52))
+    cv.vline(hx - 8, hy - 66, 20, (60, 64, 76))
+    cv.line(hx - 20, hy - 66, hx + 4, hy - 66, (60, 64, 76), 3)
+    cv.circle(hx - 8, hy - 66, 3, (200, 60, 50))
+    for fx in range(4):
+        cv.circle(hx - 92 + fx * 6, hy + 4, 2, (200, 220, 240), alpha=180)
+    # two fires with glow, smoke and orange reflections on the water
+    _flame(cv, hx - 44, hy - 18, 26, 36)
+    _flame(cv, hx + 34, hy - 18, 22, 30)
+    _smoke(cv, hx - 44, hy - 54, 5, top=y)
+    _smoke(cv, hx + 34, hy - 48, 4, top=y)
+    cv.disc_glow(hx - 44, hy - 28, 26, (250, 140, 40))
+    cv.disc_glow(hx + 34, hy - 28, 22, (250, 140, 40))
+    cv.hline(hx - 56, hy + 12, 24, (250, 150, 60))
+    cv.hline(hx + 22, hy + 12, 20, (250, 150, 60))
+    # the corvette's name, on the sea below the hull
+    F("sans_b9").draw(cv, hx - 30, hy + 16, "MERKURY", (200, 210, 230))
+    # drone boats with wakes and a red running light
+    for dx, dy in ((-104, 10), (104, 18)):
+        bx, by = hx + dx, hy + 24 + dy // 3
         cv.poly([(bx - 12, by), (bx + 12, by), (bx + 6, by + 5), (bx - 6, by + 5)], (180, 180, 170))
+        cv.set(bx, by - 3, (230, 60, 50))
         cv.line(bx - 22, by + 8, bx - 40, by + 12, (120, 160, 200), 1)
         cv.line(bx - 20, by + 10, bx - 36, by + 14, (120, 160, 200), 1)
 
 
 def scene_hormuz(cv, x, y, w, h):
+    # Sunset over the strait: purple-orange gradient sky with clouds, a low
+    # sun with a road of light on the sea, three tankers with real hull
+    # detail (bridge, containers, portholes), the middle one burning, mines
+    # bobbing, a patrol boat and gulls.
     cv.vgrad(x, y, w, h, [(0.0, (52, 32, 66)), (0.45, (190, 96, 52)),
                           (0.7, (226, 140, 70)), (1.0, (40, 30, 52))])
+    # dusk clouds, soft dark ellipses high in the sky
+    for cx, cy, cr in ((x + 40, y + 16, 12), (x + 70, y + 14, 9),
+                       (x + w - 60, y + 16, 11), (x + w - 30, y + 18, 8)):
+        cv.circle(cx, cy, cr, (90, 52, 84), alpha=140)
     # low sun, up-left and small, kept well clear of the burning tanker:
     # its glow no longer touches the flame (they merged into one orange
     # blob in v2). Sun centre (x+78, y+20), flame centre (x+156, y+10..40).
     cv.disc_glow(x + w // 2 - 78, y + 20, 20, (245, 185, 100), steps=3)
     cv.circle(x + w // 2 - 78, y + 20, 10, (245, 195, 115))
+    # gulls
+    for gx, gy in ((x + 30, y + 34), (x + 44, y + 30), (x + w - 40, y + 36)):
+        cv.line(gx - 4, gy, gx, gy - 3, (40, 30, 50), 1)
+        cv.line(gx, gy - 3, gx + 4, gy, (40, 30, 50), 1)
     # sea with sun road
     cv.rect(x, y + h * 2 // 3, w, h // 3, (26, 34, 58))
     for i in range(4):
@@ -593,15 +664,32 @@ def scene_hormuz(cv, x, y, w, h):
         ty = y + h * 2 // 3 - 8
         cv.poly([(tx, ty), (tx + 8, ty - 18), (tx + tw - 8, ty - 18),
                  (tx + tw, ty), (tx + tw - 4, ty + 8), (tx + 4, ty + 8)], (28, 26, 34))
-        cv.rect(tx + tw // 2 - 8, ty - 34, 16, 16, (28, 26, 34))
-        cv.rect(tx + tw // 2 + 12, ty - 26, 10, 8, (28, 26, 34))
+        cv.hline(tx + 6, ty - 16, tw - 12, (120, 90, 70))
+        # bridge tower with lit windows + container stacks
+        cv.rect(tx + tw // 2 - 10, ty - 36, 20, 18, (40, 36, 44))
+        cv.rect(tx + tw // 2 - 10, ty - 36, 20, 3, (90, 80, 70))
+        for wx in range(tx + tw // 2 - 7, tx + tw // 2 + 8, 6):
+            cv.rect(wx, ty - 32, 4, 5, (245, 200, 120))
+        cv.rect(tx + 8, ty - 12, 14, 10, (120, 70, 60))
+        cv.rect(tx + 24, ty - 12, 14, 10, (90, 110, 80))
+        for px2 in range(tx + 10, tx + tw - 8, 12):
+            cv.set(px2, ty - 4, (200, 170, 110))
+        # bow wave
+        cv.line(tx - 4, ty + 6, tx - 12, ty + 10, (200, 210, 230), 1)
+        cv.line(tx + tw + 4, ty + 6, tx + tw + 12, ty + 10, (200, 210, 230), 1)
         if burn:
             # smaller flame + softer glow so it reads as fire, not a second sun
             _flame(cv, tx + tw // 2, ty - 30, 24, 30)
-            _smoke(cv, tx + tw // 2, ty - 66, 5)
+            _smoke(cv, tx + tw // 2, ty - 30, 5, top=y)
             cv.disc_glow(tx + tw // 2, ty - 40, 16, (250, 140, 40), steps=3)
+            cv.hline(tx + tw // 2 - 16, ty + 10, 32, (250, 150, 60))
         else:
             cv.rect(tx + 10, ty - 12, 8, 6, (240, 200, 120))
+    # patrol boat, small, foreground right
+    bx, by = x + w - 34, y + h - 12
+    cv.poly([(bx - 12, by), (bx + 12, by), (bx + 6, by + 4), (bx - 6, by + 4)], (200, 200, 190))
+    cv.rect(bx - 4, by - 8, 8, 8, (200, 200, 190))
+    cv.set(bx, by - 10, (230, 60, 50))
     # mines bobbing in the strait
     for mx2, my2 in ((26, h - 22), (120, h - 14), (w - 56, h - 26)):
         cv.circle(x + mx2, y + my2, 4, (20, 20, 24))
@@ -613,88 +701,147 @@ def scene_hormuz(cv, x, y, w, h):
 
 
 def scene_huawei(cv, x, y, w, h):
+    # Brooklyn courthouse in warm morning light: pale sky with a sun glow,
+    # a stone facade in two tones, shaded columns with capitals, steps with
+    # shadows, a dark door, scales of justice, and two trees. (The GUILTY
+    # stamp is gone — the red tag above the scene already says it.)
     cv.vgrad(x, y, w, h, [(0.0, (196, 186, 158)), (0.6, (214, 204, 178)), (1.0, (150, 138, 112))])
-    # courthouse
+    cv.disc_glow(x + w - 22, y + 10, 10, (250, 230, 170), steps=3)
+    cv.circle(x + w - 22, y + 10, 6, (250, 236, 190))
+    # trees flanking the courthouse
+    for tx in (x + 8, x + w - 14):
+        cv.vline(tx + 3, y + h - 26, 12, (90, 70, 50))
+        cv.circle(tx + 3, y + h - 32, 7, (96, 120, 80))
+        cv.circle(tx - 2, y + h - 28, 5, (110, 134, 90))
+    # courthouse: pediment with shading, entablature, columns, steps
     cv.rect(x + 18, y + 18, w - 36, 10, (120, 108, 88))
-    cv.poly([(x + 10, y + 28), (x + w // 2, y + 2), (x + w - 10, y + 28)], (140, 126, 102))
+    cv.poly([(x + 10, y + 28), (x + w // 2, y + 2), (x + w - 10, y + 28)], (146, 132, 108))
+    cv.poly([(x + w // 2, y + 2), (x + w - 10, y + 28), (x + w // 2, y + 28)], (128, 114, 92))
+    cv.circle(x + w // 2, y + 16, 4, (110, 98, 80))
     for i in range(4):
         cx = x + 30 + i * ((w - 60) // 3)
         cv.rect(cx, y + 28, 10, h - 44, (232, 224, 200))
+        cv.rect(cx + 6, y + 28, 4, h - 44, (200, 190, 164))
         cv.rect(cx - 2, y + 26, 14, 4, (232, 224, 200))
         cv.rect(cx - 2, y + h - 18, 14, 4, (232, 224, 200))
+    # dark door between the middle columns
+    cv.rect(x + w // 2 - 9, y + h - 30, 18, 14, (70, 60, 48))
+    cv.vline(x + w // 2, y + h - 30, 14, (120, 108, 88))
+    # steps with shadows
     cv.rect(x + 10, y + h - 16, w - 20, 6, (120, 108, 88))
     cv.rect(x + 6, y + h - 10, w - 12, 4, (100, 90, 72))
+    cv.rect(x + 10, y + h - 16, w - 20, 1, (150, 138, 116))
     # scales of justice on the steps
     sx, sy = x + w // 2, y + h - 26
     cv.vline(sx, sy - 22, 22, (60, 52, 40))
     cv.line(sx - 20, sy - 22, sx + 20, sy - 22, (60, 52, 40), 2)
     cv.poly([(sx - 26, sy - 12), (sx - 14, sy - 12), (sx - 20, sy - 2)], (90, 78, 60))
     cv.poly([(sx + 14, sy - 12), (sx + 26, sy - 12), (sx + 20, sy - 2)], (90, 78, 60))
-    # GUILTY stamp, bottom-right (clear of the number circle)
-    cv.rrect(x + w - 74, y + h - 24, 66, 18, 3, (166, 32, 32))
-    F("sans_b11").draw(cv, x + w - 66, y + h - 19, "GUILTY", (255, 255, 255))
 
 
 def scene_riyadh(cv, x, y, w, h):
-    cv.vgrad(x, y, w, h, [(0.0, (12, 16, 36)), (0.55, (30, 34, 66)), (1.0, (14, 16, 30))])
-    for sx, sy in ((10, 8), (50, 16), (120, 6), (170, 14)):
-        cv.set(x + sx, y + sy, (220, 220, 190))
+    # Riyadh at dusk: a purple-orange sunset sky, a skyline with varied lit
+    # windows, the twisted PIF tower with glass reflections and a fire at
+    # its crown, and a street below with a car and a streetlight.
+    cv.vgrad(x, y, w, h, [(0.0, (48, 36, 78)), (0.5, (140, 80, 96)), (0.75, (220, 140, 90)), (1.0, (60, 50, 70))])
+    cv.disc_glow(x + w - 26, y + 12, 10, (250, 200, 140), steps=3)
+    cv.circle(x + w - 26, y + 12, 6, (250, 214, 160))
     # skyline (width-relative: the old absolute bx values overflowed the
     # narrowed 150 px mid column and painted over the next scene)
     base = y + h
-    for fx, fw, bh in ((0.00, 0.16, 34), (0.17, 0.12, 48), (0.31, 0.15, 40),
-                       (0.69, 0.13, 52), (0.84, 0.15, 36)):
+    for fx, fw, bh in ((0.00, 0.16, 30), (0.17, 0.12, 44), (0.31, 0.15, 36),
+                       (0.69, 0.13, 48), (0.84, 0.15, 32)):
         bx, bw = int(w * fx), int(w * fw)
         cv.rect(x + bx, base - bh, bw, bh, (24, 28, 48))
+        cv.rect(x + bx, base - bh, bw, 2, (70, 76, 100))
         _windows(cv, x + bx, base - bh + 4, bw, bh - 8, 2, 3, (240, 200, 110), (16, 18, 32))
-    # PIF tower: twisted top, hit by fire
+        if fx == 0.69:
+            cv.rect(x + bx + bw // 2 - 1, base - bh - 8, 2, 8, (24, 28, 48))
+            cv.set(x + bx + bw // 2, base - bh - 9, (230, 60, 50))
+    # PIF tower: twisted top, glass facade with vertical light strips, fire
     tx = x + w // 2 - 16
     cv.poly([(tx, base), (tx + 4, y + 16), (tx + 28, y + 16), (tx + 32, base)], (52, 58, 84))
-    cv.poly([(tx + 4, y + 16), (tx + 14, y + 2), (tx + 28, y + 16)], (52, 58, 84))
+    cv.poly([(tx + 4, y + 16), (tx + 14, y + 2), (tx + 28, y + 16)], (66, 72, 100))
     for wy in range(y + 24, base - 8, 8):
         cv.hline(tx + 5, wy, 22, (240, 200, 110))
-    _flame(cv, tx + 16, y + 22, 26, 30)
-    _smoke(cv, tx + 16, y + 2, 4)
-    cv.disc_glow(tx + 16, y + 22, 24, (250, 150, 50))
+    cv.vline(tx + 10, y + 20, base - y - 28, (140, 150, 180))
+    cv.vline(tx + 20, y + 20, base - y - 28, (140, 150, 180))
+    _flame(cv, tx + 16, y + 30, 26, 24)
+    _smoke(cv, tx + 16, y + 6, 3, top=y)
+    cv.disc_glow(tx + 16, y + 30, 20, (250, 150, 50))
+    # street: a car with headlights and a streetlight
+    cv.rect(x, base - 6, w, 6, (30, 28, 36))
+    cv.poly([(x + 12, base - 6), (x + 16, base - 12), (x + 30, base - 12), (x + 34, base - 6)], (180, 60, 50))
+    cv.circle(x + 17, base - 6, 2, (16, 16, 20))
+    cv.circle(x + 29, base - 6, 2, (16, 16, 20))
+    cv.set(x + 34, base - 9, (250, 240, 180))
+    cv.vline(x + w - 12, base - 18, 12, (60, 60, 66))
+    cv.disc_glow(x + w - 12, base - 18, 8, (250, 220, 140), steps=2)
 
 
 def scene_poland(cv, x, y, w, h):
-    cv.vgrad(x, y, w, h, [(0.0, (40, 60, 96)), (0.55, (120, 130, 170)), (1.0, (210, 190, 160))])
+    # A NATO AWACS over Polish farmland: blue-grey sky with soft clouds and
+    # a low sun, green fields with a road, a tree line and two farmhouses,
+    # and the white plane with a shaded belly, radar dome and sweep arcs —
+    # plus a small dark drone silhouette far behind it.
+    cv.vgrad(x, y, w, h, [(0.0, (70, 100, 140)), (0.55, (150, 165, 185)), (0.8, (210, 195, 165)), (1.0, (120, 130, 100))])
     cv.disc_glow(x + w - 30, y + 18, 18, (250, 220, 150))
     cv.circle(x + w - 30, y + 18, 8, (250, 228, 160))
-    # ground + city lights (width-relative: 9 fixed lights overflowed the
-    # narrowed 150 px column into the next scene)
-    cv.rect(x, y + h - 16, w, 16, (52, 56, 60))
-    for i in range(7):
-        lx = x + 6 + i * ((w - 12) // 7)
-        cv.rect(lx, y + h - 26, 10, 10, (52, 56, 60))
-        cv.set(lx + 4, y + h - 22, (240, 200, 110))
-    # AWACS plane
-    px, py = x + w // 2, y + h // 2 - 6
+    # soft clouds
+    for cx, cy, cr in ((x + 24, y + 10, 10), (x + 40, y + 7, 8), (x + 110, y + 14, 9)):
+        cv.circle(cx, cy, cr, (235, 235, 230), alpha=120)
+    # farmland: two field tones, a road, a tree line, two farmhouses
+    cv.rect(x, y + h - 18, w, 18, (96, 120, 74))
+    cv.rect(x, y + h - 18, w // 2, 18, (116, 138, 88))
+    cv.poly([(x, y + h), (x + w // 2, y + h - 18), (x + w // 2 + 10, y + h - 18), (x + 16, y + h)], (200, 190, 170))
+    for tx in range(x + 8, x + w - 8, 14):
+        cv.poly([(tx, y + h - 18), (tx + 4, y + h - 28), (tx + 8, y + h - 18)], (60, 88, 58))
+    cv.rect(x + 12, y + h - 26, 12, 8, (200, 180, 150))
+    cv.poly([(x + 12, y + h - 26), (x + 18, y + h - 32), (x + 24, y + h - 26)], (150, 60, 50))
+    cv.rect(x + w - 30, y + h - 24, 11, 6, (200, 180, 150))
+    cv.poly([(x + w - 30, y + h - 24), (x + w - 24, y + h - 29), (x + w - 19, y + h - 24)], (150, 60, 50))
+    # small dark drone silhouette far behind the AWACS
+    dx0, dy0 = x + 22, y + 26
+    cv.line(dx0 - 8, dy0, dx0 + 8, dy0, (50, 50, 56), 2)
+    cv.line(dx0, dy0 - 2, dx0, dy0 + 3, (50, 50, 56), 2)
+    cv.line(dx0 - 10, dy0 + 6, dx0 - 2, dy0 + 2, (50, 50, 56), 1)
+    cv.line(dx0 + 2, dy0 + 2, dx0 + 10, dy0 + 6, (50, 50, 56), 1)
+    # AWACS plane, shaded: light top, grey belly, windows, radar dome
+    px, py = x + w // 2, y + h // 2 - 8
     cv.poly([(px - 64, py), (px - 52, py - 8), (px + 56, py - 8), (px + 68, py),
              (px + 56, py + 6), (px - 52, py + 6)], (232, 232, 228))
+    cv.poly([(px - 52, py + 2), (px + 56, py + 2), (px + 56, py + 6), (px - 52, py + 6)], (180, 180, 176))
+    for wx in range(px - 40, px + 44, 8):
+        cv.rect(wx, py - 5, 4, 3, (90, 110, 140))
     cv.poly([(px + 30, py - 8), (px + 44, py - 22), (px + 52, py - 8)], (210, 210, 206))
     cv.poly([(px - 40, py + 6), (px - 30, py + 18), (px - 22, py + 6)], (210, 210, 206))
     cv.line(px - 14, py - 22, px + 14, py - 22, (70, 70, 76), 3)
-    cv.circle(px - 8, py - 26, 10, (200, 200, 196))
-    cv.circle(px - 8, py - 26, 10, (120, 120, 118))
-    cv.circle(px - 8, py - 26, 5, (200, 200, 196))
-    # radar arcs
-    for r in (18, 28):
-        cv.ring(px - 8, py - 26, r, (255, 255, 255), 1)
+    # radar dome, kept small so it never rises above the scene: the old
+    # sweep rings painted white arcs over the hero deck text above.
+    cv.circle(px - 8, py - 18, 7, (200, 200, 196))
+    cv.circle(px - 8, py - 18, 7, (120, 120, 118))
+    cv.circle(px - 8, py - 18, 3, (200, 200, 196))
     # in-scene label under the plane
     F("sans_b9").draw(cv, px - 30, py + 22, "NATO AWACS", INK)
 
 
 def scene_grok(cv, x, y, w, h):
-    """Courtroom, dense (12+ elements): the old scene was one laptop + a
-    warning triangle on a bare purple field — the thinnest mid on the page.
-    Top zone: wood panels + scales-of-justice emblem. Bench zone: document
-    stack, two laptops (X and GROK screens), gavel + block."""
-    cv.vgrad(x, y, w, h, [(0.0, (58, 34, 52)), (0.6, (44, 26, 44)), (1.0, (30, 18, 32))])
-    # wood wall panels (tag covers the left, number circle the right)
-    cv.vline(x + 50, y + 2, 32, (72, 44, 62))
-    cv.vline(x + 100, y + 2, 32, (72, 44, 62))
+    """Courtroom, dense (15+ elements): warm wood panels with grain, a
+    golden hanging lamp with a pool of light on the bench, scales of
+    justice, a document stack, two laptops with glowing screens (X and
+    GROK), a gavel + block, and a small flag on the bench. The old version
+    read as a flat dark box because every tone was dark purple-brown —
+    the lamp and the lighter wood fix that."""
+    cv.vgrad(x, y, w, h, [(0.0, (96, 62, 58)), (0.6, (78, 50, 52)), (1.0, (56, 38, 42))])
+    # hanging lamp, top-centre: cord, shade, warm glow, light pool
+    cv.vline(x + w // 2, y + 2, 8, (40, 30, 30))
+    cv.poly([(x + w // 2 - 10, y + 10), (x + w // 2 + 10, y + 10), (x + w // 2 + 6, y + 18), (x + w // 2 - 6, y + 18)], (150, 110, 60))
+    cv.disc_glow(x + w // 2, y + 20, 20, (250, 200, 110), steps=4)
+    cv.circle(x + w // 2, y + 20, 4, (255, 230, 160))
+    # wood wall panels with grain
+    for px in (x + 26, x + 50, x + 100, x + 124):
+        cv.vline(px, y + 2, 32, (120, 84, 72))
+    cv.hline(x, y + 34, w, (120, 84, 72))
     # scales of justice, top-right emblem (clear of the tag and the circle)
     cx = x + 104
     cv.vline(cx, y + 8, 20, (198, 142, 44))
@@ -702,10 +849,14 @@ def scene_grok(cv, x, y, w, h):
     cv.poly([(cx - 16, y + 10), (cx - 22, y + 20), (cx - 10, y + 20)], (150, 106, 32))
     cv.poly([(cx + 16, y + 10), (cx + 10, y + 20), (cx + 22, y + 20)], (150, 106, 32))
     cv.rect(cx - 6, y + 28, 12, 3, (198, 142, 44))
-    # judge's bench
-    cv.rect(x, y + 38, w, h - 38, (96, 62, 40))
-    cv.hline(x, y + 38, w, (150, 110, 70))
-    cv.hline(x, y + 52, w, (70, 44, 30))
+    # judge's bench: wood with grain lines and a top highlight
+    cv.rect(x, y + 38, w, h - 38, (120, 80, 52))
+    cv.hline(x, y + 38, w, (190, 140, 90))
+    cv.hline(x, y + 46, w, (90, 58, 40))
+    for gx in range(x + 12, x + w - 8, 22):
+        cv.vline(gx, y + 48, h - 48, (100, 66, 44))
+    # warm light pool on the bench under the lamp
+    cv.disc_glow(x + w // 2, y + 52, 18, (250, 200, 110), steps=3)
     # document stack with a red filed edge
     cv.rect(x + 8, y + 44, 24, 14, (208, 200, 180))
     cv.rect(x + 10, y + 42, 24, 14, (220, 214, 196))
@@ -713,13 +864,15 @@ def scene_grok(cv, x, y, w, h):
     cv.rect(x + 12, y + 40, 24, 2, RED)
     cv.hline(x + 15, y + 45, 18, (120, 110, 95))
     cv.hline(x + 15, y + 49, 14, (120, 110, 95))
-    # laptop X
+    # laptop X, screen glowing
     cv.rect(x + 46, y + 40, 24, 14, (16, 14, 22))
-    F("sans_b11").draw(cv, x + 54, y + 42, "X", (255, 255, 255))
+    cv.rect(x + 48, y + 42, 20, 10, (200, 220, 240))
+    F("sans_b11").draw(cv, x + 54, y + 42, "X", (20, 30, 50))
     cv.rect(x + 43, y + 54, 30, 4, (30, 26, 38))
-    # laptop GROK
+    # laptop GROK, screen glowing
     cv.rect(x + 80, y + 40, 28, 14, (16, 14, 22))
-    F("sans_b9").draw(cv, x + 82, y + 43, "GROK", (255, 255, 255))
+    cv.rect(x + 82, y + 42, 24, 10, (200, 220, 240))
+    F("sans_b9").draw(cv, x + 84, y + 43, "GROK", (20, 30, 50))
     cv.rect(x + 77, y + 54, 34, 4, (30, 26, 38))
     # gavel + block
     cv.line(x + 122, y + 58, x + 138, y + 44, (150, 110, 60), 3)
@@ -728,111 +881,218 @@ def scene_grok(cv, x, y, w, h):
 
 
 def scene_gaza(cv, x, y, w, h):
-    cv.vgrad(x, y, w, h, [(0.0, (96, 74, 66)), (0.5, (168, 120, 84)), (1.0, (60, 52, 48))])
-    cv.disc_glow(x + 30, y + 20, 16, (250, 200, 130))
-    cv.circle(x + 30, y + 20, 8, (248, 210, 140))
+    # Khan Younis in a dusty haze: a pale sun behind smoke, a ruined
+    # skyline with jagged tops and exposed floors, a few lit windows, two
+    # smoke columns with fire glow at their base, and rubble on the street.
+    cv.vgrad(x, y, w, h, [(0.0, (150, 120, 100)), (0.5, (190, 150, 110)), (1.0, (110, 96, 82))])
+    cv.disc_glow(x + 30, y + 18, 18, (250, 205, 140))
+    cv.circle(x + 30, y + 18, 8, (248, 210, 140))
     base = y + h
-    # ruined skyline (width-relative: the old absolute bx values overflowed
-    # the narrowed 150 px column and painted over the numbers panel)
-    for fx, fw, bh, tilt in ((0.00, 0.19, 44, 0), (0.20, 0.14, 30, -4),
-                             (0.36, 0.17, 52, 0), (0.54, 0.13, 26, 5),
-                             (0.68, 0.17, 40, 0), (0.85, 0.14, 34, 0)):
+    # ruined skyline: jagged tops, one building with exposed floors
+    for fx, fw, bh, tilt in ((0.00, 0.19, 40, 0), (0.20, 0.14, 28, -4),
+                             (0.36, 0.17, 48, 0), (0.54, 0.13, 24, 5),
+                             (0.68, 0.17, 36, 0), (0.85, 0.14, 30, 0)):
         bx, bw = int(w * fx), int(w * fw)
         cv.poly([(x + bx, base), (x + bx + tilt, base - bh), (x + bx + bw + tilt, base - bh),
                  (x + bx + bw, base)], (58, 52, 48))
+        cv.poly([(x + bx + tilt, base - bh), (x + bx + bw // 2, base - bh - 5),
+                 (x + bx + bw + tilt, base - bh)], (70, 62, 56))
         _windows(cv, x + bx + 3, base - bh + 6, bw - 6, bh - 10, 2, 2,
                  (240, 190, 100), (44, 40, 38))
-    _smoke(cv, x + w // 2 + 10, y + 30, 4)
+    # exposed floors on the middle ruin: horizontal floor lines
+    ex = int(w * 0.36)
+    for fy in range(base - 44, base - 8, 8):
+        cv.hline(x + ex + 2, fy, int(w * 0.17) - 4, (90, 80, 70))
+    # smoke columns with fire glow at the base
+    _smoke(cv, x + w // 2 + 10, y + 28, 4, top=y)
+    _smoke(cv, x + w - 24, y + 34, 3, top=y)
+    cv.disc_glow(x + w // 2 + 10, base - 14, 14, (250, 140, 50), steps=3)
+    _flame(cv, x + w // 2 + 10, base - 8, 14, 16)
+    # rubble on the street
+    for rx, rw, rh in ((4, 12, 5), (18, 9, 4), (w - 26, 11, 5), (w - 14, 8, 3)):
+        cv.poly([(x + rx, base), (x + rx + rw // 2, base - rh), (x + rx + rw, base)], (70, 62, 54))
+    for dx in range(0, w, 18):
+        cv.set(x + dx, base - 3, (150, 135, 115))
     cv.rect(x, base - 8, w, 8, (44, 40, 36))
 
 
 def scene_factory(cv, x, y, w, h):
+    # A candy factory on fire: grey-blue sky under a big layered smoke
+    # plume, a sawtooth factory with brick lines and orange-lit windows, two
+    # fires washing the walls with light, a red fire truck with its ladder
+    # up, a water arc, and debris on the ground.
     cv.vgrad(x, y, w, h, [(0.0, (70, 84, 110)), (0.55, (140, 140, 130)), (1.0, (90, 84, 76))])
     base = y + h
-    # sawtooth factory
+    # big smoke plume rising and drifting right; puffs are clamped so none
+    # crosses the scene top (they painted over the deck text above before)
+    for i in range(6):
+        pr = 7 + i * 2
+        cv.circle(x + w // 2 + i * 7, max(base - 58 - i * 5, y + pr),
+                  pr, (110, 108, 104), alpha=130)
+    # sawtooth factory with brick lines and fire-lit windows
     cv.rect(x + 14, base - 44, w - 28, 44, (96, 88, 78))
     for i in range(3):
         sx = x + 22 + i * ((w - 60) // 3)
         cv.poly([(sx, base - 44), (sx + 18, base - 62), (sx + 36, base - 44)], (120, 110, 96))
+        cv.poly([(sx + 18, base - 62), (sx + 26, base - 62), (sx + 36, base - 44), (sx + 18, base - 44)], (140, 128, 112))
+    for by in range(base - 40, base - 8, 8):
+        cv.hline(x + 16, by, w - 32, (82, 74, 66))
+    for wx in range(x + 22, x + w - 22, 16):
+        cv.rect(wx, base - 30, 8, 8, (250, 150, 60))
     cv.rect(x + w - 34, base - 70, 10, 70, (80, 74, 66))
+    cv.rect(x + w - 34, base - 70, 10, 4, (110, 100, 88))
     _flame(cv, x + w // 3, base - 42, 34, 40)
     _flame(cv, x + 2 * w // 3, base - 42, 28, 32)
-    _smoke(cv, x + w // 2, base - 76, 5)
-    cv.disc_glow(x + w // 3, base - 56, 26, (250, 140, 40))
+    cv.disc_glow(x + w // 3, base - 56, 18, (250, 140, 40))
+    cv.disc_glow(x + 2 * w // 3, base - 52, 16, (250, 140, 40))
+    # red fire truck with ladder, bottom-left
+    tx, ty = x + 8, base - 14
+    cv.rect(tx, ty - 6, 26, 8, (190, 40, 32))
+    cv.rect(tx + 18, ty - 12, 10, 6, (190, 40, 32))
+    cv.line(tx + 22, ty - 12, tx + 40, ty - 30, (200, 200, 200), 2)
+    cv.circle(tx + 6, ty + 2, 3, (16, 16, 20))
+    cv.circle(tx + 22, ty + 2, 3, (16, 16, 20))
+    cv.set(tx + 20, ty - 14, (250, 220, 80))
     # water arc from a hose
     for i in range(8):
         t = i / 7
         hx = x + 10 + int(t * (w // 2))
         hy = base - 6 - int(26 * t * (1 - t) * 4) - int(t * 10)
         cv.circle(hx, hy, 2, (120, 180, 230), alpha=200)
+    # debris + puddle
+    for dx, dy in ((w - 30, base - 4), (w - 18, base - 3), (w - 44, base - 5)):
+        cv.rect(x + dx, dy, 6, 3, (60, 56, 50))
+    cv.rect(x + w // 2 - 10, base - 4, 30, 3, (120, 160, 200))
     cv.rect(x, base - 6, w, 6, (60, 58, 52))
 
 
 def scene_quake(cv, x, y, w, h):
-    cv.vgrad(x, y, w, h, [(0.0, (120, 150, 190)), (0.5, (190, 200, 210)), (1.0, (150, 140, 120))])
-    # snow mountains
+    # Nepal after the tremor: a pale blue sky, three mountain ranges with
+    # shaded slopes and snow caps, a small village at the foot with one
+    # tilted house and cracked walls, dust clouds, and a cracked road.
+    cv.vgrad(x, y, w, h, [(0.0, (110, 140, 180)), (0.5, (180, 195, 210)), (1.0, (200, 190, 170))])
+    cv.disc_glow(x + w - 24, y + 12, 10, (250, 235, 190), steps=3)
+    cv.circle(x + w - 24, y + 12, 6, (250, 240, 200))
+    # back range, hazy and pale
+    cv.poly([(x, y + h), (x + w // 3, y + 22), (x + 2 * w // 3, y + h)], (140, 150, 168))
+    cv.poly([(x + w // 3 - 8, y + 22), (x + w // 3, y + 22), (x + w // 3 + 8, y + 22),
+             (x + w // 3 + 4, y + 34), (x + w // 3 - 4, y + 34)], (235, 235, 242))
+    # mid range: left slope light, right slope shaded, snow caps
     cv.poly([(x, y + h), (x + w // 4, y + 14), (x + w // 2, y + h)], (110, 120, 140))
+    cv.poly([(x + w // 4, y + 14), (x + w // 2, y + h), (x + w // 4 + 10, y + h)], (88, 98, 118))
     cv.poly([(x + w // 4 - 12, y + 14), (x + w // 4, y + 14), (x + w // 4 + 12, y + 14),
              (x + w // 4 + 6, y + 30), (x + w // 4 - 6, y + 30)], (245, 245, 250))
-    cv.poly([(x + w // 2, y + h), (x + 3 * w // 4, y + 26), (x + w, y + h)], (90, 100, 122))
+    cv.poly([(x + w // 2, y + h), (x + 3 * w // 4, y + 26), (x + w, y + h)], (100, 110, 130))
+    cv.poly([(x + 3 * w // 4, y + 26), (x + w, y + h), (x + 3 * w // 4 + 8, y + h)], (80, 90, 110))
     cv.poly([(x + 3 * w // 4 - 10, y + 26), (x + 3 * w // 4, y + 26),
              (x + 3 * w // 4 + 10, y + 26), (x + 3 * w // 4 + 5, y + 40),
              (x + 3 * w // 4 - 5, y + 40)], (245, 245, 250))
-    # tilted house + dust
+    # village at the foot: small houses, one tilted with a cracked wall
+    for hx, hw2 in ((x + 8, 18), (x + 30, 16), (x + w - 34, 20), (x + w - 56, 16)):
+        cv.rect(hx, y + h - 16, hw2, 10, (200, 180, 150))
+        cv.poly([(hx - 1, y + h - 16), (hx + hw2 // 2, y + h - 24), (hx + hw2 + 1, y + h - 16)], (150, 70, 55))
+        cv.rect(hx + hw2 // 2 - 2, y + h - 10, 4, 4, (80, 60, 45))
     hx, hy = x + w // 2 - 26, y + h - 34
     cv.poly([(hx, hy), (hx + 8, hy - 22), (hx + 48, hy - 22), (hx + 56, hy)], (150, 120, 88))
     cv.poly([(hx + 4, hy - 20), (hx + 28, hy - 32), (hx + 52, hy - 20)], (120, 60, 50))
+    cv.line(hx + 14, hy - 18, hx + 20, hy - 6, (90, 70, 55), 1)
+    cv.line(hx + 20, hy - 6, hx + 16, hy, (90, 70, 55), 1)
+    # dust clouds at the tilted house
     for i in range(6):
         cv.circle(x + 20 + i * 8, y + h - 12 - (i % 2) * 4, 4, (170, 160, 140), alpha=140)
-    # seismograph zigzag
-    pts = [(x + 8, y + 12), (x + 26, y + 12), (x + 34, y + 4), (x + 42, y + 20),
-           (x + 50, y + 8), (x + 60, y + 16), (x + 72, y + 6), (x + 84, y + 18),
-           (x + 96, y + 12), (x + w - 8, y + 12)]
+    # cracked ground
+    cv.line(x + 10, y + h - 6, x + 30, y + h - 10, (90, 80, 66), 1)
+    cv.line(x + 30, y + h - 10, x + 48, y + h - 6, (90, 80, 66), 1)
+    # seismograph zigzag, small, top-left
+    pts = [(x + 8, y + 10), (x + 22, y + 10), (x + 28, y + 4), (x + 34, y + 16),
+           (x + 40, y + 7), (x + 48, y + 13), (x + 56, y + 6), (x + 64, y + 14),
+           (x + 72, y + 10), (x + 84, y + 10)]
     for a, b in zip(pts, pts[1:]):
         cv.line(a[0], a[1], b[0], b[1], (166, 32, 32), 2)
 
 
 def scene_sanofi(cv, x, y, w, h):
+    # A biotech deal in bright daylight: pale blue sky with soft clouds, a
+    # glass lab building with two-tone reflections and varied windows, a
+    # giant capsule with a highlight and a shadow, a pill bottle with
+    # spilled pills, a molecule, and a glowing green up arrow.
     cv.vgrad(x, y, w, h, [(0.0, (150, 190, 205)), (0.6, (210, 225, 225)), (1.0, (170, 185, 190))])
-    # glass lab building
+    for cx, cy, cr in ((x + 20, y + 8, 9), (x + 34, y + 6, 7), (x + w - 30, y + 10, 8)):
+        cv.circle(cx, cy, cr, (245, 248, 250), alpha=160)
+    # glass lab building: two-tone facade, varied windows, roof, antenna
     bx, by = x + 12, y + h - 52
     cv.rect(bx, by, 64, 52, (52, 84, 104))
+    cv.rect(bx + 32, by, 32, 52, (40, 68, 88))
     for r in range(4):
         for c in range(4):
-            cv.rect(bx + 6 + c * 14, by + 6 + r * 11, 9, 7, (190, 225, 235))
+            lit = (r + c) % 3 != 0
+            cv.rect(bx + 6 + c * 14, by + 6 + r * 11, 9, 7,
+                    (190, 225, 235) if lit else (150, 190, 205))
     cv.rect(bx, by - 8, 64, 8, (40, 66, 84))
-    # giant capsule
+    cv.vline(bx + 56, by - 16, 8, (60, 80, 100))
+    cv.set(bx + 56, by - 17, (230, 60, 50))
+    # lawn
+    cv.rect(x, y + h - 6, w, 6, (110, 150, 90))
+    # giant capsule with highlight and shadow
     cx, cy = x + w // 2 + 22, y + h // 2 + 6
+    cv.poly([(cx - 30, cy + 16), (cx + 34, cy + 10), (cx + 34, cy + 16), (cx - 30, cy + 22)], (180, 180, 175))
     cv.poly([(cx - 34, cy - 10), (cx - 10, cy - 26), (cx + 34, cy + 2), (cx + 10, cy + 18)], (250, 250, 245))
     cv.poly([(cx - 34, cy - 10), (cx - 10, cy - 26), (cx + 8, cy - 12), (cx - 16, cy + 4)], (214, 48, 38))
+    cv.poly([(cx - 28, cy - 14), (cx - 12, cy - 24), (cx - 2, cy - 16), (cx - 18, cy - 6)], (255, 255, 255))
     cv.circle(cx - 34, cy - 10, 7, (250, 250, 245))
     cv.circle(cx + 34, cy + 2, 7, (250, 250, 245))
-    # green up arrow
+    # pill bottle with spilled pills, bottom-right
+    cv.rect(x + w - 26, y + h - 24, 12, 18, (240, 235, 220))
+    cv.rect(x + w - 26, y + h - 24, 12, 4, (214, 48, 38))
+    for px, py in ((x + w - 40, y + h - 8), (x + w - 48, y + h - 5), (x + w - 34, y + h - 5)):
+        cv.circle(px, py, 3, (250, 250, 245))
+    # green up arrow with glow
     ax, ay = x + w - 34, y + 12
+    cv.disc_glow(ax + 5, ay + 14, 14, (60, 180, 100), steps=2)
     cv.poly([(ax, ay + 26), (ax + 10, ay + 26), (ax + 10, ay + 12), (ax + 20, ay + 12),
              (ax + 10, ay), (ax, ay + 12), (ax - 10, ay + 12)], (34, 130, 70))
 
 
 def scene_mexico(cv, x, y, w, h):
+    # Mexico City in warm afternoon light: a pale sky with sun, a
+    # courthouse with a shaded pediment and columns, steps, bars across the
+    # door, and the POLICIA car with a glowing light bar, a shadow and a
+    # street with a lane line — plus a cactus at the edge.
     cv.vgrad(x, y, w, h, [(0.0, (190, 170, 130)), (0.6, (214, 198, 168)), (1.0, (150, 132, 104))])
-    # courthouse + bars
+    cv.disc_glow(x + w - 24, y + 10, 10, (250, 225, 160), steps=3)
+    cv.circle(x + w - 24, y + 10, 6, (250, 234, 185))
+    # cactus, far left
+    cv.rect(x + 6, y + h - 26, 5, 14, (90, 130, 80))
+    cv.rect(x + 2, y + h - 20, 4, 5, (90, 130, 80))
+    cv.rect(x + 11, y + h - 22, 4, 5, (90, 130, 80))
+    # courthouse + bars, shaded
     cv.rect(x + 20, y + 22, w - 40, 8, (110, 96, 76))
-    cv.poly([(x + 14, y + 30), (x + w // 2, y + 8), (x + w - 14, y + 30)], (130, 114, 90))
+    cv.poly([(x + 14, y + 30), (x + w // 2, y + 8), (x + w - 14, y + 30)], (136, 120, 96))
+    cv.poly([(x + w // 2, y + 8), (x + w - 14, y + 30), (x + w // 2, y + 30)], (120, 104, 82))
     for i in range(4):
         cx = x + 32 + i * ((w - 64) // 3)
         cv.rect(cx, y + 30, 9, h - 46, (232, 222, 196))
+        cv.rect(cx + 6, y + 30, 3, h - 46, (200, 188, 162))
     cv.rect(x + 12, y + h - 16, w - 24, 6, (110, 96, 76))
+    cv.rect(x + 12, y + h - 16, w - 24, 1, (150, 136, 112))
     # bars across the door
     for i in range(5):
         cv.vline(x + w // 2 - 20 + i * 10, y + h - 44, 28, (60, 56, 50))
+    # street with a lane line
+    cv.rect(x, y + h - 8, w, 8, (90, 86, 80))
+    for lx in range(x + 4, x + w - 4, 16):
+        cv.rect(lx, y + h - 5, 8, 2, (220, 210, 190))
     # police car, big and legible at 300 px: body + cabin + light bar + door text
     cx, cy = x + w // 2 - 46, y + h - 26
+    cv.poly([(cx - 30, cy + 20), (cx + 92, cy + 20), (cx + 92, cy + 24), (cx - 30, cy + 24)], (70, 66, 60))
     cv.poly([(cx, cy + 16), (cx + 2, cy + 4), (cx + 16, cy + 2), (cx + 76, cy + 2),
              (cx + 90, cy + 6), (cx + 92, cy + 16)], (32, 36, 48))
     cv.poly([(cx + 22, cy + 2), (cx + 28, cy - 10), (cx + 60, cy - 10),
              (cx + 68, cy + 2)], (44, 48, 62))
     cv.rect(cx + 26, cy - 7, 13, 8, (150, 190, 220))
     cv.rect(cx + 45, cy - 7, 13, 8, (150, 190, 220))
+    cv.disc_glow(cx + 44, cy - 15, 10, (220, 60, 50), steps=2)
+    cv.disc_glow(cx + 52, cy - 15, 10, (60, 90, 220), steps=2)
     cv.rect(cx + 40, cy - 15, 8, 5, (214, 48, 38))
     cv.rect(cx + 48, cy - 15, 8, 5, (38, 74, 180))
     cv.circle(cx + 20, cy + 16, 5, (16, 16, 20))
@@ -843,18 +1103,29 @@ def scene_mexico(cv, x, y, w, h):
 
 
 def scene_odesa(cv, x, y, w, h):
+    # Odesa in blackout: a starry night sky with a glowing moon, a dark
+    # skyline where almost every window is dark — only a few stay lit, one
+    # with a candle — a broken pylon throwing sparks, snow, a car with its
+    # headlights on, and the black sea with a ship at the bottom.
     cv.vgrad(x, y, w, h, [(0.0, (16, 24, 48)), (0.55, (34, 48, 80)), (1.0, (14, 18, 34))])
     for sx, sy in ((14, 10), (70, 18), (130, 8), (170, 20), (100, 26)):
         cv.set(x + sx, y + sy, (230, 230, 200))
+    cv.disc_glow(x + w - 30, y + 16, 14, (240, 228, 190))
     cv.circle(x + w - 30, y + 16, 8, (240, 228, 190))
+    cv.circle(x + w - 33, y + 14, 2, (210, 200, 160))
     base = y + h
-    # dark skyline, few lit windows
+    # dark skyline, mostly unlit: only a handful of warm windows survive
     for bx, bw, bh in ((0, 30, 40), (32, 24, 56), (58, 28, 34), (88, 22, 48), (112, 26, 30), (140, 24, 44), (164, 20, 36)):
         cv.rect(x + bx, base - bh, bw, bh, (22, 26, 42))
+        cv.rect(x + bx, base - bh, bw, 2, (60, 66, 88))
         for wy in range(base - bh + 5, base - 6, 10):
             if (bx + wy) % 3 == 0:
                 cv.rect(x + bx + 5, wy, 5, 6, (240, 200, 110))
-    # broken pylon with spark
+    # one window lit by a candle: brighter, with a glow
+    cv.disc_glow(x + 100, base - 40, 10, (250, 200, 110), steps=2)
+    cv.rect(x + 96, base - 42, 7, 8, (255, 220, 130))
+    cv.set(x + 99, base - 38, (255, 240, 180))
+    # broken pylon with spark and a sagging wire
     px, py = x + w // 2 - 6, base - 66
     cv.line(px, py, px - 12, py + 40, (120, 120, 130), 2)
     cv.line(px, py, px + 12, py + 40, (120, 120, 130), 2)
@@ -862,6 +1133,19 @@ def scene_odesa(cv, x, y, w, h):
     cv.line(px - 16, py + 30, px + 16, py + 30, (120, 120, 130), 2)
     cv.disc_glow(px + 14, py + 8, 10, (250, 200, 60))
     cv.circle(px + 14, py + 8, 3, (250, 220, 100))
+    cv.line(px + 12, py + 40, px + 34, py + 52, (90, 90, 100), 1)
+    # car with headlights on the street
+    cv.poly([(x + 14, base - 6), (x + 18, base - 12), (x + 32, base - 12), (x + 36, base - 6)], (150, 40, 35))
+    cv.circle(x + 19, base - 6, 2, (16, 16, 20))
+    cv.circle(x + 31, base - 6, 2, (16, 16, 20))
+    cv.disc_glow(x + 38, base - 9, 8, (250, 240, 180), steps=2)
+    cv.set(x + 38, base - 9, (255, 250, 210))
+    # the black sea with a ship silhouette at the very bottom
+    cv.rect(x, base - 4, w, 4, (10, 16, 30))
+    cv.poly([(x + w - 60, base - 4), (x + w - 56, base - 10), (x + w - 30, base - 10),
+             (x + w - 26, base - 4)], (16, 20, 34))
+    cv.rect(x + w - 48, base - 16, 10, 6, (16, 20, 34))
+    cv.set(x + w - 44, base - 13, (240, 200, 110))
     # snow dots
     for sx, sy in ((10, 40), (40, 55), (90, 44), (140, 60), (170, 38), (60, 66)):
         cv.set(x + sx, y + sy, (240, 240, 250))
