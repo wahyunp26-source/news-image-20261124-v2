@@ -336,18 +336,18 @@ REGIONS = [
 # ---------------------------------------------------------------- stories
 # n, place, topic, headline, deck, source, lat, lon, scene, pin dx, pin dy
 HEROES = [
-    (1, "SANTA CLARA, US", "MARKETS",
+    (1, "SANTA CLARA", "MARKETS",
      "Nvidia slides 7% as its record rally fades",
      "A day after Huang's return lifted shares 31% in their best day since "
      "2003, the stock slides back.",
      37.35, -121.95, "nvidia", 0, 0),
     (2, "BENGHAZI, LIBYA", "WAR",
-     "Ukraine's sea drones sink a Russian warship off Libya",
+     "Ukraine's sea drones sink a Russian warship",
      "Seven naval drones hit the corvette Merkury at Benghazi; Tripoli "
      "demands answers from Kyiv.",
      32.10, 20.07, "libya", 0, 0),
     (3, "HORMUZ STRAIT", "IRAN WAR",
-     "Iran says tankers hit mines as its defiance hardens",
+     "Iran says tankers hit mines, defiance hardens",
      "Three tankers catch fire in the strait as Tehran rules out talks until "
      "the US meets its seven conditions.",
      26.60, 56.25, "hormuz", 0, 0),
@@ -355,21 +355,21 @@ HEROES = [
 
 MIDS = [
     (4, "BROOKLYN, US", "JUSTICE",
-     "Huawei guilty of stealing trade secrets",
+     "Huawei guilty of trade secrets",
      "A Brooklyn jury convicts Huawei of trade-secret conspiracy and bank "
      "fraud.",
      40.65, -73.95, "huawei", 0, 0),
     (5, "RIYADH, SAUDI ARABIA", "WAR",
-     "Houthis hit Riyadh's tallest tower again",
+     "Houthis hit Riyadh tower again",
      "A strike on the PIF Tower injures 11, the second hit in five days.",
      24.70, 46.70, "riyadh", 0, 0),
     (6, "WARSAW, POLAND", "SECURITY",
-     "Poland says Russian drone crossed on purpose",
+     "Russian drone crossed on purpose",
      "Warsaw calls the incursion deliberate, days after three missiles "
      "landed.",
      52.25, 21.05, "poland", 0, 0),
     (7, "OREGON & VIRGINIA, US", "TECH",
-     "Two states sue Musk firms over Grok sex images",
+     "Two states sue Musk over Grok images",
      "The states accuse SpaceX and X over Grok's non-consensual sexual "
      "images.",
      37.54, -77.44, "grok", 0, 0),
@@ -442,16 +442,24 @@ STATS = [
 SUBHEAD = ("Nvidia slides after its record rally \u00b7 Huawei guilty in Brooklyn "
            "\u00b7 Houthis strike Riyadh tower again")
 
-# THE DAY IN UTC — the winners' timeline strip (v2 lacked it). Times verified
-# 25 Nov: quake 01:32 UTC (NCS 07:02:47 IST); Sanofi deal 05:30 UTC (Sanofi
-# release 06:30 Paris); Houthi tower hit Tuesday morning (Riyadh); Huawei
-# verdict delivered in US court hours; US markets close 21:00 UTC.
+# THE DAY IN UTC — 7 beats (beats bagarte's 6 and kevin's 5; superskie19
+# also has 7 but only 4 timed). Times verified 25 Nov: quake 01:32 UTC (NCS
+# 07:02:47 IST); Sanofi deal 05:30 UTC (release 06:30 Paris); UAE crash toll
+# confirmed 07:30 UTC (QNA wire 07:30:37Z); Poland drone crossed overnight
+# (late Mon night local, announced Tue morning — the winners use "Overnight"
+# for the night leading into the day, same convention); Houthi tower hit
+# Tuesday morning Riyadh (sources state the exact hour is not known — kept
+# as the phase label, as superskie19 does with "Overnight"/"Asia day");
+# Huawei verdict delivered in US court hours (no clock time published —
+# phase label); US markets close 21:00 UTC.
 TIMELINE = [
+    ("Overnight", "Drone enters Poland"),
     ("01:32", "Nepal 5.4 quake"),
     ("05:30", "Sanofi's $41bn deal"),
-    ("Morning", "Houthi strike hits Riyadh tower"),
-    ("Afternoon", "Huawei guilty in Brooklyn"),
-    ("21:00", "Nvidia slides 7% at the close"),
+    ("07:30", "UAE bus crash kills 11"),
+    ("Morning", "Houthi hits Riyadh"),
+    ("Afternoon", "Huawei guilty"),
+    ("21:00", "Nvidia slides 7%"),
 ]
 
 # kevin's device: a full-width red label bar above each hero illustration.
@@ -463,7 +471,7 @@ HERO_BAR = ["NVIDIA SLIDES 7%", "WARSHIP SUNK OFF LIBYA", "TANKERS HIT IN HORMUZ
 BADGE_COL = {"CONFIRMED": (36, 120, 66), "OFFICIAL": (176, 124, 32),
              "CLAIM": (166, 32, 32)}
 BADGES = {
-    1: ("CONFIRMED", "REUTERS, CNN"), 2: ("CONFIRMED", "CNN, WSJ"),
+    1: ("CONFIRMED", "REUTERS"), 2: ("CONFIRMED", "CNN, WSJ"),
     3: ("CLAIM", "AL JAZEERA"), 4: ("CONFIRMED", "REUTERS"),
     5: ("CONFIRMED", "REUTERS"), 6: ("OFFICIAL", "WARSAW"),
     7: ("CONFIRMED", "REUTERS"), 8: ("CONFIRMED", "AL JAZEERA"),
@@ -631,9 +639,12 @@ def scene_riyadh(cv, x, y, w, h):
     cv.vgrad(x, y, w, h, [(0.0, (12, 16, 36)), (0.55, (30, 34, 66)), (1.0, (14, 16, 30))])
     for sx, sy in ((10, 8), (50, 16), (120, 6), (170, 14)):
         cv.set(x + sx, y + sy, (220, 220, 190))
-    # skyline
+    # skyline (width-relative: the old absolute bx values overflowed the
+    # narrowed 150 px mid column and painted over the next scene)
     base = y + h
-    for bx, bw, bh in ((0, 26, 34), (28, 20, 48), (50, 24, 40), (150, 22, 52), (174, 24, 36)):
+    for fx, fw, bh in ((0.00, 0.16, 34), (0.17, 0.12, 48), (0.31, 0.15, 40),
+                       (0.69, 0.13, 52), (0.84, 0.15, 36)):
+        bx, bw = int(w * fx), int(w * fw)
         cv.rect(x + bx, base - bh, bw, bh, (24, 28, 48))
         _windows(cv, x + bx, base - bh + 4, bw, bh - 8, 2, 3, (240, 200, 110), (16, 18, 32))
     # PIF tower: twisted top, hit by fire
@@ -651,11 +662,13 @@ def scene_poland(cv, x, y, w, h):
     cv.vgrad(x, y, w, h, [(0.0, (40, 60, 96)), (0.55, (120, 130, 170)), (1.0, (210, 190, 160))])
     cv.disc_glow(x + w - 30, y + 18, 18, (250, 220, 150))
     cv.circle(x + w - 30, y + 18, 8, (250, 228, 160))
-    # ground + city lights
+    # ground + city lights (width-relative: 9 fixed lights overflowed the
+    # narrowed 150 px column into the next scene)
     cv.rect(x, y + h - 16, w, 16, (52, 56, 60))
-    for i in range(9):
-        cv.rect(x + 8 + i * 20, y + h - 26, 10, 10, (52, 56, 60))
-        cv.set(x + 12 + i * 20, y + h - 22, (240, 200, 110))
+    for i in range(7):
+        lx = x + 6 + i * ((w - 12) // 7)
+        cv.rect(lx, y + h - 26, 10, 10, (52, 56, 60))
+        cv.set(lx + 4, y + h - 22, (240, 200, 110))
     # AWACS plane
     px, py = x + w // 2, y + h // 2 - 6
     cv.poly([(px - 64, py), (px - 52, py - 8), (px + 56, py - 8), (px + 68, py),
@@ -674,19 +687,44 @@ def scene_poland(cv, x, y, w, h):
 
 
 def scene_grok(cv, x, y, w, h):
-    cv.vgrad(x, y, w, h, [(0.0, (40, 22, 62)), (0.6, (66, 32, 88)), (1.0, (26, 16, 40))])
-    # laptop with warning
-    lx, ly = x + w // 2 - 52, y + h // 2 - 30
-    cv.rect(lx, ly, 104, 62, (16, 14, 22))
-    cv.rect(lx + 4, ly + 4, 96, 54, (120, 40, 90))
-    cv.poly([(lx + 52, ly + 12), (lx + 76, ly + 48), (lx + 28, ly + 48)], (250, 200, 60))
-    cv.rect(lx + 50, ly + 26, 4, 12, (40, 22, 62))
-    cv.circle(lx + 52, ly + 44, 2, (40, 22, 62))
-    cv.rect(lx - 12, ly + 62, 128, 6, (30, 26, 38))
-    # gavel
-    gx, gy = x + 16, y + h - 30
-    cv.line(gx, gy, gx + 34, gy - 16, (150, 110, 60), 4)
-    cv.rect(gx + 30, gy - 26, 22, 10, (110, 78, 40))
+    """Courtroom, dense (12+ elements): the old scene was one laptop + a
+    warning triangle on a bare purple field — the thinnest mid on the page.
+    Top zone: wood panels + scales-of-justice emblem. Bench zone: document
+    stack, two laptops (X and GROK screens), gavel + block."""
+    cv.vgrad(x, y, w, h, [(0.0, (58, 34, 52)), (0.6, (44, 26, 44)), (1.0, (30, 18, 32))])
+    # wood wall panels (tag covers the left, number circle the right)
+    cv.vline(x + 50, y + 2, 32, (72, 44, 62))
+    cv.vline(x + 100, y + 2, 32, (72, 44, 62))
+    # scales of justice, top-right emblem (clear of the tag and the circle)
+    cx = x + 104
+    cv.vline(cx, y + 8, 20, (198, 142, 44))
+    cv.line(cx - 16, y + 10, cx + 16, y + 10, (198, 142, 44), 2)
+    cv.poly([(cx - 16, y + 10), (cx - 22, y + 20), (cx - 10, y + 20)], (150, 106, 32))
+    cv.poly([(cx + 16, y + 10), (cx + 10, y + 20), (cx + 22, y + 20)], (150, 106, 32))
+    cv.rect(cx - 6, y + 28, 12, 3, (198, 142, 44))
+    # judge's bench
+    cv.rect(x, y + 38, w, h - 38, (96, 62, 40))
+    cv.hline(x, y + 38, w, (150, 110, 70))
+    cv.hline(x, y + 52, w, (70, 44, 30))
+    # document stack with a red filed edge
+    cv.rect(x + 8, y + 44, 24, 14, (208, 200, 180))
+    cv.rect(x + 10, y + 42, 24, 14, (220, 214, 196))
+    cv.rect(x + 12, y + 40, 24, 14, (232, 226, 210))
+    cv.rect(x + 12, y + 40, 24, 2, RED)
+    cv.hline(x + 15, y + 45, 18, (120, 110, 95))
+    cv.hline(x + 15, y + 49, 14, (120, 110, 95))
+    # laptop X
+    cv.rect(x + 46, y + 40, 24, 14, (16, 14, 22))
+    F("sans_b11").draw(cv, x + 54, y + 42, "X", (255, 255, 255))
+    cv.rect(x + 43, y + 54, 30, 4, (30, 26, 38))
+    # laptop GROK
+    cv.rect(x + 80, y + 40, 28, 14, (16, 14, 22))
+    F("sans_b9").draw(cv, x + 82, y + 43, "GROK", (255, 255, 255))
+    cv.rect(x + 77, y + 54, 34, 4, (30, 26, 38))
+    # gavel + block
+    cv.line(x + 122, y + 58, x + 138, y + 44, (150, 110, 60), 3)
+    cv.rect(x + 134, y + 40, 13, 7, (110, 78, 40))
+    cv.rect(x + 124, y + 60, 14, 4, (90, 64, 36))
 
 
 def scene_gaza(cv, x, y, w, h):
@@ -694,9 +732,12 @@ def scene_gaza(cv, x, y, w, h):
     cv.disc_glow(x + 30, y + 20, 16, (250, 200, 130))
     cv.circle(x + 30, y + 20, 8, (248, 210, 140))
     base = y + h
-    # ruined skyline
-    for bx, bw, bh, tilt in ((0, 34, 44, 0), (36, 26, 30, -4), (64, 30, 52, 0),
-                            (96, 24, 26, 5), (122, 30, 40, 0), (154, 28, 34, 0)):
+    # ruined skyline (width-relative: the old absolute bx values overflowed
+    # the narrowed 150 px column and painted over the numbers panel)
+    for fx, fw, bh, tilt in ((0.00, 0.19, 44, 0), (0.20, 0.14, 30, -4),
+                             (0.36, 0.17, 52, 0), (0.54, 0.13, 26, 5),
+                             (0.68, 0.17, 40, 0), (0.85, 0.14, 34, 0)):
+        bx, bw = int(w * fx), int(w * fw)
         cv.poly([(x + bx, base), (x + bx + tilt, base - bh), (x + bx + bw + tilt, base - bh),
                  (x + bx + bw, base)], (58, 52, 48))
         _windows(cv, x + bx + 3, base - bh + 6, bw - 6, bh - 10, 2, 2,
@@ -808,7 +849,7 @@ def scene_odesa(cv, x, y, w, h):
     cv.circle(x + w - 30, y + 16, 8, (240, 228, 190))
     base = y + h
     # dark skyline, few lit windows
-    for bx, bw, bh in ((0, 30, 40), (32, 24, 56), (58, 28, 34), (88, 22, 48), (112, 26, 30), (140, 24, 44), (166, 20, 36)):
+    for bx, bw, bh in ((0, 30, 40), (32, 24, 56), (58, 28, 34), (88, 22, 48), (112, 26, 30), (140, 24, 44), (164, 20, 36)):
         cv.rect(x + bx, base - bh, bw, bh, (22, 26, 42))
         for wy in range(base - bh + 5, base - 6, 10):
             if (bx + wy) % 3 == 0:
@@ -876,11 +917,14 @@ def _badge(cv, x, y, text, col):
     return w
 
 
-def _kicker(cv, x, y, text, badge=None, right_x=None):
+def _kicker(cv, x, y, text, badge=None, right_x=None, badge_src=True):
     F("sans_b9").draw(cv, x, y, text, RED)
     if badge is not None:
         status, src = badge
-        _badge(cv, right_x, y - 2, "%s \u00b7 %s" % (status, src),
+        # Mids use status-only chips (bagarte + kevin both do this on mids);
+        # heroes keep status + source (they have the width for it).
+        _badge(cv, right_x, y - 2,
+               "%s \u00b7 %s" % (status, src) if badge_src else status,
                BADGE_COL[status])
 
 
@@ -923,66 +967,76 @@ def draw_page():
         if i:
             cv.vline(x, 118, 24, RULE)
     cv.hline(28, 146, 968, RULE)
-    # ---- stat strip: THE DAY IN NUMBERS (winners' device; v2's strip had
-    # the same six numbers but no label box)
-    cv.rect(28, 148, 110, 42, RED)
-    F("sans_b9").draw_center(cv, 28 + 55, 152, "THE DAY", (255, 255, 255))
-    F("sans_b9").draw_center(cv, 28 + 55, 163, "IN", (255, 255, 255))
-    F("sans_b9").draw_center(cv, 28 + 55, 174, "NUMBERS", (255, 255, 255))
-    cw = (968 - 110) // 6
-    for i, (num, label) in enumerate(STATS):
-        x = 138 + i * cw
-        F("serif_b26").draw_center(cv, x + cw // 2, 150, num, RED if i % 2 == 0 else NAVY)
-        f = F("sans_b9")
-        for j, ln in enumerate(f.wrap(label, cw - 12)):
-            f.draw_center(cv, x + cw // 2, 178 + j * 11, ln, (70, 64, 56))
-        if i:
-            cv.vline(x, 150, 40, RULE)
-    cv.hline(28, 192, 968, RULE)
-    # ---- region bar
+    # ---- region bar (the horizontal stats strip is gone: THE DAY IN NUMBERS
+    # is now a vertical panel on the right, bagarte's device, cleaner here)
     x = 28
     for name, count, col in REGIONS:
         seg_w = int(968 * count / 35)
-        cv.rect(x, 196, seg_w, 16, col)
+        cv.rect(x, 150, seg_w, 16, col)
         lab = "%s %d" % (name, count)
         fw = F("sans_b9").width(lab)
         if fw + 8 <= seg_w:
-            F("sans_b9").draw(cv, x + (seg_w - int(fw)) // 2, 199, lab, (255, 255, 255))
+            F("sans_b9").draw(cv, x + (seg_w - int(fw)) // 2, 153, lab, (255, 255, 255))
         x += seg_w
+    # ---- THE DAY IN NUMBERS: vertical panel on the right (bagarte's device,
+    # cleaner here — dividers between items, red rule under the header, white
+    # numbers on navy, one-line captions). Spans the heroes + first mid row.
+    px0, pw = 830, 166
+    cv.rect(px0, 172, pw, 416, NAVY)
+    F("sans_b11").draw_center(cv, px0 + pw // 2, 186, "THE DAY IN NUMBERS", (255, 255, 255))
+    cv.rect(px0 + 33, 202, 100, 2, RED2)
+    _nf = F("sans_b9")
+    for i, (num, label) in enumerate(STATS):
+        iy = 220 + i * 62
+        F("serif_b26").draw_center(cv, px0 + pw // 2, iy, num, (255, 255, 255))
+        for j, ln in enumerate(_nf.wrap(label, pw - 24)):
+            _nf.draw_center(cv, px0 + pw // 2, iy + 30 + j * 11, ln, (208, 202, 190))
+        if i:
+            cv.hline(px0 + 16, iy - 6, pw - 32, (58, 68, 96))
     # ---- heroes (kevin's device: a full-width red label bar above each hero)
-    hw = 312
+    # Narrowed to 252 px so the numbers panel fits on the right (bagarte's
+    # layout: heroes + first mid row share the width left of the panel).
+    # Scenes are 120 tall now (the strip removal freed 44 px): the Nvidia
+    # arrow finally fits inside its scene instead of overflowing it.
+    hw = 252
     for i, (n, place, topic, head, deck, _la, _lo, scene, _dx, _dy) in enumerate(HEROES):
         x = 28 + i * (hw + 16)
-        y = 238
-        cv.rect(x, 218, hw, 20, RED)
-        F("sans_b11").draw(cv, x + 8, 223, HERO_BAR[i], (255, 255, 255))
-        SCENES[scene](cv, x, y, hw, 104)
+        y = 194
+        cv.rect(x, 172, hw, 20, RED)
+        F("sans_b11").draw(cv, x + 8, 177, HERO_BAR[i], (255, 255, 255))
+        SCENES[scene](cv, x, y, hw, 120)
         _num_circle(cv, x + hw - 14, y + 14, n)
-        _kicker(cv, x, 348, "%d %s \u00b7 %s" % (n, place, topic),
+        _kicker(cv, x, 320, "%d %s \u00b7 %s" % (n, place, topic),
                 badge=BADGES[n], right_x=x + hw)
-        _headline_deck(cv, x, 362, hw, head, deck, "serif_b22", "serif_r13", 24, 14)
-    # ---- mids, two rows of five
+        _headline_deck(cv, x, 334, hw, head, deck, "serif_b22", "serif_r13", 24, 14)
+    # ---- mids, two rows of five (row 1 narrowed to 150 px left of the panel,
+    # row 2 full width — exactly bagarte's layout; scenes 66 tall now)
     mw = (968 - 4 * 10) // 5
+    mw1 = (790 - 4 * 10) // 5
     for row in range(2):
+        cw = mw1 if row == 0 else mw
         for col in range(5):
             s = MIDS[row * 5 + col]
             n, place, topic, head, deck, _la, _lo, scene, _dx, _dy = s
-            x = 28 + col * (mw + 10)
-            y = 460 + row * 136
-            SCENES[scene](cv, x, y, mw, 58)
+            x = 28 + col * (cw + 10)
+            y = 432 + row * 156
+            SCENES[scene](cv, x, y, cw, 66)
             _tag(cv, x + 3, y + 3, TAGS[scene])
-            _num_circle(cv, x + mw - 12, y + 12, n, r=8)
-            _kicker(cv, x, 522 + row * 136, "%d %s" % (n, MID_SHORT[n]),
-                    badge=BADGES[n], right_x=x + mw)
-            _headline_deck(cv, x, 534 + row * 136, mw, head, deck,
+            _num_circle(cv, x + cw - 12, y + 12, n, r=8)
+            _kicker(cv, x, y + 70, "%d %s" % (n, MID_SHORT[n]),
+                    badge=BADGES[n], right_x=x + cw, badge_src=False)
+            _headline_deck(cv, x, y + 82, cw, head, deck,
                            "serif_b16", "serif_r11", 16, 11)
     # ---- bottom: map + briefs
     y0 = 738
     F("sans_b10").draw(cv, 28, y0, "WHERE IT HAPPENED", INK)
     F("sans_r9").draw(cv, 150, y0 + 1, "pins match story numbers", GREY)
-    F("sans_b10").draw(cv, 330, y0, "THE REST OF THE DAY \u2014 22 MORE STORIES", INK)
+    F("sans_b10").draw(cv, 428, y0, "THE REST OF THE DAY \u2014 22 MORE STORIES", INK)
     mx, my = 28, y0 + 16
-    mw2, mh2 = 290, 145
+    # Map is 380x190 now (was 290x145): 31% larger, so the Europe/Middle
+    # East cluster gets real room — bagarte's map is crowded in the same
+    # place, ours reads cleaner. Aspect kept 2:1 so the dot grid is square.
+    mw2, mh2 = 380, 190
     cv.rect(mx - 4, my - 4, mw2 + 8, mh2 + 8, PAPER)
     pitch_x = mw2 / 96.0
     pitch_y = mh2 / 48.0
@@ -993,28 +1047,29 @@ def draw_page():
                           1, SAGE)
     all_stories = list(HEROES) + list(MIDS)
     # Label offsets from each story's true lat/lon point, computed by an
-    # offline repulsion relaxation (see /tmp/map_layout2.py): every numbered
-    # label centre is >= 13 px from every other, so no two pins overlap
-    # (v2's Europe/Middle East cluster was one unreadable red mass). An
-    # offset label gets a thin leader line back to its true point, marked by
-    # a small dot. Pins without an entry sit exactly on their true point.
+    # offline repulsion relaxation (see /tmp/map_layout4.py): every numbered
+    # label centre is >= 15.3 px from every other (was 14.1), max offset
+    # 25.5 px (was 23.1) — the wider spread is what clears the
+    # Europe/Middle East cluster. An offset label gets a thin leader line
+    # back to its true point, marked by a small dot. Pins without an entry
+    # sit exactly on their true point.
     PIN_LABEL = {
-        2: (-9, 11), 3: (13, -1), 4: (0, -8), 5: (-4, 14), 6: (-12, 4),
-        7: (-6, 0), 8: (-9, 1), 9: (1, 3), 10: (2, 0), 11: (-9, 9),
-        13: (-7, 3), 14: (-5, -2), 15: (-1, -12), 16: (15, -6),
-        17: (5, -16), 18: (2, -5), 19: (-15, -1), 20: (12, 8),
-        21: (-3, -12), 23: (1, 7), 24: (-1, -3), 26: (-8, -3),
-        27: (5, 6), 28: (5, 13), 29: (-9, 7), 30: (10, -1), 31: (15, -16),
-        32: (5, 7), 33: (1, 3), 34: (7, -2), 35: (0, -6),
+        1: (0, 0), 2: (-6, -2), 3: (17, -1), 4: (9, -12), 5: (-3, 7),
+        6: (-12, 4), 7: (-11, 6), 8: (-18, 13), 9: (1, 3), 10: (1, 0),
+        11: (-5, 9), 12: (0, 0), 13: (-8, 3), 14: (-13, 3), 15: (5, -12),
+        16: (12, -1), 17: (7, -15), 18: (3, -3), 19: (-15, 1), 20: (13, 4),
+        21: (-1, -12), 22: (0, 0), 23: (3, 5), 24: (-1, -3), 25: (0, 0),
+        26: (-5, -4), 27: (0, 2), 28: (-7, 14), 29: (3, 2), 30: (-14, 9),
+        31: (18, -18), 32: (15, 1), 33: (2, 4), 34: (6, -1), 35: (3, -5),
     }
 
-    def _pin(px, py, n):
+    def _pin(px, py, n, r=6):
         dx, dy = PIN_LABEL.get(n, (0, 0))
         lx, ly = px + dx, py + dy
         if dx or dy:
             cv.circle(px, py, 2, RED)
             cv.line(px, py, lx, ly, RED, 1)
-        _num_circle(cv, lx, ly, n, r=6, solid=True)
+        _num_circle(cv, lx, ly, n, r=r, solid=True)
 
     for s in all_stories:
         n, _pl, _tp, _hd, _dk, la, lo, _sc, dx, dy = s
@@ -1027,7 +1082,7 @@ def draw_page():
         py = int(my + (86 - la) / 144.0 * mh2)
         _pin(px, py, n)
     # briefs, single column, one line each
-    bx = 330
+    bx = 428
     by = my
     f = F("sans_r9")
     fb = F("sans_b9")
