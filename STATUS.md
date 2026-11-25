@@ -115,6 +115,14 @@ v1's R2 collapse is most plausibly factual self-contradiction, fixed here:
   is a dense red mass; (3) hero 3 (Hormuz) sun glow + flame merge into one
   orange blob; (4) mid 12 (Mexico) police car is a tiny blob, scene mostly
   bare courthouse; (5) no in-scene captions.
+- REVISED VERDICT after the 25 Nov ~09:30 fix (commit 509b57e): gaps
+  (2), (3), (4), (5) above are now CLOSED — pins are individually
+  readable (min 13.6 px apart, verified), sun and flame are separate,
+  the police car reads at 300 px, and 4 in-scene captions were added.
+  Remaining gap is only (1): winners' scenes are still denser with small
+  storytelling elements than ours. Verdict moves to TOP 50 CREDIBLE,
+  TOP 15 MORE PLAUSIBLE THAN BEFORE — top 1–7 still unlikely, do not
+  claim it. The R2-collapse mechanism itself remains unobservable.
 - What v2 does NOT fix: it cannot fix the R2-collapse mechanism itself
   (unknown — the judge's Swiss pairings in R2 are unobservable); it only
   removes the visible defects that most plausibly caused it.
