@@ -426,3 +426,20 @@ Re-verified with 4x crops of all four spots: bars and decks are clean.
   proves design alone does not predict rank. No rank prediction is
   made. NOT submitted (Force_Last; v1 counts, quota 1/3 used, 2 left).
   R3 judged 25 Nov 19:00, final R4 26 Nov 07:00.
+
+## Style round (25 Nov ~11:30) — Wahyu: "kurang bagus" + bagarte's colours/ornaments/flags/font, "melampaui"
+- Wahyu's words: look at bagarte — colour choices good, ornaments good, even the bottom news list is better because it HAS FLAGS, font pleasant to read, colours varied; the top-1 winners are NOT like ours; he wants us to SURPASS them.
+- **(1) Varied colours:** hero bars now per-hero palette — Nvidia trading green (46,120,80), Libya night navy (31,42,68), Hormuz sunset orange (214,110,44). Mid tags, number circles, kickers, map pins/dots and brief chips/places are all region-coloured (Europe blue / Middle East red / Americas green / Asia-Pacific gold / Africa brown / World purple). Badges were already status-coloured.
+- **(2) Ornaments:** gold diamonds flanking the masthead subhead, gold diamonds flanking "THE DAY IN NUMBERS", gold second rule under the masthead (was ink), gold underline under the briefs header.
+- **(3) Flags in the bottom list:** every brief 14–35 now carries a 14×10 geometric flag before its place (Libya 1951, NL, Iran, Ukraine, Yemen, Estonia, Colombia, UAE, Singapore, China, NATO, USA, Ethiopia, African Union, Iraq, Palestine, Turkey, Poland). Verified at 2x crop: all read as flags, no collision with chips/text.
+- **(4) Font:** briefs text sans_r9→sans_r10, place sans_b9→sans_b10; mid deck leading 11→12, hero deck leading 14→15. Brief display texts trimmed to fit the wider type (facts + sources preserved in every line; worst col1 702/706, col2 991/996 — zero overflows, measured by script).
+- **(5) Surpass:** structure edges kept (7-beat timeline, vertical numbers panel, DATE CHECK) + the new colour/ornament/flag work makes the page richer than bagarte's at first glance.
+- **Soft style (same round):** haze washes + glow pools + soft shadows added to all 13 scenes (nvidia high haze + desk light; libya moon-road glow + horizon haze; hormuz sunset haze + water glow; huawei morning haze + column shadows + scales glow; riyadh dusk haze + skyline wash; poland sun haze + plane shadow; grok screen glows + wall haze; gaza dust haze + window glow; factory sky haze + fire wash; quake range haze + village shadow; sanofi capsule glow + shadows; mexico afternoon haze + door glow; odesa moon haze + window glows + sea shimmer). All additions kept strictly inside their scene rects.
+- Grader-style test PASSED (read-only copy, python3 -P -s, different CWD, MAKEFUN_OUTPUT_DIR set, exit 0, two runs byte-identical). entry.png 238,567 B, sha256 407341041f5c011e5a9abe1249da870a219f3135c1658f84e422194df370b433.
+- Viewed full-res + 300 px + 2x crops (briefs, heroes): flags read as flags; hero bars vivid and distinct; page reads as a colourful newspaper at 300 px; no overlap/clipping.
+- entry.png regenerated from the new main.py and committed IN THE SAME commit; committed sha256 verified to match the fresh render before pushing.
+
+### Honest verdict vs the winners (style round)
+- This is the first version that matches bagarte on his own devices (flags, varied colour, ornaments, readable type) while keeping our structural edges. At 300 px the page now feels colourful and rich, not monotone.
+- Weakest remaining: hero 1 Nvidia still reads slightly diagram-like (grid chip + candles) next to the two sea heroes; Libya's horizon-haze circle can read as a second grey moon at a glance; mid 4 Huawei is the palest tile. The illustration style is still vector-crisp rather than painterly — the winners' softness is approached, not fully reached.
+- No rank prediction. NOT submitted (Force_Last; v1 counts, quota 1/3 used, 2 left). R3 judged 25 Nov 19:00, final R4 26 Nov 07:00.

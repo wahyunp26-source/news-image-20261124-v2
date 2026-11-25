@@ -406,27 +406,27 @@ MIDS = [
 
 # n, place, brief (one line), lat, lon
 BRIEFS = [
-    (14, "TRIPOLI, LIBYA", "Tripoli demands answers from Kyiv. (Reuters)", 32.90, 13.20),
-    (15, "THE HAGUE", "Fourteen nations back the ICJ ruling. (Reuters)", 52.08, 4.30),
-    (16, "TEHRAN, IRAN", "Ghalibaf: no US talks until conditions met. (Reuters)", 35.70, 51.40),
+    (14, "TRIPOLI, LIBYA", "Tripoli demands Kyiv answers. (Reuters)", 32.90, 13.20),
+    (15, "THE HAGUE", "14 nations back ICJ ruling. (Reuters)", 52.08, 4.30),
+    (16, "TEHRAN, IRAN", "Ghalibaf: no talks till terms met. (Reuters)", 35.70, 51.40),
     (17, "KYIV, UKRAINE", "Ukraine hits Russian oil plants. (Reuters)", 50.45, 30.50),
     (18, "ZAPORIZHZHIA, UKRAINE", "Russian strike kills two. (Reuters)", 47.85, 35.10),
     (19, "SANAA, YEMEN", "Strikes kill about 26 in Sanaa. (AP)", 15.35, 44.20),
-    (20, "ADEN, YEMEN", "Houthi fighters near Aden, 60 km off. (Reuters)", 12.80, 45.00),
-    (21, "TALLINN, ESTONIA", "Russia warns Estonia over border closure. (Reuters)", 59.40, 24.75),
-    (22, "VILLAVICENCIO, COLOMBIA", "Car bomb hits governor's office. (Reuters)", 4.15, -73.60),
-    (23, "RAS AL KHAIMAH, UAE", "Bus-truck crash kills 11 in UAE. (AP)", 25.80, 55.95),
-    (24, "SINGAPORE", "US to blacklist AI firm Megaspeed. (Reuters)", 1.35, 103.80),
-    (25, "BEIJING, CHINA", "China sentences ex-official to death. (Reuters)", 39.90, 116.40),
+    (20, "ADEN, YEMEN", "Houthis near Aden, 60 km off. (Reuters)", 12.80, 45.00),
+    (21, "TALLINN, ESTONIA", "Russia warns Estonia on border. (Reuters)", 59.40, 24.75),
+    (22, "VILLAVICENCIO, COLOMBIA", "Car bomb hits governor. (Reuters)", 4.15, -73.60),
+    (23, "RAS AL KHAIMAH, UAE", "Bus-truck crash kills 11. (AP)", 25.80, 55.95),
+    (24, "SINGAPORE", "US to blacklist Megaspeed. (Reuters)", 1.35, 103.80),
+    (25, "BEIJING, CHINA", "China sentences official to death. (Reuters)", 39.90, 116.40),
     (26, "SPACE", "NATO vows space defence. (Reuters)", 51.50, -0.12),
-    (27, "NEW YORK, US", "Guterres urges global AI safeguards. (UN News)", 40.75, -74.00),
-    (28, "ADDIS ABABA, ETHIOPIA", "Amnesty seeks Tigray war-crimes probe. (AP)", 9.00, 38.75),
-    (29, "AFRICA", "African Union launches health roadmap. (AP)", 9.05, 38.85),
-    (30, "BAGHDAD, IRAQ", "Iraqi forces seize drone platforms. (Reuters)", 33.30, 44.40),
-    (31, "JERUSALEM", "Palestinian detainees allege threats. (Reuters)", 31.77, 35.20),
+    (27, "NEW YORK, US", "Guterres: AI safeguards. (UN News)", 40.75, -74.00),
+    (28, "ADDIS ABABA, ETHIOPIA", "Amnesty seeks Tigray probe. (AP)", 9.00, 38.75),
+    (29, "AFRICA", "African Union launches roadmap. (AP)", 9.05, 38.85),
+    (30, "BAGHDAD, IRAQ", "Iraq seizes drone platforms. (Reuters)", 33.30, 44.40),
+    (31, "JERUSALEM", "Detainees allege threats. (Reuters)", 31.77, 35.20),
     (32, "GAZA", "Israeli strikes kill seven in Gaza. (Al Jazeera)", 31.50, 34.45),
-    (33, "FLORIDA, US", "Trump to meet NATO chief in Florida. (Reuters)", 26.70, -80.05),
-    (34, "ANTALYA, TURKEY", "COP31 post-mortems spread blame. (Reuters)", 36.90, 30.70),
+    (33, "FLORIDA, US", "Trump to meet NATO chief. (Reuters)", 26.70, -80.05),
+    (34, "ANTALYA, TURKEY", "COP31 post-mortems blame. (Reuters)", 36.90, 30.70),
     (35, "WARSAW, POLAND", "NATO sends AWACS to Poland. (Reuters)", 52.10, 20.90),
 ]
 
@@ -485,6 +485,32 @@ MID_SHORT = {4: "BROOKLYN", 5: "RIYADH", 6: "WARSAW", 7: "US \u00b7 TECH",
              8: "GAZA", 9: "JAKARTA", 10: "NEPAL", 11: "PARIS",
              12: "MEXICO", 13: "ODESA"}
 
+# Region colours (from REGIONS) — bagarte varies every accent by region;
+# our page was uniform red everywhere. Story -> region, story -> colour.
+REGION_COL = {"EUROPE": (38, 74, 138), "MIDDLE EAST": (166, 32, 32),
+              "AMERICAS": (74, 110, 74), "ASIA-PACIFIC": (176, 124, 32),
+              "AFRICA": (120, 84, 48), "WORLD": (96, 74, 140)}
+STORY_REGION = {1: "AMERICAS", 2: "MIDDLE EAST", 3: "MIDDLE EAST",
+                4: "AMERICAS", 5: "MIDDLE EAST", 6: "EUROPE", 7: "AMERICAS",
+                8: "MIDDLE EAST", 9: "ASIA-PACIFIC", 10: "ASIA-PACIFIC",
+                11: "EUROPE", 12: "AMERICAS", 13: "EUROPE"}
+BRIEF_REGION = {14: "MIDDLE EAST", 15: "EUROPE", 16: "MIDDLE EAST",
+                17: "EUROPE", 18: "EUROPE", 19: "MIDDLE EAST",
+                20: "MIDDLE EAST", 21: "EUROPE", 22: "AMERICAS",
+                23: "MIDDLE EAST", 24: "ASIA-PACIFIC", 25: "ASIA-PACIFIC",
+                26: "WORLD", 27: "AMERICAS", 28: "AFRICA", 29: "AFRICA",
+                30: "MIDDLE EAST", 31: "MIDDLE EAST", 32: "MIDDLE EAST",
+                33: "AMERICAS", 34: "EUROPE", 35: "EUROPE"}
+# Hero bars coloured by each hero's own palette (trading green / night navy /
+# sunset orange) — three distinct vivid bars at first glance.
+HERO_BAR_COL = [(46, 120, 80), (31, 42, 68), (214, 110, 44)]
+# Brief -> flag code (ISO-ish, geometric mini flags drawn by _flag).
+BRIEF_FLAG = {14: "LY", 15: "NL", 16: "IR", 17: "UA", 18: "UA",
+              19: "YE", 20: "YE", 21: "EE", 22: "CO", 23: "AE",
+              24: "SG", 25: "CN", 26: "NATO", 27: "US", 28: "ET",
+              29: "AU", 30: "IQ", 31: "PS", 32: "PS", 33: "US",
+              34: "TR", 35: "PL"}
+
 
 # ------------------------------------------------------------------ scenes
 def _windows(cv, x, y, w, h, cols, rows, lit, col):
@@ -530,6 +556,9 @@ def scene_nvidia(cv, x, y, w, h):
     cv.vgrad(x, y, w, h, [(0.0, (18, 28, 54)), (0.5, (26, 42, 76)), (1.0, (20, 30, 56))])
     for sx, sy in ((14, 6), (70, 12), (140, 5), (200, 10), (230, 16)):
         cv.set(x + sx, y + sy, (180, 190, 220))
+    # high haze: soft pale washes so the night sky is not a flat block
+    for hx, hy, hr in ((x + 40, y + 16, 10), (x + 180, y + 14, 12), (x + 120, y + 20, 8)):
+        cv.circle(hx, hy, hr, (120, 150, 200), alpha=36)
     # ticker screens along the top: tiny candlesticks inside each screen
     for i in range(4):
         sx = x + 8 + i * (w // 4)
@@ -587,6 +616,8 @@ def scene_nvidia(cv, x, y, w, h):
         dx = x + 10 + i * 40
         cv.rect(dx, y + h - 26, 22, 12, (16, 22, 40))
         cv.rect(dx + 3, y + h - 24, 16, 6, (90, 170, 120) if i % 2 else (200, 90, 70))
+    # warm light pool over the desks
+    cv.disc_glow(x + 130, y + h - 20, 16, (200, 120, 80), steps=2)
 
 
 def scene_libya(cv, x, y, w, h):
@@ -607,6 +638,10 @@ def scene_libya(cv, x, y, w, h):
         cv.hline(x + 30 + i * 6, y + h * 2 // 3 + 5 + i * 8, 46 - i * 8, (200, 200, 170))
     for i in range(5):
         cv.hline(x + 10 + i * 52, y + h * 2 // 3 + 8 + i * 7, 34, (60, 100, 140))
+    # moonlight pool on the water + horizon haze
+    cv.disc_glow(x + 52, y + h * 2 // 3 + 14, 18, (200, 200, 170), steps=2)
+    cv.circle(x + 200, y + 30, 14, (120, 140, 180), alpha=40)
+    cv.disc_glow(x + 150, y + 10, 8, (230, 230, 200), steps=2)
     # corvette: hull with a lighter top edge, bow, bridge with lit windows,
     # mast with radar bar, funnel, and a wake of foam at the bow
     hx, hy = x + w // 2 - 10, y + h * 2 // 3 - 4
@@ -659,6 +694,10 @@ def scene_hormuz(cv, x, y, w, h):
     # blob in v2). Sun centre (x+78, y+20), flame centre (x+156, y+10..40).
     cv.disc_glow(x + w // 2 - 78, y + 20, 26, (245, 185, 100), steps=3)
     cv.circle(x + w // 2 - 78, y + 20, 12, (245, 195, 115))
+    # sunset haze + water glow under the sun
+    cv.circle(x + 40, y + 40, 16, (240, 160, 90), alpha=40)
+    cv.circle(x + 210, y + 44, 14, (240, 160, 90), alpha=40)
+    cv.disc_glow(x + w // 2 - 78, y + h * 2 // 3 + 16, 20, (240, 170, 90), steps=2)
     # gulls
     for gx, gy in ((x + 30, y + 34), (x + 44, y + 30), (x + w - 40, y + 36)):
         cv.line(gx - 4, gy, gx, gy - 3, (40, 30, 50), 1)
@@ -722,6 +761,9 @@ def scene_huawei(cv, x, y, w, h):
         cv.vline(tx + 3, y + h - 26, 12, (90, 70, 50))
         cv.circle(tx + 3, y + h - 32, 7, (96, 120, 80))
         cv.circle(tx - 2, y + h - 28, 5, (110, 134, 90))
+    # morning haze + warm light on the steps
+    cv.circle(x + 30, y + 12, 10, (250, 235, 190), alpha=50)
+    cv.circle(x + 150, y + 10, 8, (250, 235, 190), alpha=50)
     # courthouse: pediment with shading, entablature, columns, steps
     cv.rect(x + 18, y + 18, w - 36, 10, (120, 108, 88))
     cv.poly([(x + 10, y + 28), (x + w // 2, y + 2), (x + w - 10, y + 28)], (146, 132, 108))
@@ -746,6 +788,11 @@ def scene_huawei(cv, x, y, w, h):
     cv.line(sx - 20, sy - 22, sx + 20, sy - 22, (60, 52, 40), 2)
     cv.poly([(sx - 26, sy - 12), (sx - 14, sy - 12), (sx - 20, sy - 2)], (90, 78, 60))
     cv.poly([(sx + 14, sy - 12), (sx + 26, sy - 12), (sx + 20, sy - 2)], (90, 78, 60))
+    # soft shadows at the column bases + glow on the scales
+    for i in range(4):
+        cx = x + 30 + i * ((w - 60) // 3)
+        cv.circle(cx + 5, y + h - 16, 6, (90, 80, 60), alpha=40)
+    cv.disc_glow(sx, sy - 12, 10, (250, 220, 150), steps=2)
 
 
 def scene_riyadh(cv, x, y, w, h):
@@ -767,6 +814,9 @@ def scene_riyadh(cv, x, y, w, h):
         if fx == 0.69:
             cv.rect(x + bx + bw // 2 - 1, base - bh - 8, 2, 8, (24, 28, 48))
             cv.set(x + bx + bw // 2, base - bh - 9, (230, 60, 50))
+    # dusk haze + warm wash over the skyline
+    cv.circle(x + 40, y + 12, 9, (200, 140, 160), alpha=40)
+    cv.disc_glow(x + w // 2, base - 30, 16, (240, 200, 110), steps=2)
     # two extra lit windows on the outer towers
     cv.rect(x + int(w * 0.17) + 6, base - 30, 4, 5, (240, 200, 110))
     cv.rect(x + int(w * 0.69) + 8, base - 36, 4, 5, (240, 200, 110))
@@ -802,6 +852,9 @@ def scene_poland(cv, x, y, w, h):
     # soft clouds
     for cx, cy, cr in ((x + 24, y + 10, 10), (x + 40, y + 7, 8), (x + 110, y + 14, 9)):
         cv.circle(cx, cy, cr, (235, 235, 230), alpha=120)
+    cv.circle(x + 70, y + 10, 7, (245, 245, 240), alpha=100)
+    # bigger sun haze
+    cv.circle(x + w - 30, y + 20, 16, (250, 220, 150), alpha=30)
     # farmland: two field tones, a road, a tree line, two farmhouses
     cv.rect(x, y + h - 26, w, 26, (96, 120, 74))
     cv.rect(x, y + h - 26, w // 2, 26, (116, 138, 88))
@@ -841,6 +894,8 @@ def scene_poland(cv, x, y, w, h):
     for gx, gy in ((x + 30, y + 12), (x + 46, y + 9)):
         cv.line(gx - 4, gy, gx, gy - 3, (40, 30, 50), 1)
         cv.line(gx, gy - 3, gx + 4, gy, (40, 30, 50), 1)
+    # soft shadow under the plane
+    cv.circle(px, py + 24, 12, (60, 80, 100), alpha=40)
     # in-scene label under the plane, on a white pill so it reads
     cv.rrect(px - 38, py + 20, 76, 12, 2, (255, 255, 255))
     F("sans_b9").draw(cv, px - 30, py + 22, "NATO AWACS", INK)
@@ -859,6 +914,10 @@ def scene_grok(cv, x, y, w, h):
     cv.poly([(x + w // 2 - 10, y + 10), (x + w // 2 + 10, y + 10), (x + w // 2 + 6, y + 18), (x + w // 2 - 6, y + 18)], (150, 110, 60))
     cv.disc_glow(x + w // 2, y + 20, 20, (250, 200, 110), steps=4)
     cv.circle(x + w // 2, y + 20, 4, (255, 230, 160))
+    # screen glows + warm wall haze
+    cv.disc_glow(x + 58, y + 47, 10, (180, 210, 240), steps=2)
+    cv.disc_glow(x + 94, y + 47, 10, (180, 210, 240), steps=2)
+    cv.circle(x + 20, y + 12, 10, (200, 150, 120), alpha=36)
     # wood wall panels with grain
     for px in (x + 26, x + 50, x + 100, x + 124):
         cv.vline(px, y + 2, 32, (120, 84, 72))
@@ -930,6 +989,10 @@ def scene_gaza(cv, x, y, w, h):
     # second dust cloud, mid-sky left
     for dcx, dcy, dcr in ((x + 40, y + 40, 10), (x + 54, y + 36, 8), (x + 28, y + 44, 7)):
         cv.circle(dcx, dcy, dcr, (235, 220, 200), alpha=90)
+    # wider dust haze + warm glow on a lit window cluster
+    cv.circle(x + 60, y + 20, 18, (235, 220, 200), alpha=50)
+    cv.circle(x + 140, y + 26, 14, (235, 220, 200), alpha=50)
+    cv.disc_glow(x + 40, base - 24, 10, (250, 200, 110), steps=2)
     cv.disc_glow(x + w // 2 + 10, base - 14, 14, (250, 140, 50), steps=3)
     _flame(cv, x + w // 2 + 10, base - 8, 14, 16)
     # a standing minaret at right, one lit window in it
@@ -958,6 +1021,10 @@ def scene_factory(cv, x, y, w, h):
         pr = 7 + i * 2
         cv.circle(x + w // 2 + i * 7, max(base - 58 - i * 5, y + pr),
                   pr, (110, 108, 104), alpha=130)
+    # sky haze + wider fire wash on the factory wall
+    cv.circle(x + 30, y + 12, 8, (160, 160, 150), alpha=50)
+    cv.disc_glow(x + w // 3, base - 40, 22, (250, 140, 40), steps=2)
+    cv.disc_glow(x + 2 * w // 3, base - 40, 22, (250, 140, 40), steps=2)
     # sawtooth factory with brick lines and fire-lit windows
     cv.rect(x + 14, base - 44, w - 28, 44, (96, 88, 78))
     for i in range(3):
@@ -1029,6 +1096,10 @@ def scene_quake(cv, x, y, w, h):
     # dust clouds at the tilted house
     for i in range(6):
         cv.circle(x + 20 + i * 8, y + h - 12 - (i % 2) * 4, 4, (170, 160, 140), alpha=140)
+    # atmospheric haze between the ranges + soft village shadow
+    cv.circle(x + 90, y + 30, 20, (220, 225, 235), alpha=40)
+    cv.circle(x + 30, y + 36, 14, (220, 225, 235), alpha=40)
+    cv.circle(x + w // 2, y + 54, 10, (90, 90, 80), alpha=40)
     # cracked ground
     cv.line(x + 10, y + h - 6, x + 30, y + h - 10, (90, 80, 66), 1)
     cv.line(x + 30, y + h - 10, x + 48, y + h - 6, (90, 80, 66), 1)
@@ -1048,6 +1119,7 @@ def scene_sanofi(cv, x, y, w, h):
     cv.vgrad(x, y, w, h, [(0.0, (150, 190, 205)), (0.6, (210, 225, 225)), (1.0, (170, 185, 190))])
     for cx, cy, cr in ((x + 20, y + 8, 9), (x + 34, y + 6, 7), (x + w - 30, y + 10, 8)):
         cv.circle(cx, cy, cr, (245, 248, 250), alpha=160)
+    cv.circle(x + 90, y + 12, 8, (255, 255, 255), alpha=60)
     # glass lab building: two-tone facade, varied windows, roof, antenna
     bx, by = x + 12, y + h - 52
     cv.rect(bx, by, 64, 52, (52, 84, 104))
@@ -1070,6 +1142,9 @@ def scene_sanofi(cv, x, y, w, h):
     cv.poly([(cx - 28, cy - 14), (cx - 12, cy - 24), (cx - 2, cy - 16), (cx - 18, cy - 6)], (255, 255, 255))
     cv.circle(cx - 34, cy - 10, 7, (250, 250, 245))
     cv.circle(cx + 34, cy + 2, 7, (250, 250, 245))
+    # soft glow around the capsule + shadow under it and the building
+    cv.disc_glow(cx, cy, 20, (255, 255, 255), steps=2)
+    cv.circle(bx + 32, y + 56, 8, (60, 80, 100), alpha=40)
     # pill bottle with spilled pills, bottom-right
     cv.rect(x + w - 26, y + h - 24, 12, 18, (240, 235, 220))
     cv.rect(x + w - 26, y + h - 24, 12, 4, (214, 48, 38))
@@ -1090,6 +1165,10 @@ def scene_mexico(cv, x, y, w, h):
     cv.vgrad(x, y, w, h, [(0.0, (190, 170, 130)), (0.6, (214, 198, 168)), (1.0, (150, 132, 104))])
     cv.disc_glow(x + w - 24, y + 10, 10, (250, 225, 160), steps=3)
     cv.circle(x + w - 24, y + 10, 6, (250, 234, 185))
+    # warm afternoon haze + glow on the courthouse door
+    cv.circle(x + 50, y + 14, 10, (250, 225, 170), alpha=50)
+    cv.circle(x + 140, y + 16, 10, (250, 225, 170), alpha=50)
+    cv.disc_glow(x + w // 2, y + h - 30, 12, (250, 220, 150), steps=2)
     # cactus, far left
     cv.rect(x + 6, y + h - 26, 5, 14, (90, 130, 80))
     cv.rect(x + 2, y + h - 20, 4, 5, (90, 130, 80))
@@ -1184,6 +1263,12 @@ def scene_odesa(cv, x, y, w, h):
              (x + w - 26, base - 4)], (16, 20, 34))
     cv.rect(x + w - 48, base - 16, 10, 6, (16, 20, 34))
     cv.set(x + w - 44, base - 13, (240, 200, 110))
+    # moon haze + glow on two lit windows + sea shimmer
+    cv.circle(x + w - 30, y + 18, 14, (220, 220, 200), alpha=30)
+    cv.disc_glow(x + 66, base - 26, 8, (250, 200, 110), steps=2)
+    cv.disc_glow(x + 146, base - 30, 8, (250, 200, 110), steps=2)
+    cv.hline(x + 20, base - 2, 30, (90, 110, 150))
+    cv.hline(x + 120, base - 3, 26, (90, 110, 150))
     # snow dots
     for sx, sy in ((10, 40), (40, 55), (90, 44), (140, 60), (170, 38), (60, 66)):
         cv.set(x + sx, y + sy, (240, 240, 250))
@@ -1207,21 +1292,21 @@ TAGS = {
 }
 
 
-def _tag(cv, x, y, text, font="sans_b9"):
+def _tag(cv, x, y, text, font="sans_b9", col=RED):
     f = F(font)
     w = int(f.width(text)) + 12
-    cv.rect(x, y, w, 15, RED)
+    cv.rect(x, y, w, 15, col)
     f.draw(cv, x + 6, y + 3, text, (255, 255, 255))
     return w
 
 
-def _num_circle(cv, x, y, n, r=9, solid=False):
+def _num_circle(cv, x, y, n, r=9, solid=False, col=RED):
     if solid:
-        cv.circle(x, y, r, RED)
+        cv.circle(x, y, r, col)
     else:
-        cv.circle(x, y, r, RED)
+        cv.circle(x, y, r, col)
         cv.circle(x, y, r, (255, 255, 255))
-        cv.circle(x, y, r - 1, RED)
+        cv.circle(x, y, r - 1, col)
     f = F("sans_b9")
     s = str(n)
     f.draw(cv, x - int(f.width(s) / 2), y - 5, s, (255, 255, 255))
@@ -1239,8 +1324,92 @@ def _badge(cv, x, y, text, col):
     return w
 
 
-def _kicker(cv, x, y, text, badge=None, right_x=None, badge_src=True):
-    F("sans_b9").draw(cv, x, y, text, RED)
+def _diamond(cv, cx, cy, r, col):
+    """Small gold ornament diamond (bagarte's pages are framed by tiny
+    gold rules and marks; ours had none)."""
+    cv.poly([(cx, cy - r), (cx + r, cy), (cx, cy + r), (cx - r, cy)], col)
+
+
+def _flag(cv, x, y, code):
+    """Tiny 14x10 country flag (geometric, bagarte's device in the briefs
+    list — every brief carries its country's flag)."""
+    W2, H2 = 14, 10
+
+    def h3(c1, c2, c3):
+        cv.rect(x, y, W2, 4, c1)
+        cv.rect(x, y + 4, W2, 3, c2)
+        cv.rect(x, y + 7, W2, 3, c3)
+
+    def h2(c1, c2):
+        cv.rect(x, y, W2, 5, c1)
+        cv.rect(x, y + 5, W2, 5, c2)
+
+    if code == "LY":  # Libya 1951: red/black/green + white crescent dot
+        h3((200, 30, 30), (20, 20, 20), (30, 120, 60))
+        cv.circle(x + 7, y + 5, 2, (255, 255, 255))
+    elif code == "NL":
+        h3((174, 28, 40), (255, 255, 255), (33, 70, 140))
+    elif code == "IR":
+        h3((35, 120, 60), (255, 255, 255), (200, 30, 30))
+    elif code == "UA":
+        h2((40, 100, 200), (250, 200, 40))
+    elif code == "YE":
+        h3((200, 30, 30), (255, 255, 255), (20, 20, 20))
+    elif code == "EE":
+        h3((40, 90, 180), (20, 20, 20), (255, 255, 255))
+    elif code == "CO":  # yellow double band + blue + red
+        cv.rect(x, y, W2, 5, (250, 200, 40))
+        cv.rect(x, y + 5, W2, 3, (40, 90, 180))
+        cv.rect(x, y + 8, W2, 2, (200, 30, 30))
+    elif code == "AE":  # red vertical + green/white/black
+        cv.rect(x, y, 4, H2, (200, 30, 30))
+        cv.rect(x + 4, y, 10, 4, (30, 120, 60))
+        cv.rect(x + 4, y + 4, 10, 3, (255, 255, 255))
+        cv.rect(x + 4, y + 7, 10, 3, (20, 20, 20))
+    elif code == "SG":
+        h2((200, 30, 30), (255, 255, 255))
+        cv.circle(x + 4, y + 2, 2, (255, 255, 255))
+    elif code == "CN":
+        cv.rect(x, y, W2, H2, (200, 30, 30))
+        cv.circle(x + 3, y + 3, 2, (250, 220, 60))
+    elif code == "NATO":
+        cv.rect(x, y, W2, H2, (30, 60, 140))
+        cv.circle(x + 7, y + 5, 3, (255, 255, 255))
+        cv.circle(x + 7, y + 5, 1, (30, 60, 140))
+    elif code == "US":
+        for i in range(5):
+            cv.rect(x, y + i * 2, W2, 1, (200, 30, 30))
+        cv.rect(x, y, 6, 5, (40, 60, 140))
+    elif code == "ET":
+        h3((30, 120, 60), (250, 200, 40), (200, 30, 30))
+        cv.circle(x + 7, y + 5, 2, (40, 80, 180))
+    elif code == "AU":  # African Union: green + gold disc
+        cv.rect(x, y, W2, H2, (30, 120, 60))
+        cv.circle(x + 7, y + 5, 3, (220, 180, 60))
+        cv.circle(x + 7, y + 5, 2, (30, 120, 60))
+    elif code == "IQ":
+        h3((200, 30, 30), (255, 255, 255), (20, 20, 20))
+        cv.rect(x + 5, y + 4, 4, 2, (30, 120, 60))
+    elif code == "PS":  # black/white/green + red triangle
+        h3((20, 20, 20), (255, 255, 255), (30, 120, 60))
+        cv.poly([(x, y), (x, y + 10), (x + 5, y + 5)], (200, 30, 30))
+    elif code == "TR":
+        cv.rect(x, y, W2, H2, (200, 30, 30))
+        cv.circle(x + 6, y + 5, 3, (255, 255, 255))
+        cv.circle(x + 7, y + 5, 2, (200, 30, 30))
+    elif code == "PL":
+        h2((255, 255, 255), (200, 30, 30))
+    else:
+        cv.rect(x, y, W2, H2, (120, 120, 120))
+    # thin outline so the flag reads against the cream paper
+    cv.hline(x, y, W2, (60, 60, 60))
+    cv.hline(x, y + H2 - 1, W2, (60, 60, 60))
+    cv.vline(x, y, H2, (60, 60, 60))
+    cv.vline(x + W2 - 1, y, H2, (60, 60, 60))
+
+
+def _kicker(cv, x, y, text, badge=None, right_x=None, badge_src=True, col=RED):
+    F("sans_b9").draw(cv, x, y, text, col)
     if badge is not None:
         status, src = badge
         # Mids use status-only chips (bagarte + kevin both do this on mids);
@@ -1274,9 +1443,12 @@ def draw_page():
     F("sans_b10").draw(cv, W - 28 - int(F("sans_b10").width(right)), 5, right, (244, 238, 222))
     # ---- masthead
     F("serif_b58").draw_center(cv, W // 2, 24, "Tuesday 24 November 2026", INK)
+    _sw = int(F("serif_i15").width(SUBHEAD))
     F("serif_i15").draw_center(cv, W // 2, 86, SUBHEAD, RED)
+    _diamond(cv, W // 2 - _sw // 2 - 16, 92, 4, GOLD)
+    _diamond(cv, W // 2 + _sw // 2 + 16, 92, 4, GOLD)
     cv.hline(28, 110, 968, INK)
-    cv.hline(28, 112, 968, INK)
+    cv.hline(28, 112, 968, GOLD)
     # ---- timeline: THE DAY IN UTC (the winners' device; v2 lacked it)
     cv.rect(28, 116, 92, 28, RED)
     F("sans_b9").draw_center(cv, 28 + 46, 120, "THE DAY", (255, 255, 255))
@@ -1307,6 +1479,8 @@ def draw_page():
     px0, pw = 830, 166
     cv.rect(px0, 172, pw, 268, NAVY)
     F("sans_b11").draw_center(cv, px0 + pw // 2, 186, "THE DAY IN NUMBERS", (255, 255, 255))
+    _diamond(cv, px0 + 12, 191, 4, GOLD)
+    _diamond(cv, px0 + pw - 12, 191, 4, GOLD)
     cv.rect(px0 + 33, 202, 100, 2, RED2)
     _nf = F("sans_b9")
     for i, (num, label) in enumerate(STATS):
@@ -1325,15 +1499,17 @@ def draw_page():
     for i, (n, place, topic, head, deck, _la, _lo, scene, _dx, _dy) in enumerate(HEROES):
         x = 28 + i * (hw + 16)
         y = 194
-        cv.rect(x, 172, hw, 20, RED)
+        _bc = HERO_BAR_COL[i]
+        cv.rect(x, 172, hw, 20, _bc)
         cv.circle(x + 12, 182, 8, (255, 255, 255))
-        F("sans_b9").draw_center(cv, x + 12, 179, str(n), RED)
+        F("sans_b9").draw_center(cv, x + 12, 179, str(n), _bc)
         F("sans_b11").draw(cv, x + 30, 177, HERO_BAR[i], (255, 255, 255))
         cv.rect(x, 192, hw, 2, GOLD)
         SCENES[scene](cv, x, y, hw, 120)
         _kicker(cv, x, 320, "%d %s \u00b7 %s" % (n, place, topic),
-                badge=BADGES[n], right_x=x + hw)
-        _headline_deck(cv, x, 334, hw, head, deck, "serif_b22", "serif_r13", 24, 14)
+                badge=BADGES[n], right_x=x + hw,
+                col=REGION_COL[STORY_REGION[n]])
+        _headline_deck(cv, x, 334, hw, head, deck, "serif_b22", "serif_r13", 24, 15)
     # ---- mids, two rows of five, uniform width (the numbers panel spans
     # only the hero row now, so both rows are full width — bagarte/kevin)
     mw = (968 - 4 * 10) // 5
@@ -1344,18 +1520,20 @@ def draw_page():
             n, place, topic, head, deck, _la, _lo, scene, _dx, _dy = s
             x = 28 + col * (cw + 10)
             y = 446 + row * 156
+            rc = REGION_COL[STORY_REGION[n]]
             SCENES[scene](cv, x, y, cw, 66)
-            _tag(cv, x + 3, y + 3, TAGS[scene])
-            _num_circle(cv, x + cw - 12, y + 12, n, r=8)
+            _tag(cv, x + 3, y + 3, TAGS[scene], col=rc)
+            _num_circle(cv, x + cw - 12, y + 12, n, r=8, col=rc)
             _kicker(cv, x, y + 70, "%d %s" % (n, MID_SHORT[n]),
-                    badge=BADGES[n], right_x=x + cw, badge_src=False)
+                    badge=BADGES[n], right_x=x + cw, badge_src=False, col=rc)
             _headline_deck(cv, x, y + 82, cw, head, deck,
-                           "serif_b16", "serif_r11", 16, 11)
+                           "serif_b16", "serif_r11", 16, 12)
     # ---- bottom: map + briefs
     y0 = 754
     F("sans_b10").draw(cv, 28, y0, "WHERE IT HAPPENED", INK)
     F("sans_r9").draw(cv, 150, y0 + 1, "numbered pins = stories 1-13 \u00b7 dots = briefs 14-35", GREY)
     F("sans_b10").draw(cv, 428, y0, "THE REST OF THE DAY \u2014 22 MORE STORIES", INK)
+    cv.hline(428, y0 + 13, 568, GOLD)
     mx, my = 28, y0 + 16
     # Map is 380x190 now (was 290x145): 31% larger, so the Europe/Middle
     # East cluster gets real room — bagarte's map is crowded in the same
@@ -1390,10 +1568,11 @@ def draw_page():
     def _pin(px, py, n, r=6):
         dx, dy = PIN_LABEL.get(n, (0, 0))
         lx, ly = px + dx, py + dy
+        _pc = REGION_COL[STORY_REGION[n]]
         if dx or dy:
-            cv.circle(px, py, 2, RED)
-            cv.line(px, py, lx, ly, RED, 1)
-        _num_circle(cv, lx, ly, n, r=r, solid=True)
+            cv.circle(px, py, 2, _pc)
+            cv.line(px, py, lx, ly, _pc, 1)
+        _num_circle(cv, lx, ly, n, r=r, solid=True, col=_pc)
 
     for s in all_stories:
         n, _pl, _tp, _hd, _dk, la, lo, _sc, dx, dy = s
@@ -1404,20 +1583,25 @@ def draw_page():
         n, _pl, _tx, la, lo = s
         px = int(mx + (lo + 180) / 360.0 * mw2)
         py = int(my + (86 - la) / 144.0 * mh2)
-        cv.circle(px, py, 2, RED)
-    # briefs, two airy columns with numbered chips (bagarte/kevin's device):
-    # items 14-24 in column 1, 25-35 in column 2, 16 px pitch.
-    f = F("sans_r9")
-    fb = F("sans_b9")
+        cv.circle(px, py, 2, REGION_COL[BRIEF_REGION[n]])
+    # briefs, two airy columns with numbered chips in region colours, a
+    # country flag before every item (bagarte's device), bold region-coloured
+    # place, and one size up for the text (sans_r10 / sans_b10 — the 9 px
+    # text was the least readable type on the page).
+    f = F("sans_r10")
+    fb = F("sans_b10")
     for k, (n, place, text, _la, _lo) in enumerate(BRIEFS):
         if k < 11:
             bx, by = 428, 770 + k * 16
         else:
             bx, by = 716, 770 + (k - 11) * 16
-        cv.rrect(bx, by, 16, 11, 2, RED)
+        rc = REGION_COL[BRIEF_REGION[n]]
+        cv.rrect(bx, by, 16, 11, 2, rc)
         F("sans_b9").draw_center(cv, bx + 8, by + 1, str(n), (255, 255, 255))
-        fb.draw(cv, bx + 20, by + 1, place.split(",")[0] + ":", RED)
-        f.draw(cv, bx + 20 + int(fb.width(place.split(",")[0] + ": ")), by + 1, text, INK)
+        _flag(cv, bx + 20, by, BRIEF_FLAG[n])
+        _pl = place.split(",")[0] + ":"
+        fb.draw(cv, bx + 38, by + 1, _pl, rc)
+        f.draw(cv, bx + 38 + int(fb.width(_pl + " ")), by + 1, text, INK)
     # ---- date check
     dy = 962
     cv.rect(28, dy, 968, 42, (255, 255, 255))
