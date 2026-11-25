@@ -617,3 +617,19 @@ Re-verified with 4x crops of all four spots: bars and decks are clean.
 - This is the first version that matches bagarte on his own devices (flags, varied colour, ornaments, readable type) while keeping our structural edges. At 300 px the page now feels colourful and rich, not monotone.
 - Weakest remaining: hero 1 Nvidia still reads slightly diagram-like (grid chip + candles) next to the two sea heroes; Libya's horizon-haze circle can read as a second grey moon at a glance; mid 4 Huawei is the palest tile. The illustration style is still vector-crisp rather than painterly — the winners' softness is approached, not fully reached.
 - No rank prediction. NOT submitted (Force_Last; v1 counts, quota 1/3 used, 2 left). R3 judged 25 Nov 19:00, final R4 26 Nov 07:00.
+
+## Submission — ✅ SUBMITTED 25 Nov 12:26:58 WIB (05:26:58 UTC)
+
+- **Submission id:** `01a2112b-e438-7079-a740-b9d64c72b270`
+- **Claim code:** `AF-N10EW-CB96S-6SHVX-KRPCH`
+- **Title:** "The World in One Day — Tuesday 24 November 2026"
+- **Commit:** `a7f9b48bfb7a538da563b2cccd1366b508c10c80` (remote HEAD matches; repo PUBLIC)
+- **Quota after submit:** 2/3 used (1 remaining)
+- **Cost:** $0
+- **Counts from:** round 3 of 4 (judged after 19:00 WIB 25 Nov); final R4 26 Nov 07:00 WIB; result due ~10 Dec.
+- **Bundle:** `~/workspace/makefun/news24-v2-submit/news24-v2-bundle.tar.gz` (4,203,301 B, sha256 `749abf10d3ebe3d4b8d52791da8fea3930802a395e76578976cc8b760d913f54`) — 10 builder sessions + parent window (root lines 48809–49661, opens with Wahyu's "coba km build v2 nya, referensi tetep top 1 news 19,20,21,22,23") + 11 usage rows.
+- **Check:** 13 passed / 0 failed / 6 skipped (thinking_reproduces 52.5% authored, thinking_priced pass).
+- **Server-side status (verified live 12:27 WIB):** "submitted, outcome not decided yet" — ALL intake checks pass (account_wallet, competition_open, quota, form, entry_signature, repo_owner, repo_public, license_osi, repo_created_after_open, commit_in_repo, duplicate_snapshot, committed_secret, security_audit, repo_readme, repo_about). Grading queue behind — "still processing, do not resubmit".
+- **Rounds (verified live):** v1 `01a20b55` R1 36/7,302 (0,735256), R2 1,614/9,063 (0,610659) — superseded by Force_Last; v2 counts from R3.
+- **Submit quirk:** first attempt with `--source <github-url>` failed ("no such directory"); correct flag is `--repo-url` for a GitHub URL.
+- **Note:** kit re-download suggestion in CLI output is a standing DO-NOT-FOLLOW (level 40 kit used; v1 submitted fine with it).
