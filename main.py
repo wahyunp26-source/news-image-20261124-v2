@@ -406,28 +406,28 @@ MIDS = [
 
 # n, place, brief (one line), lat, lon
 BRIEFS = [
-    (14, "TRIPOLI, LIBYA", "Tripoli demands answers from Kyiv over the Benghazi strike. (Reuters)", 32.90, 13.20),
-    (15, "THE HAGUE", "Fourteen nations back the ICJ Rohingya ruling; UK sanctions Myanmar officers. (Reuters)", 52.08, 4.30),
-    (16, "TEHRAN, IRAN", "Ghalibaf: no talks with the US until seven conditions are met. (Reuters)", 35.70, 51.40),
-    (17, "KYIV, UKRAINE", "Ukraine hits Russian oil plants; Putin vows retaliation. (Reuters)", 50.45, 30.50),
-    (18, "ZAPORIZHZHIA, UKRAINE", "Russian strike kills two and wounds dozens overnight. (Reuters)", 47.85, 35.10),
-    (19, "SANAA, YEMEN", "Strikes on buses and trucks kill about 26 people. (AP)", 15.35, 44.20),
-    (20, "ADEN, YEMEN", "Houthi fighters close to within 60 km of Aden. (Reuters)", 12.80, 45.00),
-    (21, "TALLINN, ESTONIA", "Russia warns Estonia of war over its border closure. (Reuters)", 59.40, 24.75),
-    (22, "VILLAVICENCIO, COLOMBIA", "Car bomb strikes the governor's office in Villavicencio. (Reuters)", 4.15, -73.60),
-    (23, "RAS AL KHAIMAH, UAE", "Bus-truck crash kills 11 people on a highway. (AP)", 25.80, 55.95),
-    (24, "SINGAPORE", "US moves to blacklist AI firm Megaspeed over chip diversion. (Reuters)", 1.35, 103.80),
-    (25, "BEIJING, CHINA", "China sentences a former official to death for espionage. (Reuters)", 39.90, 116.40),
-    (26, "SPACE", "NATO vows space defence over Russian nuclear satellite reports. (Reuters)", 51.50, -0.12),
-    (27, "NEW YORK, US", "Guterres urges global safeguards on AI. (UN News)", 40.75, -74.00),
-    (28, "ADDIS ABABA, ETHIOPIA", "Amnesty seeks a probe into possible Tigray war crimes. (AP)", 9.00, 38.75),
-    (29, "AFRICA", "African Union launches a maternal health roadmap. (AP)", 9.05, 38.85),
-    (30, "BAGHDAD, IRAQ", "Iraqi forces seize two drone launch platforms in the south. (Reuters)", 33.30, 44.40),
-    (31, "JERUSALEM", "Palestinian women detainees allege threats in Israeli prison. (Reuters)", 31.77, 35.20),
-    (32, "GAZA", "Israeli strikes kill seven in Gaza as meningitis spreads. (Al Jazeera)", 31.50, 34.45),
-    (33, "FLORIDA, US", "Trump prepares to meet NATO chief Rutte in Florida. (Reuters)", 26.70, -80.05),
-    (34, "ANTALYA, TURKEY", "COP31 post-mortems spread blame for the 'worst COP ever'. (Reuters)", 36.90, 30.70),
-    (35, "WARSAW, POLAND", "NATO sends an AWACS plane to Poland after the missile landings. (Reuters)", 52.10, 20.90),
+    (14, "TRIPOLI, LIBYA", "Tripoli demands answers from Kyiv. (Reuters)", 32.90, 13.20),
+    (15, "THE HAGUE", "Fourteen nations back the ICJ ruling. (Reuters)", 52.08, 4.30),
+    (16, "TEHRAN, IRAN", "Ghalibaf: no US talks until conditions met. (Reuters)", 35.70, 51.40),
+    (17, "KYIV, UKRAINE", "Ukraine hits Russian oil plants. (Reuters)", 50.45, 30.50),
+    (18, "ZAPORIZHZHIA, UKRAINE", "Russian strike kills two. (Reuters)", 47.85, 35.10),
+    (19, "SANAA, YEMEN", "Strikes kill about 26 in Sanaa. (AP)", 15.35, 44.20),
+    (20, "ADEN, YEMEN", "Houthi fighters near Aden, 60 km off. (Reuters)", 12.80, 45.00),
+    (21, "TALLINN, ESTONIA", "Russia warns Estonia over border closure. (Reuters)", 59.40, 24.75),
+    (22, "VILLAVICENCIO, COLOMBIA", "Car bomb hits governor's office. (Reuters)", 4.15, -73.60),
+    (23, "RAS AL KHAIMAH, UAE", "Bus-truck crash kills 11 in UAE. (AP)", 25.80, 55.95),
+    (24, "SINGAPORE", "US to blacklist AI firm Megaspeed. (Reuters)", 1.35, 103.80),
+    (25, "BEIJING, CHINA", "China sentences ex-official to death. (Reuters)", 39.90, 116.40),
+    (26, "SPACE", "NATO vows space defence. (Reuters)", 51.50, -0.12),
+    (27, "NEW YORK, US", "Guterres urges global AI safeguards. (UN News)", 40.75, -74.00),
+    (28, "ADDIS ABABA, ETHIOPIA", "Amnesty seeks Tigray war-crimes probe. (AP)", 9.00, 38.75),
+    (29, "AFRICA", "African Union launches health roadmap. (AP)", 9.05, 38.85),
+    (30, "BAGHDAD, IRAQ", "Iraqi forces seize drone platforms. (Reuters)", 33.30, 44.40),
+    (31, "JERUSALEM", "Palestinian detainees allege threats. (Reuters)", 31.77, 35.20),
+    (32, "GAZA", "Israeli strikes kill seven in Gaza. (Al Jazeera)", 31.50, 34.45),
+    (33, "FLORIDA, US", "Trump to meet NATO chief in Florida. (Reuters)", 26.70, -80.05),
+    (34, "ANTALYA, TURKEY", "COP31 post-mortems spread blame. (Reuters)", 36.90, 30.70),
+    (35, "WARSAW, POLAND", "NATO sends AWACS to Poland. (Reuters)", 52.10, 20.90),
 ]
 
 STATS = [
@@ -527,7 +527,7 @@ def scene_nvidia(cv, x, y, w, h):
     # Trading floor at night: deep navy gradient sky, ticker screens with
     # live candlesticks, a big glowing GPU chip, a falling candlestick chart
     # with a red glow, and desks with lit monitors along the bottom.
-    cv.vgrad(x, y, w, h, [(0.0, (10, 16, 34)), (0.5, (26, 42, 76)), (1.0, (12, 18, 34))])
+    cv.vgrad(x, y, w, h, [(0.0, (18, 28, 54)), (0.5, (26, 42, 76)), (1.0, (20, 30, 56))])
     for sx, sy in ((14, 6), (70, 12), (140, 5), (200, 10), (230, 16)):
         cv.set(x + sx, y + sy, (180, 190, 220))
     # ticker screens along the top: tiny candlesticks inside each screen
@@ -546,6 +546,10 @@ def scene_nvidia(cv, x, y, w, h):
     cv.rect(cx - 50, cy - 38, 100, 76, (18, 70, 46))
     cv.rect(cx - 44, cy - 32, 88, 64, (30, 120, 80))
     cv.rect(cx - 44, cy - 32, 88, 6, (70, 190, 130))
+    cv.hline(cx - 50, cy - 38, 100, GOLD)
+    cv.hline(cx - 50, cy + 37, 100, GOLD)
+    cv.vline(cx - 50, cy - 38, 76, GOLD)
+    cv.vline(cx + 49, cy - 38, 76, GOLD)
     for i in range(5):
         cv.hline(cx - 44, cy - 22 + i * 14, 88, (20, 70, 46))
         cv.vline(cx - 30 + i * 16, cy - 32, 64, (20, 70, 46))
@@ -563,6 +567,11 @@ def scene_nvidia(cv, x, y, w, h):
         top = gy + 4 + i * 6
         cv.rect(bx, top, 8, 14, (225, 80, 60))
         cv.vline(bx + 4, top - 4, 22, (225, 80, 60))
+    # one bold focal moment: a glowing red trend line over the falling candles
+    for i in range(6):
+        cv.line(gx + 8 + i * 13, gy + 18 + i * 6, gx + 8 + (i + 1) * 13,
+                gy + 18 + (i + 1) * 6, (255, 120, 100), 2)
+    cv.disc_glow(gx + gw - 6, gy + 42, 14, (255, 110, 90), steps=2)
     # red down arrow with glow, over the chart's right end
     ax, ay = x + w - 62, y + 22
     cv.disc_glow(ax + 24, ay + 44, 32, (230, 60, 45), steps=3)
@@ -602,11 +611,11 @@ def scene_libya(cv, x, y, w, h):
     # mast with radar bar, funnel, and a wake of foam at the bow
     hx, hy = x + w // 2 - 10, y + h * 2 // 3 - 4
     cv.poly([(hx - 84, hy), (hx - 70, hy - 20), (hx + 70, hy - 20),
-             (hx + 88, hy), (hx + 64, hy + 6), (hx - 64, hy + 6)], (26, 28, 36))
-    cv.hline(hx - 70, hy - 20, 140, (90, 100, 120))
-    cv.rect(hx - 30, hy - 46, 44, 26, (36, 40, 52))
-    cv.rect(hx - 30, hy - 46, 44, 3, (110, 120, 140))
-    for wx in range(hx - 26, hx + 10, 10):
+             (hx + 88, hy), (hx + 64, hy + 6), (hx - 64, hy + 6)], (54, 60, 76))
+    cv.hline(hx - 70, hy - 20, 140, (150, 160, 180))
+    cv.rect(hx - 30, hy - 46, 44, 26, (60, 66, 82))
+    cv.rect(hx - 30, hy - 46, 44, 3, (160, 170, 190))
+    for wx in range(hx - 26, hx + 14, 8):
         cv.rect(wx, hy - 40, 6, 6, (240, 200, 110))
     cv.rect(hx + 22, hy - 38, 8, 18, (36, 40, 52))
     cv.vline(hx - 8, hy - 66, 20, (60, 64, 76))
@@ -621,8 +630,8 @@ def scene_libya(cv, x, y, w, h):
     _smoke(cv, hx + 34, hy - 48, 4, top=y)
     cv.disc_glow(hx - 44, hy - 28, 26, (250, 140, 40))
     cv.disc_glow(hx + 34, hy - 28, 22, (250, 140, 40))
-    cv.hline(hx - 56, hy + 12, 24, (250, 150, 60))
-    cv.hline(hx + 22, hy + 12, 20, (250, 150, 60))
+    cv.hline(hx - 64, hy + 12, 40, (250, 150, 60))
+    cv.hline(hx + 14, hy + 12, 36, (250, 150, 60))
     # the corvette's name, on the sea below the hull
     F("sans_b9").draw(cv, hx - 30, hy + 16, "MERKURY", (200, 210, 230))
     # drone boats with wakes and a red running light
@@ -639,7 +648,7 @@ def scene_hormuz(cv, x, y, w, h):
     # sun with a road of light on the sea, three tankers with real hull
     # detail (bridge, containers, portholes), the middle one burning, mines
     # bobbing, a patrol boat and gulls.
-    cv.vgrad(x, y, w, h, [(0.0, (52, 32, 66)), (0.45, (190, 96, 52)),
+    cv.vgrad(x, y, w, h, [(0.0, (52, 32, 66)), (0.45, (205, 110, 60)),
                           (0.7, (226, 140, 70)), (1.0, (40, 30, 52))])
     # dusk clouds, soft dark ellipses high in the sky
     for cx, cy, cr in ((x + 40, y + 16, 12), (x + 70, y + 14, 9),
@@ -648,25 +657,25 @@ def scene_hormuz(cv, x, y, w, h):
     # low sun, up-left and small, kept well clear of the burning tanker:
     # its glow no longer touches the flame (they merged into one orange
     # blob in v2). Sun centre (x+78, y+20), flame centre (x+156, y+10..40).
-    cv.disc_glow(x + w // 2 - 78, y + 20, 20, (245, 185, 100), steps=3)
-    cv.circle(x + w // 2 - 78, y + 20, 10, (245, 195, 115))
+    cv.disc_glow(x + w // 2 - 78, y + 20, 26, (245, 185, 100), steps=3)
+    cv.circle(x + w // 2 - 78, y + 20, 12, (245, 195, 115))
     # gulls
     for gx, gy in ((x + 30, y + 34), (x + 44, y + 30), (x + w - 40, y + 36)):
         cv.line(gx - 4, gy, gx, gy - 3, (40, 30, 50), 1)
         cv.line(gx, gy - 3, gx + 4, gy, (40, 30, 50), 1)
     # sea with sun road
     cv.rect(x, y + h * 2 // 3, w, h // 3, (26, 34, 58))
-    for i in range(4):
+    for i in range(5):
         cv.hline(x + w // 2 - 40 + i * 8, y + h * 2 // 3 + 6 + i * 8, 80 - i * 16, (240, 170, 90))
     # three tankers; middle one burning
     for tx, tw, burn in ((x + 14, 74, False), (x + w // 2 - 52, 104, True),
                          (x + w - 92, 78, False)):
         ty = y + h * 2 // 3 - 8
         cv.poly([(tx, ty), (tx + 8, ty - 18), (tx + tw - 8, ty - 18),
-                 (tx + tw, ty), (tx + tw - 4, ty + 8), (tx + 4, ty + 8)], (28, 26, 34))
-        cv.hline(tx + 6, ty - 16, tw - 12, (120, 90, 70))
+                 (tx + tw, ty), (tx + tw - 4, ty + 8), (tx + 4, ty + 8)], (48, 44, 54))
+        cv.hline(tx + 6, ty - 16, tw - 12, (160, 120, 90))
         # bridge tower with lit windows + container stacks
-        cv.rect(tx + tw // 2 - 10, ty - 36, 20, 18, (40, 36, 44))
+        cv.rect(tx + tw // 2 - 10, ty - 36, 20, 18, (62, 56, 66))
         cv.rect(tx + tw // 2 - 10, ty - 36, 20, 3, (90, 80, 70))
         for wx in range(tx + tw // 2 - 7, tx + tw // 2 + 8, 6):
             cv.rect(wx, ty - 32, 4, 5, (245, 200, 120))
@@ -743,7 +752,7 @@ def scene_riyadh(cv, x, y, w, h):
     # Riyadh at dusk: a purple-orange sunset sky, a skyline with varied lit
     # windows, the twisted PIF tower with glass reflections and a fire at
     # its crown, and a street below with a car and a streetlight.
-    cv.vgrad(x, y, w, h, [(0.0, (48, 36, 78)), (0.5, (140, 80, 96)), (0.75, (220, 140, 90)), (1.0, (60, 50, 70))])
+    cv.vgrad(x, y, w, h, [(0.0, (62, 48, 92)), (0.5, (154, 94, 110)), (0.75, (232, 154, 104)), (1.0, (74, 62, 84))])
     cv.disc_glow(x + w - 26, y + 12, 10, (250, 200, 140), steps=3)
     cv.circle(x + w - 26, y + 12, 6, (250, 214, 160))
     # skyline (width-relative: the old absolute bx values overflowed the
@@ -758,6 +767,9 @@ def scene_riyadh(cv, x, y, w, h):
         if fx == 0.69:
             cv.rect(x + bx + bw // 2 - 1, base - bh - 8, 2, 8, (24, 28, 48))
             cv.set(x + bx + bw // 2, base - bh - 9, (230, 60, 50))
+    # two extra lit windows on the outer towers
+    cv.rect(x + int(w * 0.17) + 6, base - 30, 4, 5, (240, 200, 110))
+    cv.rect(x + int(w * 0.69) + 8, base - 36, 4, 5, (240, 200, 110))
     # PIF tower: twisted top, glass facade with vertical light strips, fire
     tx = x + w // 2 - 16
     cv.poly([(tx, base), (tx + 4, y + 16), (tx + 28, y + 16), (tx + 32, base)], (52, 58, 84))
@@ -791,15 +803,15 @@ def scene_poland(cv, x, y, w, h):
     for cx, cy, cr in ((x + 24, y + 10, 10), (x + 40, y + 7, 8), (x + 110, y + 14, 9)):
         cv.circle(cx, cy, cr, (235, 235, 230), alpha=120)
     # farmland: two field tones, a road, a tree line, two farmhouses
-    cv.rect(x, y + h - 18, w, 18, (96, 120, 74))
-    cv.rect(x, y + h - 18, w // 2, 18, (116, 138, 88))
-    cv.poly([(x, y + h), (x + w // 2, y + h - 18), (x + w // 2 + 10, y + h - 18), (x + 16, y + h)], (200, 190, 170))
+    cv.rect(x, y + h - 26, w, 26, (96, 120, 74))
+    cv.rect(x, y + h - 26, w // 2, 26, (116, 138, 88))
+    cv.poly([(x, y + h), (x + w // 2, y + h - 26), (x + w // 2 + 10, y + h - 26), (x + 16, y + h)], (200, 190, 170))
     for tx in range(x + 8, x + w - 8, 14):
-        cv.poly([(tx, y + h - 18), (tx + 4, y + h - 28), (tx + 8, y + h - 18)], (60, 88, 58))
-    cv.rect(x + 12, y + h - 26, 12, 8, (200, 180, 150))
-    cv.poly([(x + 12, y + h - 26), (x + 18, y + h - 32), (x + 24, y + h - 26)], (150, 60, 50))
-    cv.rect(x + w - 30, y + h - 24, 11, 6, (200, 180, 150))
-    cv.poly([(x + w - 30, y + h - 24), (x + w - 24, y + h - 29), (x + w - 19, y + h - 24)], (150, 60, 50))
+        cv.poly([(tx, y + h - 26), (tx + 4, y + h - 38), (tx + 8, y + h - 26)], (60, 88, 58))
+    cv.rect(x + 12, y + h - 34, 12, 8, (200, 180, 150))
+    cv.poly([(x + 12, y + h - 34), (x + 18, y + h - 40), (x + 24, y + h - 34)], (150, 60, 50))
+    cv.rect(x + w - 30, y + h - 34, 11, 6, (200, 180, 150))
+    cv.poly([(x + w - 30, y + h - 34), (x + w - 24, y + h - 40), (x + w - 19, y + h - 34)], (150, 60, 50))
     # small dark drone silhouette far behind the AWACS
     dx0, dy0 = x + 22, y + 26
     cv.line(dx0 - 8, dy0, dx0 + 8, dy0, (50, 50, 56), 2)
@@ -807,21 +819,30 @@ def scene_poland(cv, x, y, w, h):
     cv.line(dx0 - 10, dy0 + 6, dx0 - 2, dy0 + 2, (50, 50, 56), 1)
     cv.line(dx0 + 2, dy0 + 2, dx0 + 10, dy0 + 6, (50, 50, 56), 1)
     # AWACS plane, shaded: light top, grey belly, windows, radar dome
+    # (scaled x1.25 now the tiles are 185 px wide)
     px, py = x + w // 2, y + h // 2 - 8
-    cv.poly([(px - 64, py), (px - 52, py - 8), (px + 56, py - 8), (px + 68, py),
-             (px + 56, py + 6), (px - 52, py + 6)], (232, 232, 228))
-    cv.poly([(px - 52, py + 2), (px + 56, py + 2), (px + 56, py + 6), (px - 52, py + 6)], (180, 180, 176))
-    for wx in range(px - 40, px + 44, 8):
+    cv.poly([(px - 80, py), (px - 65, py - 10), (px + 70, py - 10), (px + 85, py),
+             (px + 70, py + 7), (px - 65, py + 7)], (232, 232, 228))
+    cv.poly([(px - 65, py + 2), (px + 70, py + 2), (px + 70, py + 7), (px - 65, py + 7)], (180, 180, 176))
+    for wx in range(px - 52, px + 56, 8):
         cv.rect(wx, py - 5, 4, 3, (90, 110, 140))
-    cv.poly([(px + 30, py - 8), (px + 44, py - 22), (px + 52, py - 8)], (210, 210, 206))
-    cv.poly([(px - 40, py + 6), (px - 30, py + 18), (px - 22, py + 6)], (210, 210, 206))
-    cv.line(px - 14, py - 22, px + 14, py - 22, (70, 70, 76), 3)
+    cv.poly([(px + 38, py - 10), (px + 55, py - 24), (px + 65, py - 10)], (210, 210, 206))
+    cv.poly([(px - 50, py + 7), (px - 38, py + 22), (px - 28, py + 7)], (210, 210, 206))
+    cv.line(px - 18, py - 20, px + 18, py - 20, (70, 70, 76), 3)
     # radar dome, kept small so it never rises above the scene: the old
     # sweep rings painted white arcs over the hero deck text above.
-    cv.circle(px - 8, py - 18, 7, (200, 200, 196))
-    cv.circle(px - 8, py - 18, 7, (120, 120, 118))
-    cv.circle(px - 8, py - 18, 3, (200, 200, 196))
-    # in-scene label under the plane
+    cv.circle(px - 10, py - 17, 8, (200, 200, 196))
+    cv.circle(px - 10, py - 17, 8, (120, 120, 118))
+    cv.circle(px - 10, py - 17, 4, (200, 200, 196))
+    # contrail behind the plane (clamped to this tile's left edge so it
+    # never paints into the neighbouring Riyadh tile)
+    cv.line(px - 80, py + 2, x + 2, py + 6, (220, 220, 215), 1)
+    # gulls
+    for gx, gy in ((x + 30, y + 12), (x + 46, y + 9)):
+        cv.line(gx - 4, gy, gx, gy - 3, (40, 30, 50), 1)
+        cv.line(gx, gy - 3, gx + 4, gy, (40, 30, 50), 1)
+    # in-scene label under the plane, on a white pill so it reads
+    cv.rrect(px - 38, py + 20, 76, 12, 2, (255, 255, 255))
     F("sans_b9").draw(cv, px - 30, py + 22, "NATO AWACS", INK)
 
 
@@ -906,10 +927,18 @@ def scene_gaza(cv, x, y, w, h):
     # smoke columns with fire glow at the base
     _smoke(cv, x + w // 2 + 10, y + 28, 4, top=y)
     _smoke(cv, x + w - 24, y + 34, 3, top=y)
+    # second dust cloud, mid-sky left
+    for dcx, dcy, dcr in ((x + 40, y + 40, 10), (x + 54, y + 36, 8), (x + 28, y + 44, 7)):
+        cv.circle(dcx, dcy, dcr, (235, 220, 200), alpha=90)
     cv.disc_glow(x + w // 2 + 10, base - 14, 14, (250, 140, 50), steps=3)
     _flame(cv, x + w // 2 + 10, base - 8, 14, 16)
+    # a standing minaret at right, one lit window in it
+    cv.rect(x + w - 14, base - 58, 8, 58, (70, 62, 56))
+    cv.circle(x + w - 10, base - 58, 5, (70, 62, 56))
+    cv.rect(x + w - 12, base - 40, 4, 5, (240, 190, 100))
     # rubble on the street
-    for rx, rw, rh in ((4, 12, 5), (18, 9, 4), (w - 26, 11, 5), (w - 14, 8, 3)):
+    for rx, rw, rh in ((4, 12, 5), (18, 9, 4), (w - 26, 11, 5), (w - 14, 8, 3),
+                       (w // 2 - 8, 10, 4), (w // 2 + 14, 8, 3)):
         cv.poly([(x + rx, base), (x + rx + rw // 2, base - rh), (x + rx + rw, base)], (70, 62, 54))
     for dx in range(0, w, 18):
         cv.set(x + dx, base - 3, (150, 135, 115))
@@ -1107,7 +1136,7 @@ def scene_odesa(cv, x, y, w, h):
     # skyline where almost every window is dark — only a few stay lit, one
     # with a candle — a broken pylon throwing sparks, snow, a car with its
     # headlights on, and the black sea with a ship at the bottom.
-    cv.vgrad(x, y, w, h, [(0.0, (16, 24, 48)), (0.55, (34, 48, 80)), (1.0, (14, 18, 34))])
+    cv.vgrad(x, y, w, h, [(0.0, (26, 36, 64)), (0.55, (46, 62, 98)), (1.0, (20, 26, 44))])
     for sx, sy in ((14, 10), (70, 18), (130, 8), (170, 20), (100, 26)):
         cv.set(x + sx, y + sy, (230, 230, 200))
     cv.disc_glow(x + w - 30, y + 16, 14, (240, 228, 190))
@@ -1125,6 +1154,15 @@ def scene_odesa(cv, x, y, w, h):
     cv.disc_glow(x + 100, base - 40, 10, (250, 200, 110), steps=2)
     cv.rect(x + 96, base - 42, 7, 8, (255, 220, 130))
     cv.set(x + 99, base - 38, (255, 240, 180))
+    # four more lit windows so the skyline is not one black mass
+    for wx, wy in ((x + 66, base - 26), (x + 120, base - 20),
+                   (x + 146, base - 30), (x + 170, base - 24)):
+        cv.rect(wx, wy, 5, 6, (240, 200, 110))
+    # lit church dome at right, silhouetted against the moon
+    cv.circle(x + w - 24, base - 52, 10, (30, 34, 52))
+    cv.vline(x + w - 24, base - 66, 10, (90, 96, 110))
+    cv.hline(x + w - 28, base - 63, 8, (90, 96, 110))
+    cv.rect(x + w - 27, base - 50, 5, 6, (240, 200, 110))
     # broken pylon with spark and a sagging wire
     px, py = x + w // 2 - 6, base - 66
     cv.line(px, py, px - 12, py + 40, (120, 120, 130), 2)
@@ -1264,14 +1302,15 @@ def draw_page():
         x += seg_w
     # ---- THE DAY IN NUMBERS: vertical panel on the right (bagarte's device,
     # cleaner here — dividers between items, red rule under the header, white
-    # numbers on navy, one-line captions). Spans the heroes + first mid row.
+    # numbers on navy, one-line captions). Spans the hero row only, so both
+    # mid rows are uniform width.
     px0, pw = 830, 166
-    cv.rect(px0, 172, pw, 416, NAVY)
+    cv.rect(px0, 172, pw, 268, NAVY)
     F("sans_b11").draw_center(cv, px0 + pw // 2, 186, "THE DAY IN NUMBERS", (255, 255, 255))
     cv.rect(px0 + 33, 202, 100, 2, RED2)
     _nf = F("sans_b9")
     for i, (num, label) in enumerate(STATS):
-        iy = 220 + i * 62
+        iy = 214 + i * 36
         F("serif_b26").draw_center(cv, px0 + pw // 2, iy, num, (255, 255, 255))
         for j, ln in enumerate(_nf.wrap(label, pw - 24)):
             _nf.draw_center(cv, px0 + pw // 2, iy + 30 + j * 11, ln, (208, 202, 190))
@@ -1287,23 +1326,24 @@ def draw_page():
         x = 28 + i * (hw + 16)
         y = 194
         cv.rect(x, 172, hw, 20, RED)
-        F("sans_b11").draw(cv, x + 8, 177, HERO_BAR[i], (255, 255, 255))
+        cv.circle(x + 12, 182, 8, (255, 255, 255))
+        F("sans_b9").draw_center(cv, x + 12, 179, str(n), RED)
+        F("sans_b11").draw(cv, x + 30, 177, HERO_BAR[i], (255, 255, 255))
+        cv.rect(x, 192, hw, 2, GOLD)
         SCENES[scene](cv, x, y, hw, 120)
-        _num_circle(cv, x + hw - 14, y + 14, n)
         _kicker(cv, x, 320, "%d %s \u00b7 %s" % (n, place, topic),
                 badge=BADGES[n], right_x=x + hw)
         _headline_deck(cv, x, 334, hw, head, deck, "serif_b22", "serif_r13", 24, 14)
-    # ---- mids, two rows of five (row 1 narrowed to 150 px left of the panel,
-    # row 2 full width — exactly bagarte's layout; scenes 66 tall now)
+    # ---- mids, two rows of five, uniform width (the numbers panel spans
+    # only the hero row now, so both rows are full width — bagarte/kevin)
     mw = (968 - 4 * 10) // 5
-    mw1 = (790 - 4 * 10) // 5
     for row in range(2):
-        cw = mw1 if row == 0 else mw
+        cw = mw
         for col in range(5):
             s = MIDS[row * 5 + col]
             n, place, topic, head, deck, _la, _lo, scene, _dx, _dy = s
             x = 28 + col * (cw + 10)
-            y = 432 + row * 156
+            y = 446 + row * 156
             SCENES[scene](cv, x, y, cw, 66)
             _tag(cv, x + 3, y + 3, TAGS[scene])
             _num_circle(cv, x + cw - 12, y + 12, n, r=8)
@@ -1312,15 +1352,15 @@ def draw_page():
             _headline_deck(cv, x, y + 82, cw, head, deck,
                            "serif_b16", "serif_r11", 16, 11)
     # ---- bottom: map + briefs
-    y0 = 738
+    y0 = 754
     F("sans_b10").draw(cv, 28, y0, "WHERE IT HAPPENED", INK)
-    F("sans_r9").draw(cv, 150, y0 + 1, "pins match story numbers", GREY)
+    F("sans_r9").draw(cv, 150, y0 + 1, "numbered pins = stories 1-13 \u00b7 dots = briefs 14-35", GREY)
     F("sans_b10").draw(cv, 428, y0, "THE REST OF THE DAY \u2014 22 MORE STORIES", INK)
     mx, my = 28, y0 + 16
     # Map is 380x190 now (was 290x145): 31% larger, so the Europe/Middle
     # East cluster gets real room — bagarte's map is crowded in the same
     # place, ours reads cleaner. Aspect kept 2:1 so the dot grid is square.
-    mw2, mh2 = 380, 190
+    mw2, mh2 = 380, 180
     cv.rect(mx - 4, my - 4, mw2 + 8, mh2 + 8, PAPER)
     pitch_x = mw2 / 96.0
     pitch_y = mh2 / 48.0
@@ -1364,18 +1404,20 @@ def draw_page():
         n, _pl, _tx, la, lo = s
         px = int(mx + (lo + 180) / 360.0 * mw2)
         py = int(my + (86 - la) / 144.0 * mh2)
-        _pin(px, py, n)
-    # briefs, single column, one line each
-    bx = 428
-    by = my
+        cv.circle(px, py, 2, RED)
+    # briefs, two airy columns with numbered chips (bagarte/kevin's device):
+    # items 14-24 in column 1, 25-35 in column 2, 16 px pitch.
     f = F("sans_r9")
     fb = F("sans_b9")
-    for n, place, text, _la, _lo in BRIEFS:
-        num = "%d " % n
-        fb.draw(cv, bx, by, num, RED)
-        nx = bx + int(fb.width(num))
-        f.draw(cv, nx, by, "%s: %s" % (place.split(",")[0], text), INK)
-        by += 9
+    for k, (n, place, text, _la, _lo) in enumerate(BRIEFS):
+        if k < 11:
+            bx, by = 428, 770 + k * 16
+        else:
+            bx, by = 716, 770 + (k - 11) * 16
+        cv.rrect(bx, by, 16, 11, 2, RED)
+        F("sans_b9").draw_center(cv, bx + 8, by + 1, str(n), (255, 255, 255))
+        fb.draw(cv, bx + 20, by + 1, place.split(",")[0] + ":", RED)
+        f.draw(cv, bx + 20 + int(fb.width(place.split(",")[0] + ": ")), by + 1, text, INK)
     # ---- date check
     dy = 962
     cv.rect(28, dy, 968, 42, (255, 255, 255))

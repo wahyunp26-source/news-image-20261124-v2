@@ -1,12 +1,52 @@
+## Polish round (Wahyu 25 Nov 10:56: "kurang rapi dan kurang menarik") — spec ~/workspace/makefun/n24-polish-spec.md, patches A–F applied
+
+- entry.png: 1024×1024, **224,030 B, sha256
+  `4966ac6ef10ed6ff697a240f2a2ae8584de7eeee85954a86881fb5ea2acbb6c9`**
+  (previous render 228,598 B, sha256 `66bb3f83…`)
+- A — numbers panel compressed (416→268 px, ends y=440); both mid rows now
+  uniform 185 px; rows moved to y=446/602; bottom y0=754, map 380×180,
+  briefs by=770. Panel stat pitch 36 px (number+caption+divider verified
+  clean in a 2× crop — no strike-through).
+- B — hero number moved INTO the red label bar (white circle + red digit);
+  bar text shifted right; 2 px gold underline under each hero bar.
+- C — map: numbered pins only for illustrated stories 1–13; briefs 14–35
+  are small red dots. Caption updated. Europe/ME blob gone.
+- D — briefs: two airy columns (14–24 / 25–35) with red numbered chips,
+  bold red place, 16 px pitch. Display wording shortened to winner length;
+  facts + sources preserved in every line. Width-checked: 0 overflows
+  (longest col-1 line ends 701/706, col-2 987/996).
+- E — heroes: Nvidia sky lightened + glowing red trend line over the
+  candles + gold frame on the GPU chip; Libya hull/bridge lightened, more
+  portholes, longer fire reflections; Hormuz bigger sun, warmer sky, lighter
+  tanker hulls, 5 sun-road lines.
+- F — weakest mids filled: Poland plane ×1.25, field band 26 px, white
+  "NATO AWACS" pill, gulls; Odesa lighter sky + 4 lit windows + lit church
+  dome vs the moon; Gaza standing minaret + second dust cloud + 2 rubble
+  piles. Optional: Riyadh sky one step lighter + 2 extra lit windows
+  (huawei/sanofi/mexico skies already pale — skipped).
+- DEVIATIONS from spec (all verified by render): (1) brief 18 trimmed
+  further ("Russian strike kills two. (Reuters)") — it overflowed col 1 by
+  10 px; place already in the bold prefix. (2) Poland contrail clamped to
+  the tile's left edge — spec's px-110 endpoint painted 18 px into the
+  Riyadh tile. (3) Poland radar dome centre py-22→py-17, radar line
+  py-26→py-20, tail apex py-26→py-24 — spec's coordinates poked the dome
+  5 px above the tile (visible in a 2× crop); now flush inside.
+- Grader-style test re-verified after every change: read-only copy,
+  python3 -P -s from a different CWD, MAKEFUN_OUTPUT_DIR set → exit 0,
+  two runs byte-identical. Final hash `4966ac6e…`.
+- Verdict: first glance at 300 px now reads NEAT (uniform grid, compact
+  panel, clean map, airy briefs) and INTERESTING (three distinct hero
+  palettes, no empty mid). Closest to the winners' template yet. No rank
+  prediction — pairwise judge variance (v1 R1→R2) still applies.
+
 # STATUS — news-image-20261124 v2 (BUILT, NOT SUBMITTED)
 
 - Entry dir: `~/workspace/makefun/news-image-20261124-v2-entry/`
 - Repo (to create on submit): https://github.com/wahyunp26-source/news-image-20261124-v2
-- entry.png: 1024×1024, 228,598 B, sha256
-  `66bb3f838302102702fe8023d3809dfb1c5e75ff4399db59308800f4588364af`
-  (scene-redrawn render 25 Nov ~11:00 WIB — see "Scene redraw (Wahyu:
-  'JELEKKK')" below; previous render was 219,151 B, sha256
-  `f854736b…`)
+- entry.png: 1024×1024, 224,030 B, sha256
+  `4966ac6ef10ed6ff697a240f2a2ae8584de7eeee85954a86881fb5ea2acbb6c9`
+  (polish render 25 Nov ~11:10 WIB — see "Polish round" above; previous
+  render was 228,598 B, sha256 `66bb3f83…`)
 - Quota: v1 used 1/3. v2 NOT submitted (parent handles bundle/submit after
   user approves preview). Force_Last: any v2 submit REPLACES v1.
 - All code written FRESH in this session. v1's main.py / atlas_blob.py were
