@@ -191,3 +191,79 @@ v1's R2 collapse is most plausibly factual self-contradiction, fixed here:
   kit has starter/main.ts only, no vendor dir) and v1's repo has none either;
   it is a main.ts/guide-comp requirement, not a Python-entry one. Flagged,
   not blocking.
+
+## Beat-top-1 fix round (25 Nov ~10:11–10:40, commit 9ac673d, NOT submitted)
+
+Wahyu's bar: BETTER than top 1, not just equal. The 3 fixes were the
+floor; every element had to be at least as good as the winners', at least
+one visibly better.
+
+### What changed (main.py only, 146 insertions, 91 deletions)
+1. **Timeline: 7 beats, all timed** (kevin 5, bagarte 6, superskie19 7):
+   Overnight Drone enters Poland · 01:32 Nepal 5.4 quake · 05:30 Sanofi
+   $41bn deal · 07:30 UAE bus crash kills 11 · Morning Houthi hits
+   Riyadh · Afternoon Huawei guilty · 21:00 Nvidia slides 7%.
+   Every hour verified against sources (see the verification comment in
+   main.py): Houthi exact hour NOT published (Morning, winners' own
+   convention); Huawei no clock time (Afternoon); Poland drone crossed
+   ~21:49 UTC Mon (Overnight beat); Trump–Rutte is Wed, factory fire was
+   Sat — neither is a Tuesday beat.
+2. **THE DAY IN NUMBERS: vertical panel on the right** (bagarte's device,
+   cleaner here): navy panel x=830, w=166, y=172–588; white serif numbers,
+   one-line captions, dividers between items, red rule under the header.
+   The horizontal stats strip is GONE. Heroes narrowed to 252 px so the
+   panel fits; scenes are 120 tall now (the strip removal freed 44 px) —
+   the Nvidia arrow finally fits inside its scene.
+3. **Grok courtroom redraw** (was the thinnest mid on the page — one laptop
+   + triangle on bare purple): wood panels + scales-of-justice emblem
+   top-right, judge's bench, document stack with red filed edge, two
+   laptops (X and GROK screens), gavel + block — 12+ elements.
+4. **Mid badges are status-only** (bagarte + kevin both do this on mids;
+   heroes keep status + source). `_kicker` gained a `badge_src` param.
+   Hero 1 kicker shortened ("SANTA CLARA", badge src "REUTERS") — the
+   old "SANTA CLARA, US · MARKETS + CONFIRMED · REUTERS" was 282 px in a
+   252 px column.
+5. **Map 380x190 (was 290x145), 31% larger; repulsion re-run** (MIN_D 16,
+   MAX_OFF 32): min pin distance 15.3 px (was 14.1), max offset 25.5 px
+   (was 23.1), 31/35 labels offset. Briefs moved x 330 -> 428.
+   At 2x zoom every pin number is individually readable; at 300 px the
+   Europe/ME cluster is still dense — but so are bagarte's and kevin's.
+   Ours adds leader lines back to true positions, which neither winner has.
+6. **Overflow bugs caught by viewing the render** (the narrowed 150 px
+   mid row 1 exposed them): scene_gaza's last building painted 32 px over
+   the numbers panel (visible artifact in the first render); scene_riyadh
+   skyline painted 48 px into the next scene; scene_poland city lights
+   painted 28 px into the next scene. All three skylines are now
+   width-relative (fractions of w). Odesa's last building fixed 1 px.
+   The panel is clean in the final render.
+
+### Verification
+- Grader-style test PASSED: read-only repo copy, `python3 -P -s`,
+  different CWD, MAKEFUN_OUTPUT_DIR set, exit 0, byte-identical across
+  3 runs. entry.png 219,151 B, sha256 f854736b821fe6a4755aea424fb5f081f2e38c6a58edfbfd315fdf36028bb3c8.
+- Full-res render viewed + crops viewed (heroes, mids row 1, panel, map):
+  no text overflow, no collisions, no clipped labels. All 35 stories
+  present, all dated Tuesday 24 Nov 2026.
+- Commit 9ac673dae27fb26cd6f611ffb0a2257d11f99957 (master -> main).
+
+### Honest verdict vs the winners (parent's own, no softening)
+- Elements where v2 is now BETTER than the winners: timeline (7 beats,
+  most of any winner), numbers panel (cleaner than bagarte's — dividers,
+  red rule, one-line captions; his is a bare list), map (bigger + leader
+  lines to true positions), grok courtroom (denser than any single mid
+  scene in the winners' pages).
+- Elements where v2 is at PARITY: heroes (bold scenes, red label bars,
+  three annotation layers), mid scenes generally (detail-dense, all
+  legible at 300 px), masthead + region bar + DATE CHECK.
+- Elements where v2 still LAGS: the map's Europe/ME cluster is still a
+  dense red zone at 300 px (same as the winners, but not better);
+  mid 6's radar dome touches its number circle; mid 7's scales emblem is
+  small and crowded by its number circle; winners' scenes carry slightly
+  more small storytelling captions (in-scene labels) than ours overall.
+- Bottom line: this is the closest v2 has ever been to the winners, and
+  on the four elements Wahyu named it is at or above them. Whether that
+  is enough for top 50 — let alone top 1–7 — is UNKNOWABLE from design
+  alone: v1 went R1 rank 36 -> R2 rank 1,614 with the SAME entry, so the
+  pairwise judge swings harder than any design difference. No rank
+  prediction is made. Submit decision is Wahyu's (quota 1/3 used, 2 left;
+  R3 judged 25 Nov 19:00, final R4 26 Nov 07:00).
