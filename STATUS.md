@@ -2,17 +2,47 @@
 
 - Entry dir: `~/workspace/makefun/news-image-20261124-v2-entry/`
 - Repo (to create on submit): https://github.com/wahyunp26-source/news-image-20261124-v2
-- entry.png: 1024×1024, 204,311 B, sha256
-  `263f4274056e58576cbbb79682bc3ba999313152301594bb6565ec604da49745`
+- entry.png: 1024×1024, 207,380 B, sha256
+  `538af5b8e55902b871427a81f4ddad0b9e674d4a9005f0c2c4155ec3f72871be`
+  (revised 25 Nov ~09:30 WIB — see "Revision (Wahyu: perbaiki lagi dan rapikan)" below;
+  previous render was 204,311 B, sha256 `263f4274…`)
 - Quota: v1 used 1/3. v2 NOT submitted (parent handles bundle/submit after
   user approves preview). Force_Last: any v2 submit REPLACES v1.
 - All code written FRESH in this session. v1's main.py / atlas_blob.py were
   NEVER read or copied. Only v1's entry.png was viewed (to see what to beat).
-- Grader-style test VERIFIED: read-only copy of the repo, run
-  `python3 -P -s /bot/main.py` from a different CWD with
+- Grader-style test VERIFIED (re-verified after the revision): read-only copy
+  of the repo, run `python3 -P -s /bot/main.py` from a different CWD with
   MAKEFUN_OUTPUT_DIR set → exit 0, entry.png written. Two runs
-  byte-identical (sha256 above, all three runs match). 1.7 s per run.
+  byte-identical (sha256 above). 1.7 s per run.
   Docker not available in this VM (not needed — process driver used).
+
+## Revision (Wahyu 25 Nov 09:22: "coba perbaiki lagi dan rapikan") — targeted edits only, no rewrite
+
+1. MAP pins (biggest flaw): the Europe/Middle East cluster was one dense red
+   mass. FIXED with a real layout: label offsets computed by an offline
+   repulsion relaxation (script /tmp/map_layout3.py) using main.py's exact
+   int-truncated projection, min centre distance 13.5 px, then an integer
+   repair pass — final min pairwise distance **13.6 px**, max offset 16 px,
+   31/35 pins offset. Offset labels get a thin red leader line back to
+   their true lat/lon point (marked by a small dot). Verified numerically
+   AND by a 2x crop: all 35 pins are individually readable now.
+   (Lesson: the first attempt's optimizer used round() while main.py uses
+   int() — 6 pairs still touched at 11.7–12.5 px; re-ran with int anchors.)
+2. HERO 3 (Hormuz): sun + flame merged into one orange blob. FIXED: sun
+   moved up-left and shrunk (r=10, glow r=20, steps=3), flame shrunk
+   (24×30, glow r=16) — verified in a 2x crop: two separate elements.
+   Added 2 more mines (3 total bobbing in the strait).
+3. MID 12 (Mexico): police car was a tiny blob. FIXED: redrawn ~3x bigger
+   (92 px wide body + cabin + windows + red/blue light bar + "POLICIA"
+   door text + wheels with hubs) — verified in a 3x crop: reads as a
+   police car at 300 px.
+4. HERO 1 chip: "HUANG RETURNS" contradicted the "slides 7%" headline.
+   FIXED: chip now "SLIDES 7%", plus "-7%" written on the arrow head.
+5. SCENE DETAIL: in-scene captions added — "MERKURY" on the corvette hull
+   (hero 2), "NATO AWACS" under the plane (mid 6), "-7%" on the arrow
+   (hero 1), 2 extra mines (hero 3). No clutter added; strict grid kept.
+6. NEATNESS: full-res + 300 px views checked — no overlapping text/pins,
+   no clipping, grid intact, masthead/stats/region bar unchanged.
 
 ## References (top-1s, full-res)
 

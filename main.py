@@ -497,6 +497,8 @@ def scene_nvidia(cv, x, y, w, h):
     cv.poly([(ax + 10, ay + 8), (ax + 44, ay + 8), (ax + 44, ay + 34),
              (ax + 60, ay + 34), (ax + 27, ay + 80), (ax - 6, ay + 34),
              (ax + 10, ay + 34)], (238, 90, 70))
+    # in-scene label: the drop, written on the arrow head itself
+    F("sans_b11").draw(cv, ax + 14, ay + 42, "-7%", (255, 255, 255))
     # floor (the -7% is already in the stat strip and the headline)
     cv.rect(x, y + h - 14, w, 14, (12, 16, 30))
 
@@ -522,6 +524,8 @@ def scene_libya(cv, x, y, w, h):
     _flame(cv, hx + 30, hy - 20, 22, 28)
     _smoke(cv, hx - 30, hy - 52)
     cv.disc_glow(hx - 40, hy - 30, 26, (250, 140, 40))
+    # in-scene label: the corvette's name, on the sea below the hull
+    F("sans_b9").draw(cv, hx - 30, hy + 8, "MERKURY", (200, 210, 230))
     # drone boats with wakes
     for dx, dy in ((-96, 12), (96, 20)):
         bx, by = hx + dx, hy + 26 + dy // 3
@@ -533,8 +537,11 @@ def scene_libya(cv, x, y, w, h):
 def scene_hormuz(cv, x, y, w, h):
     cv.vgrad(x, y, w, h, [(0.0, (52, 32, 66)), (0.45, (190, 96, 52)),
                           (0.7, (226, 140, 70)), (1.0, (40, 30, 52))])
-    cv.disc_glow(x + w // 2, y + h // 2 - 6, 34, (250, 190, 110))
-    cv.circle(x + w // 2, y + h // 2 - 6, 16, (250, 205, 130))
+    # low sun, up-left and small, kept well clear of the burning tanker:
+    # its glow no longer touches the flame (they merged into one orange
+    # blob in v2). Sun centre (x+78, y+20), flame centre (x+156, y+10..40).
+    cv.disc_glow(x + w // 2 - 78, y + 20, 20, (245, 185, 100), steps=3)
+    cv.circle(x + w // 2 - 78, y + 20, 10, (245, 195, 115))
     # sea with sun road
     cv.rect(x, y + h * 2 // 3, w, h // 3, (26, 34, 58))
     for i in range(4):
@@ -548,18 +555,20 @@ def scene_hormuz(cv, x, y, w, h):
         cv.rect(tx + tw // 2 - 8, ty - 34, 16, 16, (28, 26, 34))
         cv.rect(tx + tw // 2 + 12, ty - 26, 10, 8, (28, 26, 34))
         if burn:
-            _flame(cv, tx + tw // 2, ty - 30, 30, 44)
+            # smaller flame + softer glow so it reads as fire, not a second sun
+            _flame(cv, tx + tw // 2, ty - 30, 24, 30)
             _smoke(cv, tx + tw // 2, ty - 66, 5)
-            cv.disc_glow(tx + tw // 2, ty - 34, 30, (250, 140, 40))
+            cv.disc_glow(tx + tw // 2, ty - 40, 16, (250, 140, 40), steps=3)
         else:
             cv.rect(tx + 10, ty - 12, 8, 6, (240, 200, 120))
-    # mine bobbing
-    cv.circle(x + 26, y + h - 22, 5, (20, 20, 24))
-    for a in range(0, 360, 60):
-        import math
-        cv.line(x + 26, y + h - 22,
-                x + 26 + int(8 * math.cos(a * math.pi / 180)),
-                y + h - 22 + int(8 * math.sin(a * math.pi / 180)), (20, 20, 24), 1)
+    # mines bobbing in the strait
+    for mx2, my2 in ((26, h - 22), (120, h - 14), (w - 56, h - 26)):
+        cv.circle(x + mx2, y + my2, 4, (20, 20, 24))
+        for a in range(0, 360, 60):
+            import math
+            cv.line(x + mx2, y + my2,
+                    x + mx2 + int(7 * math.cos(a * math.pi / 180)),
+                    y + my2 + int(7 * math.sin(a * math.pi / 180)), (20, 20, 24), 1)
 
 
 def scene_huawei(cv, x, y, w, h):
@@ -627,6 +636,8 @@ def scene_poland(cv, x, y, w, h):
     # radar arcs
     for r in (18, 28):
         cv.ring(px - 8, py - 26, r, (255, 255, 255), 1)
+    # in-scene label under the plane
+    F("sans_b9").draw(cv, px - 30, py + 22, "NATO AWACS", INK)
 
 
 def scene_grok(cv, x, y, w, h):
@@ -740,12 +751,21 @@ def scene_mexico(cv, x, y, w, h):
     # bars across the door
     for i in range(5):
         cv.vline(x + w // 2 - 20 + i * 10, y + h - 44, 28, (60, 56, 50))
-    # police car
-    cx, cy = x + 16, y + h - 22
-    cv.poly([(cx, cy), (cx + 6, cy - 12), (cx + 26, cy - 12), (cx + 34, cy)], (40, 44, 56))
-    cv.circle(cx + 10, cy + 2, 4, (20, 20, 24))
-    cv.circle(cx + 26, cy + 2, 4, (20, 20, 24))
-    cv.rect(cx + 12, cy - 10, 10, 4, (240, 200, 60))
+    # police car, big and legible at 300 px: body + cabin + light bar + door text
+    cx, cy = x + w // 2 - 46, y + h - 26
+    cv.poly([(cx, cy + 16), (cx + 2, cy + 4), (cx + 16, cy + 2), (cx + 76, cy + 2),
+             (cx + 90, cy + 6), (cx + 92, cy + 16)], (32, 36, 48))
+    cv.poly([(cx + 22, cy + 2), (cx + 28, cy - 10), (cx + 60, cy - 10),
+             (cx + 68, cy + 2)], (44, 48, 62))
+    cv.rect(cx + 26, cy - 7, 13, 8, (150, 190, 220))
+    cv.rect(cx + 45, cy - 7, 13, 8, (150, 190, 220))
+    cv.rect(cx + 40, cy - 15, 8, 5, (214, 48, 38))
+    cv.rect(cx + 48, cy - 15, 8, 5, (38, 74, 180))
+    cv.circle(cx + 20, cy + 16, 5, (16, 16, 20))
+    cv.circle(cx + 72, cy + 16, 5, (16, 16, 20))
+    cv.circle(cx + 20, cy + 16, 2, (140, 140, 150))
+    cv.circle(cx + 72, cy + 16, 2, (140, 140, 150))
+    F("sans_b9").draw(cv, cx + 28, cy + 7, "POLICIA", (255, 255, 255))
 
 
 def scene_odesa(cv, x, y, w, h):
@@ -783,7 +803,7 @@ SCENES = {
 
 # ----------------------------------------------------------------- layout
 TAGS = {
-    "nvidia": "HUANG RETURNS", "libya": "WARSHIP SUNK", "hormuz": "BLOCKADE",
+    "nvidia": "SLIDES 7%", "libya": "WARSHIP SUNK", "hormuz": "BLOCKADE",
     "huawei": "GUILTY", "riyadh": "TOWER HIT", "poland": "DRONE",
     "grok": "2 STATES SUE", "gaza": "3 KILLED", "factory": "24 DEAD",
     "quake": "5.4 QUAKE", "sanofi": "$41BN DEAL", "mexico": "TRIAL",
@@ -903,23 +923,40 @@ def draw_page():
                 cv.circle(int(mx + (c + 0.5) * pitch_x), int(my + (r + 0.5) * pitch_y),
                           1, SAGE)
     all_stories = list(HEROES) + list(MIDS)
-    PIN_NUDGE = {6: (0, -8), 35: (-12, 4), 13: (-9, 0), 17: (0, -8), 18: (11, 2),
-                 8: (0, -7), 32: (-11, 8), 31: (11, -6), 2: (0, 0), 14: (-11, 3),
-                 15: (0, -8), 26: (-15, -4), 28: (0, 0), 29: (13, 9), 5: (0, 0),
-                 19: (-11, 0), 20: (12, 3), 3: (0, 0), 23: (11, -8), 9: (0, 0),
-                 24: (9, -7), 16: (8, -8), 30: (0, 8)}
+    # Label offsets from each story's true lat/lon point, computed by an
+    # offline repulsion relaxation (see /tmp/map_layout2.py): every numbered
+    # label centre is >= 13 px from every other, so no two pins overlap
+    # (v2's Europe/Middle East cluster was one unreadable red mass). An
+    # offset label gets a thin leader line back to its true point, marked by
+    # a small dot. Pins without an entry sit exactly on their true point.
+    PIN_LABEL = {
+        2: (-9, 11), 3: (13, -1), 4: (0, -8), 5: (-4, 14), 6: (-12, 4),
+        7: (-6, 0), 8: (-9, 1), 9: (1, 3), 10: (2, 0), 11: (-9, 9),
+        13: (-7, 3), 14: (-5, -2), 15: (-1, -12), 16: (15, -6),
+        17: (5, -16), 18: (2, -5), 19: (-15, -1), 20: (12, 8),
+        21: (-3, -12), 23: (1, 7), 24: (-1, -3), 26: (-8, -3),
+        27: (5, 6), 28: (5, 13), 29: (-9, 7), 30: (10, -1), 31: (15, -16),
+        32: (5, 7), 33: (1, 3), 34: (7, -2), 35: (0, -6),
+    }
+
+    def _pin(px, py, n):
+        dx, dy = PIN_LABEL.get(n, (0, 0))
+        lx, ly = px + dx, py + dy
+        if dx or dy:
+            cv.circle(px, py, 2, RED)
+            cv.line(px, py, lx, ly, RED, 1)
+        _num_circle(cv, lx, ly, n, r=6, solid=True)
+
     for s in all_stories:
         n, _pl, _tp, _hd, _dk, la, lo, _sc, dx, dy = s
-        ndx, ndy = PIN_NUDGE.get(n, (0, 0))
-        px = int(mx + (lo + 180) / 360.0 * mw2) + dx + ndx
-        py = int(my + (86 - la) / 144.0 * mh2) + dy + ndy
-        _num_circle(cv, px, py, n, r=6, solid=True)
+        px = int(mx + (lo + 180) / 360.0 * mw2) + dx
+        py = int(my + (86 - la) / 144.0 * mh2) + dy
+        _pin(px, py, n)
     for s in BRIEFS:
         n, _pl, _tx, la, lo = s
-        ndx, ndy = PIN_NUDGE.get(n, (0, 0))
-        px = int(mx + (lo + 180) / 360.0 * mw2) + ndx
-        py = int(my + (86 - la) / 144.0 * mh2) + ndy
-        _num_circle(cv, px, py, n, r=6, solid=True)
+        px = int(mx + (lo + 180) / 360.0 * mw2)
+        py = int(my + (86 - la) / 144.0 * mh2)
+        _pin(px, py, n)
     # briefs, single column, one line each
     bx = 330
     by = my
