@@ -1,3 +1,86 @@
+## Illustration redraw (Wahyu 25 Nov 11:34: "kurang rapii, liat itu ilustraso gambarnya") — 6th rejection, illustrations themselves
+
+- entry.png: 1024×1024, **240,952 B, sha256
+  `028064bf7c74e6f34eeab4952f3000bc8d9e465440db7bb8943893f44361959c`**
+  (previous render 238,567 B, sha256 `40734104…`)
+- Study first: the 5 real winner WebPs in `~/workspace/makefun/top1-refs/`
+  + Wahyu's bagarte screenshot. Winners' construction rule, scene by scene:
+  every scene is a PLACE — sky + ground split, main subject with light side
+  + shadow side, small people/vehicles for scale, 2–3 depth layers
+  (background hazier/smaller), warm light points (windows, fires, lamps).
+  Ours were DIAGRAMS (chart, silhouette, flat shapes). This round turns
+  every diagram into a little world. Targeted edits to main.py only — the
+  span from `def scene_nvidia` to just before `SCENES = {` was replaced
+  (725 → 803 lines, +2 helpers `_person`, `_waves`); layout, positions,
+  decks, headlines, timeline, numbers panel, map, DATE CHECK, flags,
+  ornaments, colors untouched.
+- Per-scene (diagram → place):
+  - **1 Nvidia**: chart diagram → real trading floor: window with city
+    lights, 3 monitors (NVDA chip / red falling candles −7% / rising green
+    line), long desk, seated trader in a light shirt (now visible against
+    the dark wall, warm glow behind him), desk lamp, coffee cup + keyboard.
+    Fix round: trader was near-invisible (dark coat on dark wall) and the
+    big desk glow read as a stain — light shirt + glow behind him, desk
+    glow shrunk r20→r8.
+  - **2 Libya**: flat silhouette → night sea battle: moon + halo, moon
+    road on the water, layered waves with whitecaps, corvette with lit
+    portholes + light/shadow hull + radar + 2 fires, drone boats with
+    wakes, distant coastline + lighthouse, smoke, horizon haze.
+  - **3 Hormuz**: flat shapes → sunset strait: 3-stop sky, big sun +
+    reflection road, 3 tankers with container rows + crew details, burning
+    middle tanker, lifeboat + patrol boat, birds, sea mine, layered waves.
+  - **4 Huawei**: building icon → courthouse as a place: sun, trees with
+    trunks + layered canopies, pediment with shading, 4 columns with
+    shadows, dark door, steps, 3 people (lawyer/reporter/guard), scales of
+    justice on the steps.
+  - **5 Riyadh**: skyline strip → dusk street: purple-orange sunset, sun,
+    5 buildings with varied lit windows, twisted PIF tower with glass
+    strips + fire + smoke, street with 2 cars + headlights, 2 streetlights,
+    a pedestrian.
+  - **6 Poland**: plane icon → farmland: bigger plane (scaled ×0.82 after
+    first pass — was crowding the tile; fuselage now 27..161 of 185 px,
+    margins 27/24, verified by pixel measurement), radar dome, contrail
+    clamped to the tile, drone silhouette, gulls, field + road + tree line,
+    farmhouse + barn, red tractor with driver.
+  - **7 Grok**: brown panel → courtroom: hanging lamp with warm pool,
+    wood panels, flag, scales emblem, judge behind the bench, 2 lawyers,
+    document stack, 2 glowing laptops (X / GROK), gavel + block.
+  - **8 Gaza**: grey blocks → street: pale sun behind smoke, ruined
+    skyline with jagged tops + exposed floors, smoke columns + dust haze,
+    fire glow, standing minaret with a lit window, street with rubble + a
+    walking person.
+  - **9 Jakarta**: factory icon → scene with people: sawtooth factory with
+    brick lines + fire-lit windows, 2 fires + big smoke plume, red fire
+    truck with ladder, 2 firefighters with yellow helmets + hose + water
+    arc, debris + puddle.
+  - **10 Nepal**: triangles → village: 3 mountain ranges with shaded
+    slopes + snow caps, 5 houses + 1 tilted house with cracks, prayer
+    flags, dust clouds, 2 people on the road, seismograph zigzag.
+  - **11 Sanofi**: pill icon → lab scene: pale sky + clouds, glass lab
+    building with varied windows + antenna, lawn + path, lab bench, 2
+    scientists in white coats, giant capsule with highlight + shadow, pill
+    bottle with spilled pills, glowing green up arrow.
+  - **12 Mexico**: car icon → street: courthouse with shaded pediment +
+    columns + barred door + flag, crowd heads + officer on the steps,
+    street with lane line, POLICIA car with light bar + glow + door text.
+  - **13 Odesa**: dark strip → blackout street: starry sky + moon, dark
+    skyline with a handful of lit windows + a candle-lit one, lit church
+    dome, broken pylon with spark + sagging wire, street lamp + pool of
+    light, person holding a candle, car with headlight beam, black sea with
+    a ship, snow dots.
+- Grader-style test re-verified after every change: read-only copy,
+  python3 -P -s from a different CWD, MAKEFUN_OUTPUT_DIR set → exit 0,
+  two runs byte-identical (sha256 above).
+- Verdict (honest): all 13 scenes now read as PLACES at full res and at
+  300 px — none is a diagram any more. Heroes are the strongest (Libya +
+  Hormuz read as little worlds; Nvidia reads as a real trading floor).
+  Weakest remaining: **Sanofi** — the giant capsule still dominates its
+  tile and crowds the lab (building + scientists are small beside it);
+  **Nepal** — the tilted house's roof reads slightly floating; **Poland**
+  — the plane is still the biggest object in its tile, though the field
+  now reads. The style is still vector-crisp, not the winners' painterly
+  softness — approached, not fully reached. No rank prediction.
+
 ## Polish round (Wahyu 25 Nov 10:56: "kurang rapi dan kurang menarik") — spec ~/workspace/makefun/n24-polish-spec.md, patches A–F applied
 
 - entry.png: 1024×1024, **224,030 B, sha256
@@ -43,10 +126,10 @@
 
 - Entry dir: `~/workspace/makefun/news-image-20261124-v2-entry/`
 - Repo (to create on submit): https://github.com/wahyunp26-source/news-image-20261124-v2
-- entry.png: 1024×1024, 224,030 B, sha256
-  `4966ac6ef10ed6ff697a240f2a2ae8584de7eeee85954a86881fb5ea2acbb6c9`
-  (polish render 25 Nov ~11:10 WIB — see "Polish round" above; previous
-  render was 228,598 B, sha256 `66bb3f83…`)
+- entry.png: 1024×1024, 240,952 B, sha256
+  `028064bf7c74e6f34eeab4952f3000bc8d9e465440db7bb8943893f44361959c`
+  (illustration redraw 25 Nov ~11:50 WIB — see "Illustration redraw"
+  above; previous render was 238,567 B, sha256 `40734104…`)
 - Quota: v1 used 1/3. v2 NOT submitted (parent handles bundle/submit after
   user approves preview). Force_Last: any v2 submit REPLACES v1.
 - All code written FRESH in this session. v1's main.py / atlas_blob.py were
