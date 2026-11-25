@@ -2,10 +2,11 @@
 
 - Entry dir: `~/workspace/makefun/news-image-20261124-v2-entry/`
 - Repo (to create on submit): https://github.com/wahyunp26-source/news-image-20261124-v2
-- entry.png: 1024×1024, 207,380 B, sha256
-  `538af5b8e55902b871427a81f4ddad0b9e674d4a9005f0c2c4155ec3f72871be`
-  (revised 25 Nov ~09:30 WIB — see "Revision (Wahyu: perbaiki lagi dan rapikan)" below;
-  previous render was 204,311 B, sha256 `263f4274…`)
+- entry.png: 1024×1024, 212,089 B, sha256
+  `b71204b7b1444e8adcb7784fd8c85e771718ac9e16bcc2563af251dac018eec9`
+  (rebuilt from REAL top-1 refs 25 Nov ~10:05 WIB — see "Rebuild (Wahyu:
+  referensi top 1 beneran)" below; previous render was 207,380 B, sha256
+  `538af5b8…`)
 - Quota: v1 used 1/3. v2 NOT submitted (parent handles bundle/submit after
   user approves preview). Force_Last: any v2 submit REPLACES v1.
 - All code written FRESH in this session. v1's main.py / atlas_blob.py were
@@ -15,6 +16,59 @@
   MAKEFUN_OUTPUT_DIR set → exit 0, entry.png written. Two runs
   byte-identical (sha256 above). 1.7 s per run.
   Docker not available in this VM (not needed — process driver used).
+
+## Rebuild (Wahyu 25 Nov ~09:52: "itu yakin udah ngambil referensi top 1 sebelumnya?") — from REAL winners, targeted edits only, no rewrite
+
+Parent verified the doubt was CORRECT: the first v2 build never saw the
+final winners — news21/22/23 #1 images were not fetchable via the text
+fetcher or the leaderboard API (all finalists have source_withheld=true,
+repo_url=""). This rebuild downloaded the REAL final winners at full res
+via the submissions artifact endpoint into ~/workspace/makefun/top1-refs/:
+news19 #1 superskie (86.4%), news20 #1 superskie (87.2%), news21 #1
+superskie (86.1%), news22 #1 bagarte (85.4%), news23 R3 leader kevin
+(provisional). All five VIEWED at full res + measured (see below).
+The old "top1.png" reference was news22 DEV-phase #1 (ilyayaaa) — NOT a
+final winner; ignored now.
+
+Winner devices added (all confirmed across the 5 refs):
+1. THE DAY IN UTC TIMELINE STRIP (the single biggest structural gap —
+   v2 had none): red label box + 5 beats. Times VERIFIED 25 Nov by search:
+   quake 01:32 UTC (NCS 07:02:47 IST), Sanofi deal 05:30 UTC (Sanofi
+   release 06:30 Paris), Houthi tower hit Tuesday morning (Riyadh),
+   Huawei verdict in US court hours ("Afternoon" phase label, as winners
+   use "Overnight"/"Evening"), US markets close 21:00 UTC.
+2. THE DAY IN NUMBERS label box: v2's stat strip already had the same six
+   numbers; it now carries the winners' red label box ("THE DAY / IN /
+   NUMBERS") and shorter captions ("TANKERS HIT IN HORMUZ", "HURT IN
+   RIYADH STRIKE").
+3. HERO RED LABEL BARS (kevin's device): full-width red bars above each
+   hero illustration — "NVIDIA SLIDES 7%", "WARSHIP SUNK OFF LIBYA",
+   "TANKERS HIT IN HORMUZ". The small in-scene hero chips were removed
+   (duplication); "-7%" on the arrow and "MERKURY" hull caption kept.
+4. STATUS BADGES on every kicker row (winners' device): outlined chips
+   CONFIRMED (green) / OFFICIAL (amber) / CLAIM (red) + source — this is
+   now where each story names its outlet. Hero 3 is CLAIM · AL JAZEERA
+   (Iran's claim); mid 6 is OFFICIAL · WARSAW. Mid kickers shortened to
+   winners' style ("4 BROOKLYN", "5 RIYADH"...) so chips fit.
+5. DECKS tightened to winners' lengths and inline "(Reuters)" sources
+   REMOVED from hero/mid decks (attribution moved to the badges): hero
+   decks 14–20 words, mid decks 13 words, all 2 lines (measured with the
+   real fonts — first render had 4 mid decks at 3 lines overlapping the
+   next row + badge/kicker collisions on mids 7 and 12 + footer colliding
+   with the right-side text; all fixed and re-measured: worst mid
+   kicker+badge 174/185 px, footer ends 743 px vs right text at 808).
+6. FOOTER now carries the winners' legend: "CONFIRMED 2+ outlets ·
+   OFFICIAL authority's word · CLAIM one side says · Sources: ... ·
+   Drawn illustrations, not photos."
+
+Measured winner decks (full-res): heroes 14–21 words, mids 7–13 words,
+briefs 8–12 words. v2 now: heroes 14/18/19 words, mids 13 words, briefs
+8–14 words. Timeline facts all verified Tuesday-true; story facts/dates
+unchanged from the corrected v2.
+
+Grader-style test RE-VERIFIED after the rebuild: read-only repo copy,
+`python3 -P -s` from a different CWD with MAKEFUN_OUTPUT_DIR set → exit
+0, two runs byte-identical (sha256 above).
 
 ## Revision (Wahyu 25 Nov 09:22: "coba perbaiki lagi dan rapikan") — targeted edits only, no rewrite
 

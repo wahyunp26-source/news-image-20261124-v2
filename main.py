@@ -339,70 +339,68 @@ HEROES = [
     (1, "SANTA CLARA, US", "MARKETS",
      "Nvidia slides 7% as its record rally fades",
      "A day after Huang's return lifted shares 31% in their best day since "
-     "2003, the stock slides back. (Reuters, CNN)",
+     "2003, the stock slides back.",
      37.35, -121.95, "nvidia", 0, 0),
     (2, "BENGHAZI, LIBYA", "WAR",
      "Ukraine's sea drones sink a Russian warship off Libya",
      "Seven naval drones hit the corvette Merkury at Benghazi; Tripoli "
-     "demands answers from Kyiv. (CNN, WSJ)",
+     "demands answers from Kyiv.",
      32.10, 20.07, "libya", 0, 0),
     (3, "HORMUZ STRAIT", "IRAN WAR",
      "Iran says tankers hit mines as its defiance hardens",
      "Three tankers catch fire in the strait as Tehran rules out talks until "
-     "the US meets its seven conditions. (Al Jazeera, Reuters)",
+     "the US meets its seven conditions.",
      26.60, 56.25, "hormuz", 0, 0),
 ]
 
 MIDS = [
     (4, "BROOKLYN, US", "JUSTICE",
      "Huawei guilty of stealing trade secrets",
-     "A Brooklyn jury convicts the Chinese giant of trade-secret conspiracy "
-     "and bank fraud. (Reuters)",
+     "A Brooklyn jury convicts Huawei of trade-secret conspiracy and bank "
+     "fraud.",
      40.65, -73.95, "huawei", 0, 0),
     (5, "RIYADH, SAUDI ARABIA", "WAR",
      "Houthis hit Riyadh's tallest tower again",
-     "A strike on the PIF Tower injures 11, the second hit on the skyscraper "
-     "in five days. (Reuters)",
+     "A strike on the PIF Tower injures 11, the second hit in five days.",
      24.70, 46.70, "riyadh", 0, 0),
     (6, "WARSAW, POLAND", "SECURITY",
      "Poland says Russian drone crossed on purpose",
-     "Warsaw calls the incursion deliberate, days after three Russian "
-     "missiles landed on its soil. (Reuters)",
+     "Warsaw calls the incursion deliberate, days after three missiles "
+     "landed.",
      52.25, 21.05, "poland", 0, 0),
     (7, "OREGON & VIRGINIA, US", "TECH",
      "Two states sue Musk firms over Grok sex images",
-     "The states accuse SpaceX and X of letting Grok make non-consensual "
-     "sexual images. (Reuters, AP)",
+     "The states accuse SpaceX and X over Grok's non-consensual sexual "
+     "images.",
      37.54, -77.44, "grok", 0, 0),
     (8, "KHAN YOUNIS, GAZA", "WAR",
      "Three killed in Gaza drone strike",
      "An Israeli drone strike kills three in Khan Younis as a meningitis "
-     "warning spreads. (Al Jazeera)",
+     "warning spreads.",
      31.35, 34.30, "gaza", 0, 0),
     (9, "JAKARTA, INDONESIA", "DISASTER",
      "Factory fire kills 24 in Indonesia",
      "Rescuers search unstable wreckage for 30 missing after a blaze sweeps "
-     "a factory. (AP)",
+     "a factory.",
      -6.20, 106.80, "factory", 0, 0),
     (10, "KOSHI, NEPAL", "QUAKE",
      "Quake shakes Nepal near China border",
-     "A 5.4-magnitude tremor is felt in India, Bhutan and Bangladesh; no "
-     "deaths reported yet. (Reuters)",
+     "A 5.4-magnitude tremor is felt in India and Bhutan; no deaths "
+     "reported yet.",
      27.00, 87.00, "quake", 0, 0),
     (11, "PARIS, FRANCE", "BUSINESS",
      "Sanofi agrees to buy Insmed for $41bn",
      "The French drugmaker seals its biggest deal in years with the US "
-     "biotech. (Reuters, Bloomberg)",
+     "biotech.",
      48.85, 2.35, "sanofi", 0, 0),
     (12, "MEXICO CITY, MEXICO", "CRIME",
      "Mexico will try 'El Chapo Isidro' itself",
-     "Mexico says it will prosecute the captured cartel boss despite a US "
-     "extradition request. (Reuters)",
+     "Mexico will prosecute the captured cartel boss despite a US request.",
      19.40, -99.10, "mexico", 0, 0),
     (13, "ODESA, UKRAINE", "WAR",
      "Odesa's schools go online as power fails",
-     "Russian strikes leave the port city short of power, heat and water for "
-     "a third day. (Reuters, Ukrenergo)",
+     "Russian strikes leave the port city without power, heat or water for "
+     "a third day.",
      46.50, 30.70, "odesa", 0, 0),
 ]
 
@@ -435,14 +433,49 @@ BRIEFS = [
 STATS = [
     ("-7%", "NVIDIA SHARES TUESDAY"),
     ("$41BN", "SANOFI-INSMED DEAL"),
-    ("3", "TANKERS HIT MINES IN HORMUZ"),
-    ("11", "HURT IN RIYADH TOWER STRIKE"),
+    ("3", "TANKERS HIT IN HORMUZ"),
+    ("11", "HURT IN RIYADH STRIKE"),
     ("24", "DEAD IN INDONESIA FIRE"),
     ("5.4", "QUAKE IN NEPAL"),
 ]
 
 SUBHEAD = ("Nvidia slides after its record rally \u00b7 Huawei guilty in Brooklyn "
            "\u00b7 Houthis strike Riyadh tower again")
+
+# THE DAY IN UTC — the winners' timeline strip (v2 lacked it). Times verified
+# 25 Nov: quake 01:32 UTC (NCS 07:02:47 IST); Sanofi deal 05:30 UTC (Sanofi
+# release 06:30 Paris); Houthi tower hit Tuesday morning (Riyadh); Huawei
+# verdict delivered in US court hours; US markets close 21:00 UTC.
+TIMELINE = [
+    ("01:32", "Nepal 5.4 quake"),
+    ("05:30", "Sanofi's $41bn deal"),
+    ("Morning", "Houthi strike hits Riyadh tower"),
+    ("Afternoon", "Huawei guilty in Brooklyn"),
+    ("21:00", "Nvidia slides 7% at the close"),
+]
+
+# kevin's device: a full-width red label bar above each hero illustration.
+HERO_BAR = ["NVIDIA SLIDES 7%", "WARSHIP SUNK OFF LIBYA", "TANKERS HIT IN HORMUZ"]
+
+# Status badges (winners' device): outlined chip on the kicker row, status +
+# source — this is where each story names its outlet now that decks no
+# longer carry inline "(Reuters)" attributions.
+BADGE_COL = {"CONFIRMED": (36, 120, 66), "OFFICIAL": (176, 124, 32),
+             "CLAIM": (166, 32, 32)}
+BADGES = {
+    1: ("CONFIRMED", "REUTERS, CNN"), 2: ("CONFIRMED", "CNN, WSJ"),
+    3: ("CLAIM", "AL JAZEERA"), 4: ("CONFIRMED", "REUTERS"),
+    5: ("CONFIRMED", "REUTERS"), 6: ("OFFICIAL", "WARSAW"),
+    7: ("CONFIRMED", "REUTERS"), 8: ("CONFIRMED", "AL JAZEERA"),
+    9: ("CONFIRMED", "AP"), 10: ("CONFIRMED", "REUTERS"),
+    11: ("CONFIRMED", "REUTERS"), 12: ("CONFIRMED", "REUTERS"),
+    13: ("CONFIRMED", "REUTERS"),
+}
+# Short mid kickers (winners use "4 GAMES", "5 RIYADH" — short enough that
+# the badge chip fits on the same row).
+MID_SHORT = {4: "BROOKLYN", 5: "RIYADH", 6: "WARSAW", 7: "US \u00b7 TECH",
+             8: "GAZA", 9: "JAKARTA", 10: "NEPAL", 11: "PARIS",
+             12: "MEXICO", 13: "ODESA"}
 
 
 # ------------------------------------------------------------------ scenes
@@ -831,8 +864,24 @@ def _num_circle(cv, x, y, n, r=9, solid=False):
     f.draw(cv, x - int(f.width(s) / 2), y - 5, s, (255, 255, 255))
 
 
-def _kicker(cv, x, y, n, place, topic):
-    F("sans_b9").draw(cv, x, y, "%d %s \u00b7 %s" % (n, place, topic), RED)
+def _badge(cv, x, y, text, col):
+    """Small outlined status chip, right edge at x; returns its width."""
+    f = F("sans_b9")
+    w = int(f.width(text)) + 10
+    cv.hline(x - w, y, w, col)
+    cv.hline(x - w, y + 11, w, col)
+    cv.vline(x - w, y, 12, col)
+    cv.vline(x - 1, y, 12, col)
+    f.draw(cv, x - w + 5, y + 2, text, col)
+    return w
+
+
+def _kicker(cv, x, y, text, badge=None, right_x=None):
+    F("sans_b9").draw(cv, x, y, text, RED)
+    if badge is not None:
+        status, src = badge
+        _badge(cv, right_x, y - 2, "%s \u00b7 %s" % (status, src),
+               BADGE_COL[status])
 
 
 def _headline_deck(cv, x, y, w, headline, deck, hfont, dfont, lh_h, lh_d, max_hl=2, max_dk=3):
@@ -862,37 +911,56 @@ def draw_page():
     F("serif_i15").draw_center(cv, W // 2, 86, SUBHEAD, RED)
     cv.hline(28, 110, 968, INK)
     cv.hline(28, 112, 968, INK)
-    # ---- stat strip
-    cw = 968 // 6
+    # ---- timeline: THE DAY IN UTC (the winners' device; v2 lacked it)
+    cv.rect(28, 116, 92, 28, RED)
+    F("sans_b9").draw_center(cv, 28 + 46, 120, "THE DAY", (255, 255, 255))
+    F("sans_b9").draw_center(cv, 28 + 46, 131, "IN UTC", (255, 255, 255))
+    bw = (968 - 92) // len(TIMELINE)
+    for i, (t, fact) in enumerate(TIMELINE):
+        x = 120 + i * bw
+        F("sans_b10").draw(cv, x + 6, 118, t, RED)
+        F("sans_r9").draw(cv, x + 6, 129, fact, INK)
+        if i:
+            cv.vline(x, 118, 24, RULE)
+    cv.hline(28, 146, 968, RULE)
+    # ---- stat strip: THE DAY IN NUMBERS (winners' device; v2's strip had
+    # the same six numbers but no label box)
+    cv.rect(28, 148, 110, 42, RED)
+    F("sans_b9").draw_center(cv, 28 + 55, 152, "THE DAY", (255, 255, 255))
+    F("sans_b9").draw_center(cv, 28 + 55, 163, "IN", (255, 255, 255))
+    F("sans_b9").draw_center(cv, 28 + 55, 174, "NUMBERS", (255, 255, 255))
+    cw = (968 - 110) // 6
     for i, (num, label) in enumerate(STATS):
-        x = 28 + i * cw
-        F("serif_b26").draw_center(cv, x + cw // 2, 118, num, RED if i % 2 == 0 else NAVY)
+        x = 138 + i * cw
+        F("serif_b26").draw_center(cv, x + cw // 2, 150, num, RED if i % 2 == 0 else NAVY)
         f = F("sans_b9")
         for j, ln in enumerate(f.wrap(label, cw - 12)):
-            f.draw_center(cv, x + cw // 2, 146 + j * 11, ln, (70, 64, 56))
+            f.draw_center(cv, x + cw // 2, 178 + j * 11, ln, (70, 64, 56))
         if i:
-            cv.vline(x, 120, 42, RULE)
-    cv.hline(28, 166, 968, RULE)
+            cv.vline(x, 150, 40, RULE)
+    cv.hline(28, 192, 968, RULE)
     # ---- region bar
     x = 28
     for name, count, col in REGIONS:
         seg_w = int(968 * count / 35)
-        cv.rect(x, 170, seg_w, 16, col)
+        cv.rect(x, 196, seg_w, 16, col)
         lab = "%s %d" % (name, count)
         fw = F("sans_b9").width(lab)
         if fw + 8 <= seg_w:
-            F("sans_b9").draw(cv, x + (seg_w - int(fw)) // 2, 173, lab, (255, 255, 255))
+            F("sans_b9").draw(cv, x + (seg_w - int(fw)) // 2, 199, lab, (255, 255, 255))
         x += seg_w
-    # ---- heroes
+    # ---- heroes (kevin's device: a full-width red label bar above each hero)
     hw = 312
     for i, (n, place, topic, head, deck, _la, _lo, scene, _dx, _dy) in enumerate(HEROES):
         x = 28 + i * (hw + 16)
-        y = 192
-        SCENES[scene](cv, x, y, hw, 118)
-        _tag(cv, x + 4, y + 4, TAGS[scene])
+        y = 238
+        cv.rect(x, 218, hw, 20, RED)
+        F("sans_b11").draw(cv, x + 8, 223, HERO_BAR[i], (255, 255, 255))
+        SCENES[scene](cv, x, y, hw, 104)
         _num_circle(cv, x + hw - 14, y + 14, n)
-        _kicker(cv, x, 316, n, place, topic)
-        _headline_deck(cv, x, 332, hw, head, deck, "serif_b22", "serif_r13", 24, 14)
+        _kicker(cv, x, 348, "%d %s \u00b7 %s" % (n, place, topic),
+                badge=BADGES[n], right_x=x + hw)
+        _headline_deck(cv, x, 362, hw, head, deck, "serif_b22", "serif_r13", 24, 14)
     # ---- mids, two rows of five
     mw = (968 - 4 * 10) // 5
     for row in range(2):
@@ -900,15 +968,16 @@ def draw_page():
             s = MIDS[row * 5 + col]
             n, place, topic, head, deck, _la, _lo, scene, _dx, _dy = s
             x = 28 + col * (mw + 10)
-            y = 432 + row * 156
-            SCENES[scene](cv, x, y, mw, 66)
+            y = 460 + row * 136
+            SCENES[scene](cv, x, y, mw, 58)
             _tag(cv, x + 3, y + 3, TAGS[scene])
             _num_circle(cv, x + mw - 12, y + 12, n, r=8)
-            _kicker(cv, x, 502 + row * 156, n, place, topic)
-            _headline_deck(cv, x, 516 + row * 156, mw, head, deck,
+            _kicker(cv, x, 522 + row * 136, "%d %s" % (n, MID_SHORT[n]),
+                    badge=BADGES[n], right_x=x + mw)
+            _headline_deck(cv, x, 534 + row * 136, mw, head, deck,
                            "serif_b16", "serif_r11", 16, 11)
     # ---- bottom: map + briefs
-    y0 = 744
+    y0 = 738
     F("sans_b10").draw(cv, 28, y0, "WHERE IT HAPPENED", INK)
     F("sans_r9").draw(cv, 150, y0 + 1, "pins match story numbers", GREY)
     F("sans_b10").draw(cv, 330, y0, "THE REST OF THE DAY \u2014 22 MORE STORIES", INK)
@@ -990,8 +1059,9 @@ def draw_page():
         f2.draw(cv, tx, dy + 5 + j * 11, ln, INK)
     # ---- footer
     F("sans_r9").draw(cv, 28, 1008,
-                      "Sources: Reuters, AP, CNN, WSJ, Al Jazeera, Bloomberg, UN News. "
-                      "Every story names its outlet. Pictures and map: original, drawn in code.",
+                      "CONFIRMED 2+ outlets \u00b7 OFFICIAL authority's word \u00b7 "
+                      "CLAIM one side says \u00b7 Sources: Reuters, AP, CNN, WSJ, Al Jazeera, "
+                      "Bloomberg, UN News \u00b7 Drawn illustrations, not photos.",
                       GREY)
     F("sans_b9").draw(cv, W - 28 - int(F("sans_b9").width("TUESDAY 24 NOVEMBER 2026 \u00b7 ONE PAGE")),
                       1008, "TUESDAY 24 NOVEMBER 2026 \u00b7 ONE PAGE", INK)
